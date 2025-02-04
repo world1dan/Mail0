@@ -13,7 +13,7 @@ export default async function MailPage() {
   const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
 
   return (
-    <div className="border rounded-xl">
+    <div className="border rounded-xl dark:border-gray-800 bg-white dark:bg-gray-950">
       <div className="md:hidden">
         <Image
           src="/examples/mail-dark.png"
@@ -30,7 +30,7 @@ export default async function MailPage() {
           className="block dark:hidden"
         />
       </div>
-      <div className="hidden flex-col md:flex">
+      <div className="hidden flex-col md:flex dark:text-gray-100">
         <Mail
           accounts={accounts}
           mails={mails}
