@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { LogOut, Settings, User } from 'lucide-react'
+import { ModeToggle } from "@/components/theme/mode-toggle"
 
 import {
   DropdownMenu,
@@ -29,6 +30,9 @@ export function NavUser({ user }: NavUserProps) {
   return (
     <DropdownMenu>
       <SidebarMenu>
+        <SidebarMenuItem>
+          <ModeToggle />
+        </SidebarMenuItem>
         <SidebarMenuItem>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
