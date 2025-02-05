@@ -24,6 +24,7 @@ interface MailProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  muted?: boolean;
 }
 
 export function Mail({ mails }: MailProps) {
