@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 export default {
     darkMode: ["class"],
@@ -65,7 +66,17 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+			fontFamily: {
+				sans: [
+          'Geist',
+          ...defaultTheme.fontFamily.sans,
+        ],
+				mono:[
+					'Geist_Mono',
+					...defaultTheme.fontFamily.mono
+				]
+			}
   	}
   },
   plugins: [require("tailwindcss-animate")],
