@@ -1,3 +1,4 @@
+import {useState, useEffect} from "react";
 import { addDays } from "date-fns/addDays";
 import { addHours } from "date-fns/addHours";
 import { format } from "date-fns/format";
@@ -11,6 +12,7 @@ import {
   Reply,
   ReplyAll,
   Trash2,
+  BellOff,
 } from "lucide-react";
 
 import {
@@ -23,7 +25,6 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-// import { Calendar } from "@/components/ui/calendar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -50,6 +51,15 @@ interface MailDisplayProps {
 
 export function MailDisplay({ mail }: MailDisplayProps) {
   const today = new Date();
+  // Create local state for the muted flag.
+  const [isMuted, setIsMuted] = useState(mail ? mail.muted : false);
+
+  // Update the muted state when the mail prop changes.
+  useEffect(() => {
+    if (mail) {
+      setIsMuted(mail.muted);
+    }
+  }, [mail]);
 
   return (
     <div className="flex h-full flex-col">
@@ -135,9 +145,6 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                     </Button>
                   </div>
                 </div>
-                {/* <div className="p-2">
-                  <Calendar />
-                </div> */}
               </PopoverContent>
             </Popover>
             <TooltipContent>Snooze</TooltipContent>
@@ -204,7 +211,13 @@ export function MailDisplay({ mail }: MailDisplayProps) {
               </Avatar>
               <div className="grid gap-1">
                 <div className="font-semibold">{mail.name}</div>
-                <div className="line-clamp-1 text-xs">{mail.subject}</div>
+                {/* Display the subject with the muted icon if isMuted is true */}
+                <div className="line-clamp-1 text-xs flex items-center">
+                  {mail.subject}
+                  {isMuted && (
+                    <BellOff className="ml-2 h-4 w-4 text-muted-foreground" />
+                  )}
+                </div>
                 <div className="line-clamp-1 text-xs">
                   <span className="font-medium">Reply-To:</span> {mail.email}
                 </div>
@@ -233,8 +246,16 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                     htmlFor="mute"
                     className="flex items-center gap-2 text-xs font-normal"
                   >
-                    <Switch id="mute" aria-label="Mute thread" /> Mute this
-                    thread
+                    {/* Bind the switch to our local muted state */}
+                    <Switch
+                      id="mute"
+                      aria-label="Mute thread"
+                      checked={isMuted}
+                      onCheckedChange={(checked: boolean) =>
+                        setIsMuted(checked)
+                      }
+                    />{" "}
+                    Mute this thread
                   </Label>
                   <Button
                     onClick={(e) => e.preventDefault()}

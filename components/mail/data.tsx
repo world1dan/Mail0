@@ -8,6 +8,7 @@ export const mails = [
       date: "2023-10-22T09:00:00",
       read: true,
       labels: ["meeting", "work", "important"],
+      muted: true,
     },
     {
       id: "110e8400-e29b-11d4-a716-446655440000",
@@ -18,6 +19,7 @@ export const mails = [
       date: "2023-10-22T10:30:00",
       read: true,
       labels: ["work", "important"],
+      muted: true,
     },
     {
       id: "3e7c3f6d-bdf5-46ae-8d90-171300f27ae2",
