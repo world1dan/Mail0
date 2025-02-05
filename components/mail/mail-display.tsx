@@ -23,7 +23,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+// import { Calendar } from "@/components/ui/calendar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -135,9 +135,9 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                     </Button>
                   </div>
                 </div>
-                <div className="p-2">
+                {/* <div className="p-2">
                   <Calendar />
-                </div>
+                </div> */}
               </PopoverContent>
             </Popover>
             <TooltipContent>Snooze</TooltipContent>
