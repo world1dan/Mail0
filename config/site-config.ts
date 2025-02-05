@@ -4,7 +4,7 @@ const TITLE = 'MAIL';
 const DESCRIPTION =
   'An Open Source Gmail Alternative.';
 
-const BASE_URL = '';
+const BASE_URL = 'https://mail.nizzy.dev';
 
 export const siteConfig: Metadata = {
   title: TITLE,
