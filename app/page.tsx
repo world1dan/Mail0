@@ -13,7 +13,7 @@ export default async function MailPage() {
   const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
 
   return (
-    <div className="border rounded-xl dark:border-gray-800 bg-white dark:bg-gray-950">
+    <div className="bg-white dark:bg-background">
       <div className="md:hidden">
         <Image
           src="/examples/mail-dark.png"
