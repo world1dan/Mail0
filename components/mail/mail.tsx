@@ -128,7 +128,7 @@ export function Mail({ mails }: MailProps) {
         </div> */}
 
         {/* Middle Panel */}
-        <div className="flex-1 border-r overflow-y-auto">
+        <div className="flex-1 border-r overflow-y-auto hide-scrollbar">
           <Tabs defaultValue="all">
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Inbox</h1>
