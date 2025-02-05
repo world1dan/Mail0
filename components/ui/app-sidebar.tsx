@@ -2,10 +2,6 @@
 
 import * as React from "react";
 import {
-  Bot,
-  BookOpen,
-  Settings2,
-  SquareTerminal,
   Inbox,
   FileText,
   SendHorizontal,
