@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import { TeamSwitcher } from "./team-switcher";
+import { AccountSwitcher } from "./account-switcher";
 import { MailCompose } from "../mail/mail-compose";
 
 // This is sample data that matches the screenshot
@@ -39,7 +39,7 @@ const data = {
     email: "nizabizaher@gmail.com",
     avatar: "/profile.jpg",
   },
-  teams: [
+  accounts: [
     {
       name: "Gmail",
       logo: Gmail,
@@ -155,7 +155,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <AccountSwitcher accounts={data.accounts} />
       </SidebarHeader>
       <SidebarContent>
         <Button className="w-fit mt-2 mx-3.5" onClick={() => setComposeOpen(true)}>
