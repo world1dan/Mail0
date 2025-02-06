@@ -94,7 +94,7 @@ export function Mail({ mails }: MailProps) {
 
           {!isMobile && <ResizableHandle withHandle />}
 
-          <ResizablePanel defaultSize={isMobile ? 0 : 75}>
+          <ResizablePanel defaultSize={isMobile ? 0 : 75} minSize={isMobile ? 0 : 25}>
             {/* Desktop Mail Display */}
             <div className="flex-1 overflow-y-auto hidden md:block">
               <MailDisplay mail={mails.find((item) => item.id === mail.selected) || null} />
