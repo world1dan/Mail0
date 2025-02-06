@@ -59,7 +59,7 @@ export function Mail({ mails }: MailProps) {
     <TooltipProvider delayDuration={0}>
       <div className="flex h-screen ">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={isMobile ? 100 : 25}>
+          <ResizablePanel defaultSize={isMobile ? 100 : 25} minSize={isMobile ? 100 : 25}>
             <div className="flex-1 border-r overflow-y-auto mt-2">
               <Tabs defaultValue="all">
                 <div className="flex items-center px-6 py-2">
@@ -92,9 +92,9 @@ export function Mail({ mails }: MailProps) {
             </div>
           </ResizablePanel>
 
-          <ResizableHandle withHandle />
+          {!isMobile && <ResizableHandle withHandle />}
 
-          <ResizablePanel defaultSize={75}>
+          <ResizablePanel defaultSize={isMobile ? 0 : 75}>
             {/* Desktop Mail Display */}
             <div className="flex-1 overflow-y-auto hidden md:block">
               <MailDisplay mail={mails.find((item) => item.id === mail.selected) || null} />
