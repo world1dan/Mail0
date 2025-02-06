@@ -14,7 +14,6 @@ import {
   Tag,
   Code,
   ChartLine,
-  Plus,
   Pencil,
 } from "lucide-react";
 import { Gmail, Outlook, Vercel } from "@/components/icons/icons";

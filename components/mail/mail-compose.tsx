@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
 import {
   X,
@@ -8,7 +9,6 @@ import {
   Italic,
   List,
   ListOrdered,
-  Maximize2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
