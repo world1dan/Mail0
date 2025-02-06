@@ -11,10 +11,19 @@ import { BellOff } from "lucide-react"
 
 interface MailListProps {
   items: Mail[]
+  onMailClick: () => void
 }
 
-export function MailList({ items }: MailListProps) {
+export function MailList({ items, onMailClick }: MailListProps) {
   const [mail, setMail] = useMail()
+
+  const handleMailClick = (mail: Mail) => {
+    setMail({
+      ...mail,
+      selected: mail.id,
+    })
+    onMailClick()
+  }
 
   return (
     <ScrollArea className="h-[calc(100vh-8rem-1px)]" type="auto">
@@ -26,12 +35,7 @@ export function MailList({ items }: MailListProps) {
       "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
       mail.selected === item.id && "bg-muted"
     )}
-    onClick={() =>
-      setMail({
-        ...mail,
-        selected: item.id,
-      })
-    }
+    onClick={() => handleMailClick(item)}
   >
     <div className="flex w-full flex-col gap-1">
       <div className="flex items-center">
