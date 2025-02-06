@@ -92,7 +92,7 @@ export function Mail({ mails }: MailProps) {
             </div>
           </ResizablePanel>
 
-          {!isMobile && <ResizableHandle withHandle className="hidden md:block" />}
+          {!isMobile && <ResizableHandle withHandle />}
 
           <ResizablePanel defaultSize={isMobile ? 0 : 75} minSize={isMobile ? 0 : 25} className="hidden md:block">
             {/* Desktop Mail Display */}
