@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import { TeamSwitcher } from "./team-switcher";
+import { AccountSwitcher } from "./account-switcher";
 
 // This is sample data that matches the screenshot
 
@@ -36,7 +36,7 @@ const data = {
     email: "nizabizaher@gmail.com",
     avatar: "/profile.jpg",
   },
-  teams: [
+  accounts: [
     {
       name: "Gmail",
       logo: Gmail,
@@ -150,7 +150,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <AccountSwitcher accounts={data.accounts} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
