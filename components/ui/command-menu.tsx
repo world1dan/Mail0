@@ -8,10 +8,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from "lucide-react";
+import { Tag, Pencil, Folder, MailCheck, MailPlus, CircleHelp } from "lucide-react";
 
 import { useState, useEffect } from "react";
 
@@ -36,36 +35,32 @@ export const CommandMenu = () => {
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
+          <CommandGroup>
             <CommandItem>
-              <Calendar />
-              <span>Calendar</span>
+              <Pencil />
+              <span>Compose message</span>
+              <CommandShortcut>⌘C</CommandShortcut>
             </CommandItem>
             <CommandItem>
-              <Smile />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem disabled>
-              <Calculator />
-              <span>Calculator</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <User />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
+              <Tag />
+              <span>Create label</span>
             </CommandItem>
             <CommandItem>
-              <CreditCard />
-              <span>Billing</span>
-              <CommandShortcut>⌘B</CommandShortcut>
+              <Folder />
+              <span>Create folder</span>
             </CommandItem>
             <CommandItem>
-              <Settings />
-              <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
+              <MailCheck />
+              <span>Mark inbox as read</span>
+            </CommandItem>
+            <CommandItem>
+              <MailPlus />
+              <span>Import mail</span>
+            </CommandItem>
+            <CommandItem>
+              <CircleHelp />
+              <span>Help with shortcuts</span>
+              <CommandShortcut>⌘?</CommandShortcut>
             </CommandItem>
           </CommandGroup>
         </CommandList>
