@@ -168,7 +168,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
-
       <MailCompose open={composeOpen} onClose={() => setComposeOpen(false)} />
     </Sidebar>
   );
