@@ -20,7 +20,7 @@ import { MailDisplay } from "@/components/mail/mail-display";
 import { MailList } from "@/components/mail/mail-list";
 import { type Mail } from "@/components/mail/data";
 import { useMail } from "@/components/mail/use-mail";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 interface MailProps {
   accounts: {
