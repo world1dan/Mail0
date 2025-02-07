@@ -1,9 +1,9 @@
 import { CommandMenu } from "@/components/ui/command-menu";
-import { AppSidebar } from "@/components/ui/app-sidebar";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/providers/providers";
 import { siteConfig } from "@/config/site-config";
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,10 +27,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <AppSidebar />
           {children}
           <CommandMenu />
         </Providers>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

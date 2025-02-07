@@ -51,3 +51,10 @@ export const verification = createTable("verification", {
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
 });
+
+export const earlyAccess = createTable("early_access", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});

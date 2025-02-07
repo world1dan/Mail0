@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 // Filters imports
 import { useFilteredMails } from "@/hooks/use-filtered-mails";
 import { tagsAtom } from "@/components/mail/use-tags";
+import { SidebarToggle } from "../ui/sidebar-toggle";
 import { type Mail } from "@/components/mail/data";
 import Filters from "@/components/mail/filters";
 import { Input } from "@/components/ui/input";
@@ -69,6 +70,7 @@ export function Mail({ mails }: MailProps) {
             <div className="flex-1 overflow-y-auto border-r">
               <Tabs defaultValue="all">
                 <div className="flex items-center px-6 py-2">
+                  <SidebarToggle className="block md:hidden" />
                   <h1 className="hidden text-xl font-bold md:block">Inbox</h1>
                   <TabsList className="ml-auto">
                     <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">

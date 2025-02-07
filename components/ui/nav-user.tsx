@@ -1,7 +1,7 @@
 "use client";
 
-import { LogIn, LogOut, Settings, User } from "lucide-react";
 import { ModeToggle } from "@/components/theme/mode-toggle";
+import { LogOut, Settings, User } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -21,7 +21,6 @@ import { signOut, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Button } from "./button";
 import Image from "next/image";
-import Link from "next/link";
 
 export function NavUser() {
   const { data: session } = useSession();
@@ -32,7 +31,7 @@ export function NavUser() {
     <DropdownMenu>
       <SidebarMenu>
         <SidebarMenuItem>
-          {session ? (
+          {session && (
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
@@ -51,16 +50,6 @@ export function NavUser() {
                 </div>
               </SidebarMenuButton>
             </DropdownMenuTrigger>
-          ) : (
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              asChild
-            >
-              <Link href={"/auth/signin"}>
-                <LogIn /> Log in
-              </Link>
-            </SidebarMenuButton>
           )}
         </SidebarMenuItem>
       </SidebarMenu>

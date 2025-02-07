@@ -180,8 +180,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader className="mt-1">
           {/* <AccountSwitcher accounts={data.accounts} /> */}
-          <SidebarToggle className="w-fit" />
-
+          <SidebarToggle className="hidden w-fit md:block" />
           <ComposeButton />
         </SidebarHeader>
         <SidebarContent>
