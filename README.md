@@ -54,6 +54,87 @@ We’re just getting started. If you’re excited about a future where **email b
 
 ## Getting Started
 
+### Prerequisites
+
+Before running the application, you'll need to set up several services and environment variables:
+
+1. **Database Setup with Neon & Drizzle**
+
+   - Sign up for [Neon](https://neon.tech)
+   - Create a new project
+   - Copy your connection string and add to `.env`:
+
+     ```env
+     DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+     ```
+
+   - The project already includes Drizzle with these commands:
+
+     ```bash
+     pnpm db:generate  # Generate migrations
+     pnpm db:migrate   # Run migrations
+     pnpm db:push     # Push schema changes
+     pnpm db:studio   # Open Drizzle Studio
+     ```
+
+   - Initialize your schema in `src/db/schema.ts`
+   - Run `pnpm db:push` to sync your schema with the database
+   - Use `pnpm db:studio` to view and manage your data
+
+2. **Better Auth Setup**
+
+   - Sign up for [Better Auth](https://betterauth.io)
+   - Create a new project and get your API keys
+   - Add to `.env`:
+
+     ```env
+     BETTER_AUTH_SECRET=your_secret_key
+     BETTER_AUTH_URL=http://localhost:3000
+     ```
+
+3. **Google OAuth Setup**
+
+   - Go to [Google Cloud Console](https://console.cloud.google.com)
+   - Create a new project
+   - Enable the Google OAuth2 API
+   - Create OAuth 2.0 credentials (Web application type)
+   - Add authorized redirect URIs:
+     - `http://localhost:3000/api/auth/callback/google` (development)
+     - `https://your-production-url/api/auth/callback/google` (production)
+   - Add to `.env`:
+
+     ```env
+     GOOGLE_CLIENT_ID=your_client_id
+     GOOGLE_CLIENT_SECRET=your_client_secret
+     ```
+
+4. **PostHog Setup**
+
+   - Create an account on [PostHog](https://posthog.com)
+   - Get your project API key
+   - Add to `.env`:
+
+     ```env
+     NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key
+     NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+     ```
+
+5. **Environment Setup**
+
+   - Copy `.env.example` to `.env`
+   - Fill in all the required variables from the steps above
+   - Add your base URL:
+
+     ```env
+     BASE_URL=http://localhost:3000
+     ```
+
+### Installation
+
+First, install the dependencies:
+
+// ... rest of existing code ...
+
 First, install the dependencies:
 
 ```bash
