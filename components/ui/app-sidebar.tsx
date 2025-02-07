@@ -29,8 +29,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { useSidebar } from "@/components/ui/sidebar";
-import { AccountSwitcher } from "./account-switcher";
+// import { AccountSwitcher } from "./account-switcher";
 import { MailCompose } from "../mail/mail-compose";
 import { SidebarToggle } from "./sidebar-toggle";
 import { NavMain } from "./nav-main";
@@ -154,8 +153,6 @@ const data: SidebarData = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [composeOpen, setComposeOpen] = React.useState(false);
-  const sidebarContext = useSidebar();
-  const { isMobile } = sidebarContext;
 
   const handleComposeClick = React.useCallback(() => {
     setComposeOpen(true);
@@ -180,10 +177,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <>
-      {isMobile && <SidebarToggle className="fixed left-4 top-4 z-40 md:hidden" />}
       <Sidebar collapsible="icon" {...props}>
-        <SidebarHeader>
-          <AccountSwitcher accounts={data.accounts} />
+        <SidebarHeader className="mt-1">
+          {/* <AccountSwitcher accounts={data.accounts} /> */}
+          <SidebarToggle className="w-fit" />
+
           <ComposeButton />
         </SidebarHeader>
         <SidebarContent>

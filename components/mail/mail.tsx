@@ -66,7 +66,7 @@ export function Mail({ mails }: MailProps) {
       <div className="flex h-screen">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={isMobile ? 100 : 25} minSize={isMobile ? 100 : 25}>
-            <div className="mt-2 flex-1 overflow-y-auto border-r">
+            <div className="flex-1 overflow-y-auto border-r">
               <Tabs defaultValue="all">
                 <div className="flex items-center px-6 py-2">
                   <h1 className="hidden text-xl font-bold md:block">Inbox</h1>
