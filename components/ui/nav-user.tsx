@@ -1,7 +1,7 @@
 "use client";
 
+import { LogIn, LogOut, Settings, User } from "lucide-react";
 import { ModeToggle } from "@/components/theme/mode-toggle";
-import { LogOut, Settings, User } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -17,41 +17,51 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { signOut, useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { Button } from "./button";
 import Image from "next/image";
+import Link from "next/link";
 
-interface NavUserProps {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}
-
-export function NavUser({ user }: NavUserProps) {
+export function NavUser() {
+  const { data: session } = useSession();
+  const router = useRouter();
   const { isMobile } = useSidebar();
 
   return (
     <DropdownMenu>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenuTrigger asChild>
+          {session ? (
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <Image
+                  src={session.user.image || "/placeholder.svg"}
+                  alt={session.user.name}
+                  className="size-8 shrink-0 rounded-lg"
+                  width={32}
+                  height={32}
+                />
+                <div className="ml-1 flex min-w-0 flex-col gap-1 leading-none">
+                  <span className="font-semibold">{session.user.name}</span>
+                  <span className="truncate">{session.user.email}</span>
+                </div>
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+          ) : (
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              asChild
             >
-              <Image
-                src={user.avatar || "/placeholder.svg"}
-                alt={user.name}
-                className="size-8 shrink-0 rounded-lg"
-                width={32}
-                height={32}
-              />
-              <div className="ml-1 flex min-w-0 flex-col gap-1 leading-none">
-                <span className="font-semibold">{user.name}</span>
-                <span className="truncate">{user.email}</span>
-              </div>
+              <Link href={"/auth/signin"}>
+                <LogIn /> Log in
+              </Link>
             </SidebarMenuButton>
-          </DropdownMenuTrigger>
+          )}
         </SidebarMenuItem>
       </SidebarMenu>
       <DropdownMenuContent
@@ -80,8 +90,21 @@ export function NavUser({ user }: NavUserProps) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOut className="mr-2 size-4" />
-          Log out
+          <Button
+            variant={"ghost"}
+            onClick={async () => {
+              await signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.push("/");
+                  },
+                },
+              });
+            }}
+          >
+            <LogOut className="mr-2 size-4" />
+            Log out
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
