@@ -25,6 +25,7 @@ interface MailComposeProps {
   };
 }
 
+import { Badge } from "../ui/badge";
 export function MailCompose({ open, onClose, replyTo }: MailComposeProps) {
   const [attachments, setAttachments] = React.useState<File[]>([]);
   const [messageContent, setMessageContent] = React.useState("");
@@ -124,104 +125,105 @@ export function MailCompose({ open, onClose, replyTo }: MailComposeProps) {
           </div>
           <Separator className="mx-auto w-[95%]" />
 
+          <div className="flex justify-end p-2">
+            <Button variant="ghost" size="icon" onClick={() => insertFormat("bold")}>
+              <Bold className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => insertFormat("italic")}>
+              <Italic className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => insertFormat("list")}>
+              <List className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => insertFormat("ordered-list")}>
+              <ListOrdered className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => insertFormat("link")}>
+              <Link2 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                const input = document.createElement("input");
+                input.type = "file";
+                input.accept = "image/*";
+                input.onchange = (e) => {
+                  const file = (e.target as HTMLInputElement).files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      insertFormat(`![${file.name}](${reader.result})`);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                };
+                input.click();
+              }}
+            >
+              <ImageIcon className="h-4 w-4" />
+            </Button>
+          </div>
+
           <div
             ref={editorRef}
             contentEditable
-            className="mx-auto mt-5 min-h-[300px] w-[95%] resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="mx-auto min-h-[300px] w-[95%] resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             onInput={(e) => setMessageContent(e.currentTarget.innerHTML)}
             role="textbox"
             aria-multiline="true"
           />
-
-          <div className="mx-auto mt-4 flex w-full items-center justify-between">
-            <div className="flex gap-2 p-1">
-              <Button variant="ghost" size="icon" onClick={() => insertFormat("bold")}>
-                <Bold className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={() => insertFormat("italic")}>
-                <Italic className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={() => insertFormat("list")}>
-                <List className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={() => insertFormat("ordered-list")}>
-                <ListOrdered className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={() => insertFormat("link")}>
-                <Link2 className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  const input = document.createElement("input");
-                  input.type = "file";
-                  input.accept = "image/*";
-                  input.onchange = (e) => {
-                    const file = (e.target as HTMLInputElement).files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = () => {
-                        insertFormat(`![${file.name}](${reader.result})`);
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  };
-                  input.click();
-                }}
-              >
-                <ImageIcon className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="mr-5 space-y-4">
-              <div className="flex items-center">
-                <label className="mx-auto w-[95%] cursor-pointer">
+          {attachments.length > 0 && (
+            <div className="mx-auto mt-2 flex w-[95%] flex-wrap gap-2">
+              {attachments.map((file, index) => (
+                <Badge key={index} variant="secondary">
+                  {file.name}
                   <Button
-                    variant="outline"
-                    size="sm"
+                    variant="ghost"
+                    size="icon"
+                    className="-mr-1 ml-2 h-5 w-5 rounded-full p-0"
                     onClick={(e) => {
                       e.preventDefault();
-                      const fileInput = e.currentTarget.nextElementSibling as HTMLInputElement;
-                      fileInput?.click();
+                      removeAttachment(index);
                     }}
                   >
-                    <Paperclip className="mr-2 h-4 w-4" />
-                    Attach files
+                    <X className="h-4 w-4" />
                   </Button>
-                  <Input type="file" className="hidden" multiple onChange={handleAttachment} />
-                </label>
-              </div>
-              {attachments.length > 0 && (
-                <div className="space-y-2">
-                  {attachments.map((file, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between rounded-md border p-2"
-                    >
-                      <span className="text-sm">{file.name}</span>
-                      <Button variant="ghost" size="icon" onClick={() => removeAttachment(index)}>
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
+                </Badge>
+              ))}
             </div>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={onClose}>
-              Save as draft
-            </Button>
-            <Button
-              onClick={() => {
-                // TODO: Implement send functionality
-                onClose();
-              }}
-            >
-              Send
-            </Button>
+          )}
+
+          <div className="mx-auto mt-4 flex w-[95%] items-center justify-between">
+            <label className="cursor-pointer">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const fileInput = e.currentTarget.nextElementSibling as HTMLInputElement;
+                  fileInput?.click();
+                }}
+              >
+                <Paperclip className="mr-2 h-4 w-4" />
+                Attach files
+              </Button>
+              <Input type="file" className="hidden" multiple onChange={handleAttachment} />
+            </label>
+
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={onClose}>
+                Save as draft
+              </Button>
+              <Button
+                onClick={() => {
+                  // TODO: Implement send functionality
+                  onClose();
+                }}
+              >
+                Send
+              </Button>
+            </div>
           </div>
         </div>
       </DialogContent>
