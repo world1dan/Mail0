@@ -36,6 +36,7 @@ import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
 const data: SidebarData = {
+  // TODO: Dynamically render user data based on auth info
   user: {
     name: "nizzy",
     email: "nizabizaher@gmail.com",
@@ -189,12 +190,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <NavUser />
         </SidebarFooter>
         <SidebarRail />
-        <MailCompose
-          open={composeOpen}
-          onClose={() => setComposeOpen(false)}
-          aria-label="Compose email dialog"
-        />
       </Sidebar>
+      <MailCompose
+        open={composeOpen}
+        onClose={() => setComposeOpen(false)}
+        aria-label="Compose email dialog"
+      />
     </>
   );
 }
