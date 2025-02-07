@@ -16,8 +16,8 @@ import {
   Pencil,
 } from "lucide-react";
 import { Gmail, Outlook, Vercel } from "@/components/icons/icons";
-import { Button } from "@/components/ui/button";
-import * as React from "react";
+import { SidebarData } from "@/types";
+import React from "react";
 
 import {
   Sidebar,
@@ -25,6 +25,9 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
 import { AccountSwitcher } from "./account-switcher";
@@ -33,9 +36,7 @@ import { SidebarToggle } from "./sidebar-toggle";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
-// This is sample data that matches the screenshot
-
-const data = {
+const data: SidebarData = {
   user: {
     name: "nizzy",
     email: "nizabizaher@gmail.com",
@@ -153,7 +154,29 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [composeOpen, setComposeOpen] = React.useState(false);
-  const { isMobile } = useSidebar();
+  const sidebarContext = useSidebar();
+  const { isMobile } = sidebarContext;
+
+  const handleComposeClick = React.useCallback(() => {
+    setComposeOpen(true);
+  }, []);
+
+  // Memoized compose button component
+  const ComposeButton = React.memo(function ComposeButton() {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            className="m-2 w-fit bg-primary px-3 text-primary-foreground transition-[margin] hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground group-data-[collapsible=icon]:mx-0"
+            onClick={handleComposeClick}
+          >
+            <Pencil className="size-4" />
+            <span>Compose</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  });
 
   return (
     <>
@@ -161,19 +184,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
           <AccountSwitcher accounts={data.accounts} />
+          <ComposeButton />
         </SidebarHeader>
         <SidebarContent>
-          <Button className="mx-3.5 mt-2 w-fit" onClick={() => setComposeOpen(true)}>
-            <Pencil className="size-4" />
-            Compose
-          </Button>
           <NavMain items={data.navMain} />
         </SidebarContent>
         <SidebarFooter>
           <NavUser />
         </SidebarFooter>
         <SidebarRail />
-        <MailCompose open={composeOpen} onClose={() => setComposeOpen(false)} />
+        <MailCompose
+          open={composeOpen}
+          onClose={() => setComposeOpen(false)}
+          aria-label="Compose email dialog"
+        />
       </Sidebar>
     </>
   );
