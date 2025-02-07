@@ -31,7 +31,7 @@ export function MailCompose({ open, onClose, replyTo }: MailComposeProps) {
   const [messageContent, setMessageContent] = React.useState("");
   const [toInput, setToInput] = React.useState(replyTo?.email || "");
   const [showSuggestions, setShowSuggestions] = React.useState(false);
-  const [subject, setSubject] = React.useState(replyTo?.subject || "");
+  const [subject, setSubject] = React.useState<string>(replyTo?.subject || "");
 
   const editorRef = React.useRef<HTMLDivElement>(null);
 
