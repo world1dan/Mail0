@@ -14,27 +14,19 @@ import {
   Tag,
   Code,
   ChartLine,
-  Pencil,
+  SquarePen,
+  Search,
 } from "lucide-react";
 import { Gmail, Outlook, Vercel } from "@/components/icons/icons";
 import { SidebarData } from "@/types";
 import React from "react";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 // import { AccountSwitcher } from "./account-switcher";
 import { MailCompose } from "../mail/mail-compose";
-import { SidebarToggle } from "./sidebar-toggle";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
+import { Button } from "./button";
 
 const data: SidebarData = {
   // TODO: Dynamically render user data based on auth info
@@ -62,7 +54,7 @@ const data: SidebarData = {
   ],
   navMain: [
     {
-      title: "Mail",
+      title: "",
       items: [
         {
           title: "Inbox",
@@ -162,34 +154,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Memoized compose button component
   const ComposeButton = React.memo(function ComposeButton() {
     return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            className="bg-primary px-3 py-5 text-primary-foreground transition-[margin] hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground group-data-[collapsible=icon]:mx-0"
-            onClick={handleComposeClick}
-          >
-            <Pencil className="size-4" />
-            <span>Compose</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
+      <Button onClick={handleComposeClick} variant="ghost" className="md:h-fit md:px-2">
+        <SquarePen />
+      </Button>
     );
   });
 
   return (
     <>
       <Sidebar collapsible="icon" {...props}>
-        <SidebarHeader className="mt-1">
-          {/* <AccountSwitcher accounts={data.accounts} /> */}
-          <SidebarToggle className="hidden w-fit md:block" />
-          <ComposeButton />
+        <SidebarHeader className="mt-2 flex items-center justify-between gap-2">
+          <div className="flex w-full items-center gap-2">
+            <NavUser />
+            <div className="flex items-center">
+              <ComposeButton />
+              <Button variant="ghost" className="h-fit px-2">
+                <Search />
+              </Button>
+            </div>
+          </div>
         </SidebarHeader>
         <SidebarContent>
           <NavMain items={data.navMain} />
         </SidebarContent>
-        <SidebarFooter>
-          <NavUser />
-        </SidebarFooter>
         <SidebarRail />
       </Sidebar>
       <MailCompose
