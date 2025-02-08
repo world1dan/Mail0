@@ -203,11 +203,11 @@ export function MailDisplay({ mail }: MailDisplayProps) {
           </DropdownMenu>
           <Button
             variant="ghost"
-            className="md:h-fit md:px-2"
+            className="mr-2 md:h-fit md:px-2"
             disabled={!mail}
             onClick={handleClose}
           >
-            <X className="mr-2 h-4 w-4" />
+            <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </Button>
         </div>
