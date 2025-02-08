@@ -207,7 +207,7 @@ export function MailDisplay({ mail }: MailDisplayProps) {
             disabled={!mail}
             onClick={handleClose}
           >
-            <X className="h-4 w-4" />
+            <X className="mr-2 h-4 w-4" />
             <span className="sr-only">Close</span>
           </Button>
         </div>
