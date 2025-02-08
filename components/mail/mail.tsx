@@ -179,7 +179,7 @@ export function Mail({ mails }: MailProps) {
         <Dialog open={showDialog} onOpenChange={(open) => !open && onMobileDialogClose()}>
           <DialogContent className="h-[100vh] overflow-hidden border-none p-0 sm:max-w-[100vw]">
             <DialogHeader className="hidden">
-              <DialogTitle></DialogTitle>
+              <DialogTitle className="sr-only">Mail</DialogTitle>
             </DialogHeader>
             <MailDisplay mail={selectedMail} onClose={onMobileDialogClose} />
           </DialogContent>
