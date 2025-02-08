@@ -87,9 +87,9 @@ export default function OpenPage() {
           <div className="space-y-1 rounded-lg border p-4">
             <div className="flex items-center justify-center gap-1">
               <Users className="h-5 w-5 text-muted-foreground" />
-              <span className="text-2xl font-semibold">{repoStats.watchers}</span>
+              <span className="text-2xl font-semibold">{contributors.length}</span>
             </div>
-            <p className="text-sm text-muted-foreground">Watchers</p>
+            <p className="text-sm text-muted-foreground">Contributors</p>
           </div>
         </div>
       </div>
