@@ -68,14 +68,14 @@ export function Mail({ mails }: MailProps) {
 
   return (
     <TooltipProvider delayDuration={0}>
-      <div className="rounded-inherit flex pt-[6px]">
+      <div className="rounded-inherit flex">
         <ResizablePanelGroup
           direction="horizontal"
           autoSaveId={"mail-panel-layout"}
           className="rounded-inherit overflow-hidden"
         >
-          <ResizablePanel defaultSize={isMobile ? 100 : 35} minSize={isMobile ? 100 : 35}>
-            <div className="flex-1 overflow-y-auto">
+          <ResizablePanel defaultSize={isMobile ? 290 : 35} minSize={isMobile ? 100 : 35}>
+            <div className="flex-1 overflow-y-auto pt-[6px]">
               <div>
                 <div className="flex items-center justify-between px-2">
                   <div className="flex items-center gap-2">
@@ -159,7 +159,7 @@ export function Mail({ mails }: MailProps) {
         <Dialog open={showDialog} onOpenChange={setIsDialogOpen}>
           <DialogContent className="h-[100vh] border-none p-0 sm:max-w-[100vw]">
             <DialogHeader className="hidden">
-              <DialogTitle className="sr-only">Mail</DialogTitle>
+              <DialogTitle></DialogTitle>
             </DialogHeader>
             <MailDisplay mail={mails.find((item) => item.id === mail.selected) || null} />
           </DialogContent>
