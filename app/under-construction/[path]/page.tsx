@@ -1,7 +1,6 @@
 "use client";
 
-import { ArrowLeft, Construction } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Construction } from "lucide-react";
 import BackButton from "./back-button";
 import { use } from "react";
 
@@ -15,7 +14,6 @@ export default function UnderConstruction({ params }: UnderConstructionProps) {
   const resolvedParams = use(params);
   // Decode the path parameter
   const decodedPath = decodeURIComponent(resolvedParams.path);
-  const router = useRouter();
 
   return (
     <div className="flex w-full items-center justify-center bg-white text-center dark:bg-background">

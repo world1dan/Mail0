@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, ArrowLeft, Home, Link } from "lucide-react";
+import { AlertCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
@@ -21,7 +21,7 @@ export function NotFound() {
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold tracking-tight">Page Not Found</h2>
           <p className="text-muted-foreground">
-            Oops! The page you're looking for doesn't exist or has been moved.
+            Oops! The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
         </div>
 
