@@ -26,10 +26,13 @@ import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { compressText, decompressText } from "@/lib/utils";
+import { draftsAtom } from "@/store/draftStates";
 import { useQueryState } from "nuqs";
 import { Badge } from "../ui/badge";
+import { useAtom } from "jotai";
 
 export function MailCompose({ onClose, replyTo }: MailComposeProps) {
+  const [, setDraftStates] = useAtom(draftsAtom);
   const editorRef = React.useRef<HTMLTextAreaElement>(null);
   const [attachments, setAttachments] = React.useState<File[]>([]);
   const [toInput, setToInput] = React.useState(replyTo?.email || "");
@@ -56,6 +59,17 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
     "eve@example.com",
   ];
 
+  // saving as draft
+  const handleDraft = () => {
+    const newDraft = {
+      id: Math.random().toString(8).substring(7),
+      message: messageContent,
+      subject,
+    };
+    setDraftStates((drafts) => {
+      return [newDraft, ...drafts];
+    });
+  };
   React.useEffect(() => {
     if (!isOpen) {
       setMessageContent(null);
@@ -317,7 +331,14 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
           </label>
 
           <div className="flex gap-2">
-            <Button tabIndex={5} variant="outline" onClick={onClose}>
+            <Button
+              tabIndex={5}
+              variant="outline"
+              onClick={() => {
+                handleDraft();
+                onClose();
+              }}
+            >
               Save as draft
             </Button>
             <Button
