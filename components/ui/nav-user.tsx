@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { Button } from "./button";
 import Image from "next/image";
 
 export function NavUser() {
@@ -79,8 +78,7 @@ export function NavUser() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Button
-            variant={"ghost"}
+          <button
             onClick={async () => {
               await signOut({
                 fetchOptions: {
@@ -90,10 +88,11 @@ export function NavUser() {
                 },
               });
             }}
+            className="flex items-center"
           >
             <LogOut className="mr-2 size-4" />
             Log out
-          </Button>
+          </button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
