@@ -25,6 +25,7 @@ import { tagsAtom } from "@/components/mail/use-tags";
 import { SidebarToggle } from "../ui/sidebar-toggle";
 import { type Mail } from "@/components/mail/data";
 import { useAtomValue } from "jotai";
+import Filters from "./filters";
 
 interface MailProps {
   accounts: {
@@ -112,6 +113,7 @@ export function Mail({ mails }: MailProps) {
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
+                    <Filters />
                   </div>
                 </div>
 
