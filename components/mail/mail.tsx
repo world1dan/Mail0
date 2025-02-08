@@ -2,7 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlignVerticalSpaceAround, ListFilter, Search, SquarePen } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import * as React from "react";
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
@@ -69,23 +69,26 @@ export function Mail({ mails }: MailProps) {
   // Only show dialog if we're on mobile
   const showDialog = isDialogOpen && isMobile;
 
-  const onMobileDialogClose = () => {
+  const onMobileDialogClose = useCallback(() => {
     setIsDialogOpen(false);
-    setMail({
-      selected: null,
-    });
-  };
+    setMail({ selected: null });
+  }, [setMail]);
+
+  const selectedMail = useMemo(
+    () => filteredMails.find((item) => item.id === mail.selected) || null,
+    [filteredMails, mail.selected],
+  );
 
   return (
     <TooltipProvider delayDuration={0}>
-      <div className="rounded-inherit flex">
+      <div className="rounded-inherit flex pt-[6px]">
         <ResizablePanelGroup
           direction="horizontal"
           autoSaveId={"mail-panel-layout"}
           className="rounded-inherit overflow-hidden"
         >
-          <ResizablePanel defaultSize={isMobile ? 290 : 35} minSize={isMobile ? 100 : 35}>
-            <div className="flex-1 overflow-y-auto pt-[6px]">
+          <ResizablePanel defaultSize={isMobile ? 100 : 35} minSize={isMobile ? 100 : 35}>
+            <div className="flex-1 overflow-y-auto">
               <div>
                 <div className="flex items-center justify-between px-2">
                   <div className="flex items-center gap-1">
@@ -94,11 +97,11 @@ export function Mail({ mails }: MailProps) {
                       <ComposeButton />
                     </React.Suspense>
                   </div>
-                  <div className="relative">
-                    <Search className="absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-muted-foreground" />
+                  <div className="relative flex-1 px-4 md:max-w-[400px] md:px-8">
+                    <Search className="absolute left-6 top-1/2 h-3 w-3 -translate-y-1/2 text-muted-foreground md:left-10" />
                     <Input
                       placeholder="Search"
-                      className="h-7 w-40 pl-7 focus-visible:ring-0 focus-visible:ring-offset-0 md:w-fit"
+                      className="h-7 w-full pl-7 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                   </div>
                   <div className="flex items-center space-x-1.5">
@@ -163,25 +166,22 @@ export function Mail({ mails }: MailProps) {
             <ResizablePanel
               defaultSize={isMobile ? 0 : 75}
               minSize={isMobile ? 0 : 25}
-              className="hidden md:block"
+              className="hidden overflow-hidden md:block"
             >
-              {/* Desktop Mail Display */}
               <div className="hidden h-full flex-1 overflow-y-auto md:block">
-                <MailDisplay
-                  mail={filteredMails.find((item) => item.id === mail.selected) || null}
-                />
+                <MailDisplay mail={selectedMail} onClose={onMobileDialogClose} />
               </div>
             </ResizablePanel>
           )}
         </ResizablePanelGroup>
 
         {/* Mobile Dialog */}
-        <Dialog open={showDialog} onOpenChange={() => onMobileDialogClose()}>
-          <DialogContent className="h-[100vh] border-none p-0 sm:max-w-[100vw]">
+        <Dialog open={showDialog} onOpenChange={(open) => !open && onMobileDialogClose()}>
+          <DialogContent className="h-[100vh] overflow-hidden border-none p-0 sm:max-w-[100vw]">
             <DialogHeader className="hidden">
               <DialogTitle></DialogTitle>
             </DialogHeader>
-            <MailDisplay mail={mails.find((item) => item.id === mail.selected) || null} />
+            <MailDisplay mail={selectedMail} onClose={onMobileDialogClose} />
           </DialogContent>
         </Dialog>
       </div>
@@ -191,7 +191,6 @@ export function Mail({ mails }: MailProps) {
 
 function ComposeButton() {
   const { open } = useOpenComposeModal();
-
   return (
     <Button onClick={open} variant="ghost" className="h-fit px-2">
       <SquarePen />
