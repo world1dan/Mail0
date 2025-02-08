@@ -18,12 +18,12 @@ import {
   Search,
 } from "lucide-react";
 import { Gmail, Outlook, Vercel } from "@/components/icons/icons";
+import React, { Suspense } from "react";
 import { SidebarData } from "@/types";
-import React from "react";
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 // import { AccountSwitcher } from "./account-switcher";
-import { MailCompose } from "../mail/mail-compose";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import { Button } from "./button";
@@ -145,21 +145,6 @@ const data: SidebarData = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [composeOpen, setComposeOpen] = React.useState(false);
-
-  const handleComposeClick = React.useCallback(() => {
-    setComposeOpen(true);
-  }, []);
-
-  // Memoized compose button component
-  const ComposeButton = React.memo(function ComposeButton() {
-    return (
-      <Button onClick={handleComposeClick} variant="ghost" className="md:h-fit md:px-2">
-        <SquarePen />
-      </Button>
-    );
-  });
-
   return (
     <>
       <Sidebar collapsible="icon" {...props}>
@@ -167,7 +152,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <div className="flex w-full items-center gap-2">
             <NavUser />
             <div className="flex items-center">
-              <ComposeButton />
+              <Suspense>
+                <ComposeButton />
+              </Suspense>
               <Button variant="ghost" className="h-fit px-2">
                 <Search />
               </Button>
@@ -179,11 +166,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarContent>
         <SidebarRail />
       </Sidebar>
-      <MailCompose
-        open={composeOpen}
-        onClose={() => setComposeOpen(false)}
-        aria-label="Compose email dialog"
-      />
     </>
+  );
+}
+
+function ComposeButton() {
+  const { open } = useOpenComposeModal();
+
+  return (
+    <Button onClick={open} variant="ghost" className="md:h-fit md:px-2">
+      <SquarePen />
+    </Button>
   );
 }
