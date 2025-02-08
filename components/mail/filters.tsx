@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { tagsAtom } from "./use-tags";
 import { useAtom } from "jotai";

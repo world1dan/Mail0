@@ -86,7 +86,7 @@ export const SidebarProvider = React.forwardRef<
       const sidebarCookie = getCookie(SIDEBAR_COOKIE_NAME);
       const isDefaultOpen = sidebarCookie ? sidebarCookie === "true" : defaultOpen;
       _setOpen(isDefaultOpen);
-    }, []);
+    }, [defaultOpen]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
