@@ -64,29 +64,29 @@ const data: SidebarData = {
         },
         {
           title: "Drafts",
-          url: "/under-construction/draft",
+          url: "/mail/under-construction/drafts",
           icon: FileText,
           badge: 9,
         },
         {
           title: "Sent",
-          url: "/under-construction/sent",
+          url: "/mail/under-construction/sent",
           icon: SendHorizontal,
         },
         {
           title: "Junk",
-          url: "/under-construction/junk",
+          url: "/mail/under-construction/junk",
           icon: ArchiveX,
           badge: 23,
         },
         {
           title: "Trash",
-          url: "/under-construction/trash",
+          url: "/mail/under-construction/trash",
           icon: Trash2,
         },
         {
           title: "Archive",
-          url: "/under-construction/archive",
+          url: "/mail/under-construction/archive",
           icon: Archive,
         },
       ],
@@ -96,31 +96,31 @@ const data: SidebarData = {
       items: [
         {
           title: "Social",
-          url: "#",
+          url: "/mail/under-construction/social",
           icon: Users2,
           badge: 972,
         },
         {
           title: "Updates",
-          url: "#",
+          url: "/mail/under-construction/updates",
           icon: Bell,
           badge: 342,
         },
         {
           title: "Forums",
-          url: "#",
+          url: "/mail/under-construction/forums",
           icon: MessageSquare,
           badge: 128,
         },
         {
           title: "Shopping",
-          url: "#",
+          url: "/mail/under-construction/shopping",
           icon: ShoppingCart,
           badge: 8,
         },
         {
           title: "Promotions",
-          url: "#",
+          url: "/mail/under-construction/promotions",
           icon: Tag,
           badge: 21,
         },
@@ -131,12 +131,12 @@ const data: SidebarData = {
       items: [
         {
           title: "Analytics",
-          url: "#",
+          url: "/mail/under-construction/analytics",
           icon: ChartLine,
         },
         {
           title: "Developers",
-          url: "#",
+          url: "/mail/under-construction/developers",
           icon: Code,
         },
       ],
