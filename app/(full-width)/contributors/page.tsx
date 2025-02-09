@@ -115,8 +115,19 @@ export default function OpenPage() {
         {/* Project Stats */}
         <div className="mb-8 rounded-lg border border-neutral-800 bg-neutral-900/50 p-6">
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-2xl font-semibold text-white">Mail0</h2>
+            <div className="w-full space-y-1">
+              <div className="flex justify-between">
+                <h2 className="text-2xl font-semibold text-white">Mail0</h2>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-neutral-800 bg-transparent text-white hover:bg-neutral-800 sm:hidden"
+                >
+                  <Link href="https://github.com/nizzyabi/mail0" target="_blank" className="gap-2">
+                    <Github className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
               <p className="text-sm text-neutral-400">
                 An open source email app built with modern technologies
               </p>
@@ -124,7 +135,7 @@ export default function OpenPage() {
             <Button
               asChild
               variant="outline"
-              className="border-neutral-800 bg-transparent text-white hover:bg-neutral-800"
+              className="mt-6 hidden border-neutral-800 bg-transparent text-white hover:bg-neutral-800 sm:flex"
             >
               <Link href="https://github.com/nizzyabi/mail0" target="_blank" className="gap-2">
                 <Github className="h-4 w-4" />
@@ -135,7 +146,7 @@ export default function OpenPage() {
 
           <Separator className="my-4 bg-neutral-800" />
 
-          <div className="mb-6 flex gap-6">
+          <div className="mb-6 flex flex-wrap gap-4 sm:gap-6">
             <div className="flex items-center gap-2">
               <Star className="h-5 w-5 text-neutral-400" />
               <span className="text-lg font-medium">{repoStats.stars}</span>
@@ -158,7 +169,7 @@ export default function OpenPage() {
             <Card className="border-neutral-800 bg-neutral-900/50 p-4">
               <h3 className="mb-4 text-sm font-medium text-neutral-400">Stars & Forks</h3>
               <ResponsiveContainer width="100%" height={240}>
-                <AreaChart data={timelineData}>
+                <AreaChart data={timelineData} className="-mx-5 mt-2">
                   <XAxis
                     dataKey="date"
                     stroke="#525252"
@@ -214,7 +225,7 @@ export default function OpenPage() {
             <Card className="border-neutral-800 bg-neutral-900/50 p-4">
               <h3 className="mb-4 text-sm font-medium text-neutral-400">Commit Activity</h3>
               <ResponsiveContainer width="100%" height={240}>
-                <LineChart data={activityData}>
+                <LineChart data={activityData} className="-mx-5 mt-2">
                   <XAxis
                     dataKey="date"
                     stroke="#525252"
@@ -253,7 +264,7 @@ export default function OpenPage() {
             {/* Issues & Pull Requests */}
             <Card className="border-neutral-800 bg-neutral-900/50 p-4">
               <h3 className="mb-4 text-sm font-medium text-neutral-400">Issues & PRs</h3>
-              <ResponsiveContainer width="100%" height={240}>
+              <ResponsiveContainer width="100%" height={240} className="-mx-5 mt-2">
                 <BarChart data={activityData}>
                   <XAxis
                     dataKey="date"
