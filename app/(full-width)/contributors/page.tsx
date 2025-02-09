@@ -12,7 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Github, Star, GitFork, MessageCircle, FileCode } from "lucide-react";
+import { Github, Star, GitFork, MessageCircle, FileCode, AlertTriangle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
@@ -85,6 +85,7 @@ export default function OpenPage() {
     stars: 0,
     forks: 0,
     watchers: 0,
+    issues: 0,
   });
   const [timelineData] = useState(() => generateTimelineData(7));
   const [activityData] = useState(() => generateActivityData(7));
@@ -102,6 +103,7 @@ export default function OpenPage() {
           stars: data.stargazers_count,
           forks: data.forks_count,
           watchers: data.watchers_count,
+          issues: data.open_issues_count,
         }),
       )
       .catch((err) => console.error("Error fetching repo stats:", err));
@@ -161,6 +163,11 @@ export default function OpenPage() {
               <Github className="h-5 w-5 text-neutral-400" />
               <span className="text-lg font-medium">{repoStats.watchers}</span>
               <span className="text-neutral-400">watchers</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-neutral-400" />
+              <span className="text-lg font-medium">{repoStats.issues}</span>
+              <span className="text-neutral-400">open issues</span>
             </div>
           </div>
 
@@ -308,7 +315,7 @@ export default function OpenPage() {
         {/* Contributors Section */}
         <div className="space-y-4">
           <h1 className="mt-20 text-center text-3xl font-semibold text-white">
-            Meet theContributors
+            Meet the Contributors
           </h1>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {contributors
