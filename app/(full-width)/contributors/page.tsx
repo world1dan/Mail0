@@ -135,6 +135,24 @@ export default function OpenPage() {
 
           <Separator className="my-4 bg-neutral-800" />
 
+          <div className="mb-6 flex gap-6">
+            <div className="flex items-center gap-2">
+              <Star className="h-5 w-5 text-neutral-400" />
+              <span className="text-lg font-medium">{repoStats.stars}</span>
+              <span className="text-neutral-400">stars</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <GitFork className="h-5 w-5 text-neutral-400" />
+              <span className="text-lg font-medium">{repoStats.forks}</span>
+              <span className="text-neutral-400">forks</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Github className="h-5 w-5 text-neutral-400" />
+              <span className="text-lg font-medium">{repoStats.watchers}</span>
+              <span className="text-neutral-400">watchers</span>
+            </div>
+          </div>
+
           <div className="grid gap-4 lg:grid-cols-3">
             {/* Stars & Forks Timeline */}
             <Card className="border-neutral-800 bg-neutral-900/50 p-4">
