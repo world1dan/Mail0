@@ -47,7 +47,7 @@ export function MailDisplay({ mail, onClose }: MailDisplayProps) {
     if (e.target.files) {
       setIsUploading(true);
       try {
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         setAttachments([...attachments, ...Array.from(e.target.files)]);
       } finally {
         setIsUploading(false);
@@ -87,12 +87,17 @@ export function MailDisplay({ mail, onClose }: MailDisplayProps) {
   }, [handleClose]);
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-r-lg">
-      <div className="sticky top-0 z-10 flex items-center gap-2 border-b bg-background/95 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="flex h-full flex-col overflow-hidden rounded-r-lg pt-[6px]">
+      <div className="sticky top-0 z-10 flex items-center gap-2 border-b bg-background/95 px-4 pb-[7.5px] pt-[0.5px] backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex flex-1 items-center gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" disabled={!mail} onClick={handleClose}>
+              <Button
+                variant="ghost"
+                className="md:h-fit md:px-2"
+                disabled={!mail}
+                onClick={handleClose}
+              >
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
               </Button>
@@ -106,7 +111,7 @@ export function MailDisplay({ mail, onClose }: MailDisplayProps) {
         <div className="flex items-center gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" disabled={!mail}>
+              <Button variant="ghost" className="md:h-fit md:px-2" disabled={!mail}>
                 <Archive className="h-4 w-4" />
                 <span className="sr-only">Archive</span>
               </Button>
@@ -115,7 +120,7 @@ export function MailDisplay({ mail, onClose }: MailDisplayProps) {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" disabled={!mail}>
+              <Button variant="ghost" className="md:h-fit md:px-2" disabled={!mail}>
                 <Reply className="h-4 w-4" />
                 <span className="sr-only">Reply</span>
               </Button>
@@ -124,7 +129,7 @@ export function MailDisplay({ mail, onClose }: MailDisplayProps) {
           </Tooltip>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" disabled={!mail}>
+              <Button variant="ghost" className="md:h-fit md:px-2" disabled={!mail}>
                 <MoreVertical className="h-4 w-4" />
                 <span className="sr-only">More</span>
               </Button>
