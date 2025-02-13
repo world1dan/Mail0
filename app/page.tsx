@@ -112,12 +112,24 @@ export default function BetaSignup() {
             </div>
           </div>
         </form>
-        <p className="text-center text-sm text-gray-500 dark:text-zinc-400">
-          Are you developing?{" "}
-          <Link href="/mail" className="underline">
-            Go here
-          </Link>
-        </p>
+        <div>
+          <p className="text-center text-sm text-gray-500 dark:text-zinc-400">
+            Are you developing?{" "}
+            <Link href="/mail" className="underline">
+              Go here
+            </Link>
+          </p>
+          <p className="text-center text-sm text-gray-500 dark:text-zinc-400">
+            Checkout the our{" "}
+            <Link href="/privacy" className="underline">
+              privacy policy
+            </Link>{" "}
+            and{" "}
+            <Link href="/terms" className="underline">
+              terms of service
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
