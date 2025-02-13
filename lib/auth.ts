@@ -55,7 +55,7 @@ const options = {
       const verificationUrl = `${process.env.BASE_URL}/api/auth/verify-email?token=${token}&callbackURL=/connect-emails`;
 
       await resend.emails.send({
-        from: "Mail0 <onboarding@mail0.dev>",
+        from: "Mail0 <onboarding@mail0.io>",
         to: user.email,
         subject: "Verify your Mail0 account",
         html: `
