@@ -85,7 +85,7 @@ export default function BetaSignup() {
         <div className="flex w-full flex-1 items-center justify-center">
           <Card className="mx-4 w-full max-w-md border-none shadow-none">
             <CardHeader className="py-5">
-              <CardTitle className="text-center">Early Access</CardTitle>
+              <CardTitle className="text-center">Mail0 Early Access</CardTitle>
               <p className="text-center text-sm text-gray-500 dark:text-zinc-400">
                 Enter your email to get access once we launch ❤️
               </p>
