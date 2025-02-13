@@ -8,12 +8,35 @@ type PostgresError = {
   message: string;
 };
 
+// Rate limiting map: IP -> timestamps of requests
+const rateLimitMap = new Map<string, number[]>();
+const RATE_LIMIT = 3; // requests per hour
+const HOUR_IN_MS = 60 * 60 * 1000;
+
 export async function POST(req: NextRequest) {
   try {
-    // Log the incoming request
-    console.log("Received early access request");
+    // Get IP address from request
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    console.log("Request from IP:", ip);
 
-    // Validate request body
+    // Check rate limit
+    const now = Date.now();
+    const ipRequests = rateLimitMap.get(ip) || [];
+
+    // Clean up old requests (older than 1 hour)
+    const recentRequests = ipRequests.filter((timestamp) => now - timestamp < HOUR_IN_MS);
+
+    if (recentRequests.length >= RATE_LIMIT) {
+      console.log(`Rate limit exceeded for IP ${ip}. Recent requests: ${recentRequests.length}`);
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 },
+      );
+    }
+
+    recentRequests.push(now);
+    rateLimitMap.set(ip, recentRequests);
+
     const body = await req.json();
     console.log("Request body:", body);
 
@@ -24,7 +47,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const now = new Date();
+    const nowDate = new Date();
 
     try {
       // Log the attempted insert
@@ -33,8 +56,8 @@ export async function POST(req: NextRequest) {
       const result = await db.insert(earlyAccess).values({
         id: randomUUID(),
         email,
-        createdAt: now,
-        updatedAt: now,
+        createdAt: nowDate,
+        updatedAt: nowDate,
       });
 
       console.log("Insert successful:", result);
