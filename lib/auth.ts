@@ -36,7 +36,7 @@ const options = {
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Your App <onboarding@resend.dev>", // Update this with your verified domain
+        from: "Mail0 <onboarding@mail0.io>",
         to: user.email,
         subject: "Reset your password",
         html: `
