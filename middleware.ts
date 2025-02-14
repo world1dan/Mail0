@@ -59,6 +59,7 @@ export const config = {
     // - Static files (_next/static)
     // - Favicon
     // - API routes (except early-access)
-    "/((?!_next/static|_next/image|.*\\.(jpg|jpeg|gif|png|svg|ico|webp)|favicon.ico|api(?!/auth/early-access)).*)",
+    "/((?:(?!_next/static|_next/image|\\.|favicon\\.ico|api(?!/auth/early-access)).)*$",
+    "/api/auth/early-access",
   ],
 };
