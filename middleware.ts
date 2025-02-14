@@ -62,7 +62,6 @@ export const config = {
      * - public files (public folder)
      * - api routes (except /api/auth/early-access)
      */
-    "/((?!_next/static|_next/image|favicon.ico|api(?!/auth/early-access)).*)",
-    "/api/auth/early-access",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
