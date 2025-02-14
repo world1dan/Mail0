@@ -2,67 +2,12 @@
 
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
-import Link from "next/link";
-import { z } from "zod";
-
-const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
-  password: z.string().min(1, "Password is required"),
-});
 
 export default function Login() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    setIsSubmitting(true);
-    try {
-      const response = await signIn.email({
-        email: values.email,
-        password: values.password,
-        callbackURL: "/mail",
-      });
-
-      if ("error" in response) {
-        toast.error("Invalid email or password");
-        return;
-      }
-
-      toast.success("Logged in successfully!");
-      router.push("/mail");
-    } catch (error: any) {
-      console.error("Login error:", error);
-      toast.error(error.message || "An unexpected error occurred");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <div className="flex h-dvh w-screen items-center justify-center bg-background">
       <Card className="w-full max-w-md border-none shadow-none">
