@@ -2,11 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      { hostname: "lh3.googleusercontent.com" }, // Todo: Find a better way to limit this Image Optimization
-    ],
-    domains: ["localhost", "mail0.io"],
+    domains: ["localhost"],
+    remotePatterns: [{ hostname: "lh3.googleusercontent.com" }, { hostname: "mail0.io" }],
   },
+  // Optional: If you still have issues, you can use this instead of domains
+  // images: {
+  //   unoptimized: true,
+  // },
   typescript: {
     ignoreBuildErrors: true,
   },
