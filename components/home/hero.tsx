@@ -74,7 +74,7 @@ export default function Hero() {
   return (
     <div className="mx-auto w-full max-w-2xl animate-fade-in pt-20 md:pt-20">
       <Balancer className="text-center text-5xl font-medium sm:text-7xl">
-        Your open source Gmail alternative
+        Your open source email alternative
       </Balancer>
       <Balancer className="mx-auto mt-3 max-w-2xl text-center text-lg text-muted-foreground">
         Connect and take control of your email with an open source, secure, and customizable
