@@ -33,13 +33,43 @@ We believe email should be:
 
 ## Roadmap 🛤️
 
-We're in the early stages of development, and we're shaping the future of Mail0.io **together with the community**. Some key areas we will focus on:
+This document outlines the development roadmap for Mail0.io. Our vision is to create a powerful, user-friendly, and privacy-focused email experience.
 
-- **Core Email Server** – A lightweight, reliable self-hosted email server.
-- **Email Client** – A sleek, customizable web app for managing emails.
-- **Gmail & External Email Integration** – Support for linking third-party email services.
-- **Privacy-Focused Features** – Encryption, tracking protection, and secure authentication.
-- **Developer API** – Extensible tools for building integrations and automations.
+### 1. Core Email Connectivity
+
+- Connect main email providers
+- Support for multiple email accounts
+- Unified inbox experience
+
+### 2. Email Usage Improvements
+
+- AI-powered email assistance
+- Advanced drag-and-drop tools
+- Customizable keyboard shortcuts
+- Performance optimization
+- Enhanced search capabilities
+- Deep customization options
+
+### 3. Infrastructure
+
+- Domain management
+- Optimized email client
+- Self-hosting capabilities
+
+### Development Priorities
+
+1. Building a robust foundation for email management
+2. Implementing user-requested features
+3. Ensuring seamless integration with existing email providers
+4. Maintaining high performance and reliability
+
+We welcome community input and contributions to help shape these features and priorities. If you have suggestions or would like to contribute, please:
+
+1. Open an issue to discuss new feature ideas
+2. Submit pull requests for improvements
+3. Join discussions in existing issues
+
+This roadmap is a living document and will be updated as development progresses and priorities evolve based on community feedback and technological advances.
 
 ## Join the Movement 🚀
 
