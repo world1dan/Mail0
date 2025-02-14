@@ -26,6 +26,11 @@ We believe email should be:
 3. **Open** – Transparent development, open collaboration, and community-driven innovation.
 4. **User-Friendly** – No need for technical expertise to get started.
 
+## Documentation
+
+- [License](LICENSE) - Project license and terms
+- [Roadmap](ROADMAP.md) - Development plans and future features
+
 ## Roadmap 🛤️
 
 We're in the early stages of development, and we're shaping the future of Mail0.io **together with the community**. Some key areas we will focus on:
