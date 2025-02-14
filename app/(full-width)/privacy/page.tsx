@@ -31,7 +31,13 @@ export default function PrivacyPolicy() {
           <CardHeader className="space-y-4">
             <div className="space-y-2 text-center">
               <CardTitle className="text-4xl font-bold tracking-tight">Privacy Policy</CardTitle>
-              <p className="text-sm text-muted-foreground">Last updated: {LAST_UPDATED}</p>
+              <div className="flex items-center justify-center gap-2">
+                <p className="text-sm text-muted-foreground">Last updated: {LAST_UPDATED}</p>
+                <span className="text-sm text-muted-foreground">•</span>
+                <a href="/terms" className="text-sm">
+                  Terms of Service
+                </a>
+              </div>
             </div>
           </CardHeader>
 
