@@ -216,7 +216,11 @@ export function Mail({ folder }: MailProps) {
                       ))}
                     </div>
                   ) : (
-                    <MailList items={threadsResponse?.messages || []} isCompact={isCompact} />
+                    <MailList
+                      items={threadsResponse?.messages || []}
+                      isCompact={isCompact}
+                      folder={folder}
+                    />
                   )}
                 </div>
               </div>

@@ -1,5 +1,8 @@
+import { EmptyState, type FolderType } from "@/components/mail/empty-state";
 import { ComponentProps, useEffect, useRef, useState } from "react";
+
 import { preloadThread, useMarkAsRead } from "@/hooks/use-threads";
+import { useSearchValue } from "@/hooks/use-search-value";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useKeyPressed } from "@/hooks/use-key-pressed";
 import { useMail } from "@/components/mail/use-mail";
@@ -11,6 +14,7 @@ import { InitialThread } from "@/types";
 interface MailListProps {
   items: InitialThread[];
   isCompact?: boolean;
+  folder: string;
 }
 
 const HOVER_DELAY = 300; // ms before prefetching
@@ -32,9 +36,30 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isHovering = useRef<boolean>(false);
   const hasPrefetched = useRef<boolean>(false);
+  const [searchValue] = useSearchValue();
 
   const isMailSelected = message.id === mail.selected;
   const isMailBulkSelected = mail.bulkSelected.includes(message.id);
+
+  const highlightText = (text: string, highlight: string) => {
+    if (!highlight?.trim()) return text;
+
+    const regex = new RegExp(`(${highlight})`, "gi");
+    const parts = text.split(regex);
+
+    return parts.map((part, i) => {
+      return i % 2 === 1 ? (
+        <span
+          key={i}
+          className="ring-0.5 mx-0.5 inline-flex items-center justify-center rounded bg-black px-1 py-0.5 text-white ring-yellow-300/70 dark:bg-white dark:text-black dark:ring-yellow-300/50"
+        >
+          {part}
+        </span>
+      ) : (
+        part
+      );
+    });
+  };
 
   const handleMailClick = async () => {
     onSelect(message);
@@ -123,7 +148,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
               "text-md flex items-baseline gap-1 group-hover:opacity-100",
             )}
           >
-            {message.sender.name}{" "}
+            {highlightText(message.sender.name, searchValue.highlight)}{" "}
             {messagesCount !== 1 ? (
               <span className="ml-0.5 text-xs opacity-70">{messagesCount}</span>
             ) : null}
@@ -141,14 +166,14 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
           isMailSelected && "opacity-100",
         )}
       >
-        {message.title}
+        {highlightText(message.title, searchValue.highlight)}
       </p>
       {!isCompact && <MailLabels labels={message.tags} />}
     </div>
   );
 };
 
-export function MailList({ items, isCompact }: MailListProps) {
+export function MailList({ items, isCompact, folder }: MailListProps) {
   const [mail, setMail] = useMail();
 
   const massSelectMode = useKeyPressed(["Control", "Meta"]);
@@ -200,9 +225,14 @@ export function MailList({ items, isCompact }: MailListProps) {
     }
   };
 
-  // TODO: add logic for tags filtering & search
+  const isEmpty = items.length === 0;
+
+  if (isEmpty) {
+    return <EmptyState folder={folder as FolderType} className="min-h-[90vh] md:min-h-[90vh]" />;
+  }
+
   return (
-    <ScrollArea className="" type="auto">
+    <ScrollArea className="h-full" type="auto">
       <div
         className={cn(
           "flex flex-col pt-0",
