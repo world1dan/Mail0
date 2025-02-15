@@ -1,6 +1,7 @@
-import { ComponentProps, useMemo, useEffect, useRef, useState } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import { preloadThread, useMarkAsRead } from "@/hooks/use-threads";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useKeyPressed } from "@/hooks/use-key-pressed";
 import { useMail } from "@/components/mail/use-mail";
 import { useSession } from "@/lib/auth-client";
 import { Badge } from "@/components/ui/badge";
@@ -13,27 +14,30 @@ interface MailListProps {
 
 const HOVER_DELAY = 300; // ms before prefetching
 
-const Thread = ({ message: initialMessage }: { message: InitialThread }) => {
+type MailSelectMode = "mass" | "range" | "single";
+
+type ThreadProps = {
+  message: InitialThread;
+  selectMode: MailSelectMode;
+  onSelect: (message: InitialThread) => void;
+};
+
+const Thread = ({ message: initialMessage, selectMode, onSelect }: ThreadProps) => {
   const [message, setMessage] = useState(initialMessage);
-  const [mail, setMail] = useMail();
+  const [mail] = useMail();
   const { markAsRead } = useMarkAsRead();
   const { data: session } = useSession();
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isHovering = useRef<boolean>(false);
   const hasPrefetched = useRef<boolean>(false);
 
-  const isMailSelected = useMemo(() => message.id === mail.selected, [message.id, mail.selected]);
+  const isMailSelected = message.id === mail.selected;
+  const isMailBulkSelected = mail.bulkSelected.includes(message.id);
 
   const handleMailClick = async () => {
-    if (isMailSelected) {
-      setMail({
-        selected: null,
-      });
-    } else {
-      setMail({
-        ...mail,
-        selected: message.id,
-      });
+    onSelect(message);
+
+    if (!isMailSelected) {
       try {
         const response = await fetch(`/api/v1/mail/${message.id}/read`, {
           method: "POST",
@@ -52,7 +56,9 @@ const Thread = ({ message: initialMessage }: { message: InitialThread }) => {
 
   const handleMouseEnter = () => {
     isHovering.current = true;
-    if (session?.user.id && !hasPrefetched.current) {
+
+    // Prefetch only in single select mode
+    if (selectMode === "single" && session?.user.id && !hasPrefetched.current) {
       // Clear any existing timeout
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
@@ -101,6 +107,7 @@ const Thread = ({ message: initialMessage }: { message: InitialThread }) => {
         "group flex cursor-pointer flex-col items-start border-b px-4 py-4 text-left text-sm transition-all hover:bg-accent",
         message.unread && "",
         isMailSelected ? "bg-accent" : "",
+        isMailBulkSelected && "bg-muted shadow-[inset_5px_0_0_-1px_hsl(var(--primary))]",
       )}
     >
       <div className="flex w-full flex-col gap-1">
@@ -130,12 +137,69 @@ const Thread = ({ message: initialMessage }: { message: InitialThread }) => {
 };
 
 export function MailList({ items }: MailListProps) {
+  const [mail, setMail] = useMail();
+
+  const massSelectMode = useKeyPressed(["Control", "Meta"]);
+  const rangeSelectMode = useKeyPressed("Shift");
+
+  const selectMode: MailSelectMode = massSelectMode ? "mass" : rangeSelectMode ? "range" : "single";
+
+  const handleMailClick = (message: InitialThread) => {
+    if (selectMode === "mass") {
+      const updatedBulkSelected = mail.bulkSelected.includes(message.id)
+        ? mail.bulkSelected.filter((id) => id !== message.id)
+        : [...mail.bulkSelected, message.id];
+
+      setMail({ ...mail, bulkSelected: updatedBulkSelected });
+      return;
+    }
+
+    if (selectMode === "range") {
+      const lastSelectedItem =
+        mail.bulkSelected[mail.bulkSelected.length - 1] ?? mail.selected ?? message.id;
+
+      // Get the index range between last selected and current
+      const mailsIndex = items.map((m) => m.id);
+      const startIdx = mailsIndex.indexOf(lastSelectedItem);
+      const endIdx = mailsIndex.indexOf(message.id);
+
+      if (startIdx !== -1 && endIdx !== -1) {
+        const selectedRange = mailsIndex.slice(
+          Math.min(startIdx, endIdx),
+          Math.max(startIdx, endIdx) + 1,
+        );
+
+        setMail({ ...mail, bulkSelected: selectedRange });
+      }
+      return;
+    }
+
+    if (mail.selected === message.id) {
+      setMail({
+        selected: null,
+        bulkSelected: [],
+      });
+    } else {
+      setMail({
+        ...mail,
+        selected: message.id,
+        bulkSelected: [],
+      });
+    }
+  };
+
   // TODO: add logic for tags filtering & search
   return (
     <ScrollArea className="" type="auto">
-      <div className="flex flex-col pt-0">
+      <div
+        className={cn(
+          "flex flex-col pt-0",
+          // Prevents accidental text selection while in range select mode.
+          selectMode === "range" && "select-none",
+        )}
+      >
         {items.map((item) => (
-          <Thread key={item.id} message={item} />
+          <Thread key={item.id} message={item} selectMode={selectMode} onSelect={handleMailClick} />
         ))}
       </div>
     </ScrollArea>
