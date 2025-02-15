@@ -5,11 +5,12 @@ import { useKeyPressed } from "@/hooks/use-key-pressed";
 import { useMail } from "@/components/mail/use-mail";
 import { useSession } from "@/lib/auth-client";
 import { Badge } from "@/components/ui/badge";
+import { cn, formatDate } from "@/lib/utils";
 import { InitialThread } from "@/types";
-import { cn } from "@/lib/utils";
 
 interface MailListProps {
   items: InitialThread[];
+  isCompact?: boolean;
 }
 
 const HOVER_DELAY = 300; // ms before prefetching
@@ -20,9 +21,10 @@ type ThreadProps = {
   message: InitialThread;
   selectMode: MailSelectMode;
   onSelect: (message: InitialThread) => void;
+  isCompact?: boolean;
 };
 
-const Thread = ({ message: initialMessage, selectMode, onSelect }: ThreadProps) => {
+const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: ThreadProps) => {
   const [message, setMessage] = useState(initialMessage);
   const [mail] = useMail();
   const { markAsRead } = useMarkAsRead();
@@ -37,7 +39,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect }: ThreadProps) 
   const handleMailClick = async () => {
     onSelect(message);
 
-    if (!isMailSelected) {
+    if (!isMailSelected && message.unread) {
       try {
         const response = await fetch(`/api/v1/mail/${message.id}/read`, {
           method: "POST",
@@ -97,6 +99,9 @@ const Thread = ({ message: initialMessage, selectMode, onSelect }: ThreadProps) 
     };
   }, []);
 
+  // TODO: Get the number of messages in the thread from the API
+  const messagesCount: number = 1;
+
   return (
     <div
       onClick={handleMailClick}
@@ -110,33 +115,40 @@ const Thread = ({ message: initialMessage, selectMode, onSelect }: ThreadProps) 
         isMailBulkSelected && "bg-muted shadow-[inset_5px_0_0_-1px_hsl(var(--primary))]",
       )}
     >
-      <div className="flex w-full flex-col gap-1">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex items-center gap-2">
-            <p
-              className={cn(
-                message.unread ? "font-bold" : "font-medium",
-                "text-md flex items-center gap-1 opacity-70 group-hover:opacity-100",
-              )}
-            >
-              {message.sender.name}{" "}
-              {message.unread ? <span className="ml-1 size-2 rounded-full bg-blue-500" /> : null}
-            </p>
-          </div>
-          <p className="pr-2 text-xs font-normal opacity-70 group-hover:opacity-100">
-            {new Date(message.receivedOn).toLocaleDateString()}
+      <div className="flex w-full items-center justify-between">
+        <div className="flex items-center gap-2">
+          <p
+            className={cn(
+              message.unread ? "font-bold" : "font-medium",
+              "text-md flex items-baseline gap-1 group-hover:opacity-100",
+            )}
+          >
+            {message.sender.name}{" "}
+            {messagesCount !== 1 ? (
+              <span className="ml-0.5 text-xs opacity-70">{messagesCount}</span>
+            ) : null}
+            {message.unread ? <span className="ml-0.5 size-2 rounded-full bg-blue-500" /> : null}
           </p>
         </div>
-        <p className="mt-1 text-xs font-medium opacity-70 group-hover:opacity-100">
-          {message.title}
+        <p className="pr-2 text-xs font-normal opacity-70 transition-opacity group-hover:opacity-100">
+          {formatDate(message.receivedOn)}
         </p>
       </div>
-      <MailLabels labels={message.tags} />
+      <p
+        className={cn(
+          "mt-1 text-xs font-medium opacity-70 transition-opacity",
+          isCompact && "line-clamp-1",
+          isMailSelected && "opacity-100",
+        )}
+      >
+        {message.title}
+      </p>
+      {!isCompact && <MailLabels labels={message.tags} />}
     </div>
   );
 };
 
-export function MailList({ items }: MailListProps) {
+export function MailList({ items, isCompact }: MailListProps) {
   const [mail, setMail] = useMail();
 
   const massSelectMode = useKeyPressed(["Control", "Meta"]);
@@ -199,7 +211,13 @@ export function MailList({ items }: MailListProps) {
         )}
       >
         {items.map((item) => (
-          <Thread key={item.id} message={item} selectMode={selectMode} onSelect={handleMailClick} />
+          <Thread
+            key={item.id}
+            message={item}
+            selectMode={selectMode}
+            onSelect={handleMailClick}
+            isCompact={isCompact}
+          />
         ))}
       </div>
     </ScrollArea>

@@ -9,8 +9,7 @@ import {
   SquarePen,
   X,
 } from "lucide-react";
-import { useState, useCallback, useMemo, useEffect } from "react";
-import * as React from "react";
+import { useState, useCallback, useMemo, useEffect, ReactNode, Suspense } from "react";
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { MailDisplay } from "@/components/mail/mail-display";
@@ -43,7 +42,7 @@ interface MailProps {
   accounts: {
     label: string;
     email: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
   }[];
   folder: string;
   defaultLayout: number[] | undefined;
@@ -55,7 +54,7 @@ interface MailProps {
 export function Mail({ folder }: MailProps) {
   const [searchValue] = useSearchValue();
   const [mail, setMail] = useMail();
-  const [isCompact, setIsCompact] = React.useState(false);
+  const [isCompact, setIsCompact] = useState(false);
   const searchParams = useSearchParams();
 
   const [isMobile, setIsMobile] = useState(false);
@@ -86,7 +85,7 @@ export function Mail({ folder }: MailProps) {
   const [isTransitioning, setIsTransitioning] = useState(true);
 
   // Check if we're on mobile on mount and when window resizes
-  React.useEffect(() => {
+  useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768); // 768px is the 'md' breakpoint
     };
@@ -137,9 +136,9 @@ export function Mail({ folder }: MailProps) {
                   <div className="flex items-center justify-between px-2">
                     <div className="flex items-center gap-1">
                       <SidebarToggle className="h-fit px-2" />
-                      <React.Suspense>
+                      <Suspense>
                         <ComposeButton />
-                      </React.Suspense>
+                      </Suspense>
                     </div>
                     {mail.bulkSelected.length === 0 ? (
                       <>
@@ -217,7 +216,7 @@ export function Mail({ folder }: MailProps) {
                       ))}
                     </div>
                   ) : (
-                    <MailList items={threadsResponse?.messages || []} />
+                    <MailList items={threadsResponse?.messages || []} isCompact={isCompact} />
                   )}
                 </div>
               </div>
