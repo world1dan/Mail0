@@ -1,6 +1,5 @@
 import { EmptyState, type FolderType } from "@/components/mail/empty-state";
 import { ComponentProps, useEffect, useRef, useState } from "react";
-
 import { preloadThread, useMarkAsRead } from "@/hooks/use-threads";
 import { useSearchValue } from "@/hooks/use-search-value";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -143,6 +142,11 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
+          {message.totalReplies > 1 && (
+            <p className="rounded-full border border-dashed border-muted-foreground px-1.5 py-0.5 text-xs font-bold">
+              {message.totalReplies}
+            </p>
+          )}
           <p
             className={cn(
               message.unread ? "font-bold" : "font-medium",
