@@ -153,7 +153,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
             {messagesCount !== 1 ? (
               <span className="ml-0.5 text-xs opacity-70">{messagesCount}</span>
             ) : null}
-            {message.unread ? <span className="ml-0.5 size-2 rounded-full bg-blue-500" /> : null}
+            {message.unread ? <span className="ml-0.5 size-2 rounded-full bg-[#006FFE]" /> : null}
           </p>
         </div>
         <p
@@ -263,11 +263,19 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
 function MailLabels({ labels }: { labels: string[] }) {
   if (!labels.length) return null;
 
+  const visibleLabels = labels.filter(
+    (label) => !["unread", "inbox"].includes(label.toLowerCase()),
+  );
+
+  if (!visibleLabels.length) return null;
+
   return (
     <div className={cn("mt-1.5 flex select-none items-center gap-2")}>
-      {labels.map((label) => (
-        <Badge key={label} className="rounded-md" variant={getDefaultBadgeStyle(label)}>
-          <p className="text-xs font-medium lowercase opacity-70">{label.replace(/_/g, " ")}</p>
+      {visibleLabels.map((label) => (
+        <Badge key={label} className="rounded-full" variant={getDefaultBadgeStyle(label)}>
+          <p className="text-xs font-medium lowercase">
+            {label.replace(/^category_/i, "").replace(/_/g, " ")}
+          </p>
         </Badge>
       ))}
     </div>
@@ -275,14 +283,19 @@ function MailLabels({ labels }: { labels: string[] }) {
 }
 
 function getDefaultBadgeStyle(label: string): ComponentProps<typeof Badge>["variant"] {
-  return "outline";
+  const normalizedLabel = label.toLowerCase().replace(/^category_/i, "");
 
-  // TODO: styling for each tag type
-  switch (true) {
-    case label.toLowerCase() === "work":
+  switch (normalizedLabel) {
+    case "important":
+      return "important";
+    case "promotions":
+      return "promotions";
+    case "personal":
+      return "personal";
+    case "updates":
+      return "updates";
+    case "work":
       return "default";
-    case label.toLowerCase().startsWith("category_"):
-      return "outline";
     default:
       return "secondary";
   }
