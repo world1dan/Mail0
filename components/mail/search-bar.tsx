@@ -108,7 +108,7 @@ export function SearchBar() {
           <Search className="absolute left-2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <Input
             placeholder="Search"
-            className="h-8 w-full rounded-lg border-none pl-8 pr-14 text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="h-7 w-full rounded-md pl-8 pr-14 text-muted-foreground"
             {...form.register("q")}
           />
           <div className="absolute right-2 flex items-center">
