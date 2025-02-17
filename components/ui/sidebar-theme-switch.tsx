@@ -1,7 +1,5 @@
 "use client";
 
-import { LaptopMinimalIcon } from "lucide-react";
-
 import { useTheme } from "next-themes";
 
 import { MoonIcon } from "../icons/animated/moon";
@@ -9,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SunIcon } from "../icons/animated/sun";
 
 export function SidebarThemeSwitch() {
-  const { theme, systemTheme, resolvedTheme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   async function handleThemeToggle() {
     const newTheme = theme === "dark" ? "light" : "dark";

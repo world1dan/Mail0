@@ -1,6 +1,5 @@
 import { EmptyState, type FolderType } from "@/components/mail/empty-state";
 import { ComponentProps, useEffect, useRef, useState } from "react";
-
 import { preloadThread, useMarkAsRead } from "@/hooks/use-threads";
 import { useSearchValue } from "@/hooks/use-search-value";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -135,7 +134,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
       key={message.id}
       className={cn(
         "group flex cursor-pointer flex-col items-start p-3.5 text-left text-sm transition-all hover:bg-accent",
-        message.unread && "",
+        !message.unread && "opacity-70",
         isMailSelected ? "border-border bg-accent" : "",
         isMailBulkSelected && "bg-muted shadow-[inset_5px_0_0_-1px_hsl(var(--primary))]",
         isCompact && "py-2",
@@ -143,6 +142,11 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
+          {message.totalReplies > 1 && (
+            <p className="rounded-full border border-dashed border-muted-foreground px-1.5 py-0.5 text-xs font-bold">
+              {message.totalReplies}
+            </p>
+          )}
           <p
             className={cn(
               message.unread ? "font-bold" : "font-medium",
@@ -296,6 +300,8 @@ function getDefaultBadgeStyle(label: string): ComponentProps<typeof Badge>["vari
       return "updates";
     case "work":
       return "default";
+    case "forums":
+      return "forums";
     default:
       return "secondary";
   }
