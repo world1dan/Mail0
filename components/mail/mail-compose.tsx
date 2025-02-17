@@ -431,9 +431,30 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
                 </Button>
                 <Button
                   tabIndex={12}
-                  onClick={() => {
-                    // TODO: Implement send functionality
-                    onClose();
+                  onClick={async () => {
+                    try {
+                      const response = await fetch("/api/v1/mail/send", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          to: toInput,
+                          subject: subject,
+                          message: messageContent,
+                          attachments: attachments,
+                        }),
+                      });
+
+                      if (!response.ok) {
+                        throw new Error("Failed to send email");
+                      }
+
+                      onClose();
+                    } catch (error) {
+                      console.error("Error sending email:", error);
+                      // You might want to show an error toast here
+                    }
                   }}
                 >
                   Send
