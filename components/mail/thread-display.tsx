@@ -9,7 +9,6 @@ import {
   Copy,
   Maximize2,
   Minimize2,
-  Loader2,
 } from "lucide-react";
 import { DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
