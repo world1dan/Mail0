@@ -130,8 +130,9 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
       onMouseLeave={handleMouseLeave}
       key={message.id}
       className={cn(
-        "group relative flex cursor-pointer flex-col items-start overflow-clip rounded-lg border border-transparent px-4 py-3 text-left text-sm transition-all hover:border-border hover:bg-accent",
-        (isMailSelected || isMailBulkSelected) && "border-border bg-accent",
+        "group relative flex cursor-pointer flex-col items-start overflow-clip rounded-lg border border-transparent px-4 py-3 text-left text-sm transition-all hover:border-border hover:bg-accent hover:opacity-100",
+        !message.unread && "opacity-70",
+        (isMailSelected || isMailBulkSelected) && "border-border bg-accent opacity-100",
         isCompact && "py-2",
       )}
     >

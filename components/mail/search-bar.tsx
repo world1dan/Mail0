@@ -103,8 +103,8 @@ export function SearchBar() {
 
   return (
     <div className="relative flex-1 md:max-w-[600px]">
-      <form className="relative flex items-center">
-        <Form {...form}>
+      <Form {...form}>
+        <div className="relative flex items-center">
           <Search className="absolute left-2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <Input
             placeholder="Search"
@@ -126,6 +126,7 @@ export function SearchBar() {
                 className="w-[min(calc(100vw-2rem),400px)] p-3 sm:w-[500px] md:w-[600px] md:p-4"
                 side="bottom"
                 sideOffset={10}
+                alignOffset={-8}
                 align="end"
               >
                 <div className="space-y-4">
@@ -234,8 +235,8 @@ export function SearchBar() {
               </PopoverContent>
             </Popover>
           </div>
-        </Form>
-      </form>
+        </div>
+      </Form>
     </div>
   );
 }
