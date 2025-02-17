@@ -102,13 +102,14 @@ export function SearchBar() {
   };
 
   return (
-    <div className="relative flex-1 px-4 md:max-w-[600px] md:px-8">
+    <div className="relative flex-1 md:max-w-[600px]">
       <form className="relative flex items-center">
         <Form {...form}>
           <Search className="absolute left-2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <Input
             placeholder="Search"
-            className="h-7 w-full rounded-md pl-8 pr-14 text-muted-foreground"
+            autoFocus
+            className="h-8 w-full rounded-md pl-8 pr-14 text-muted-foreground"
             {...form.register("q")}
           />
           <div className="absolute right-2 flex items-center">

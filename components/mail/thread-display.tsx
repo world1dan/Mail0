@@ -12,6 +12,7 @@ import {
   Copy,
   Maximize2,
   Minimize2,
+  Loader2,
 } from "lucide-react";
 import { DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -50,7 +51,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
 
   const handleClose = useCallback(() => {
     onClose?.();
-    setMail({ selected: null });
+    setMail((m) => ({ ...m, selected: null }));
   }, [onClose, setMail]);
 
   useEffect(() => {
@@ -100,18 +101,23 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
     }
   };
 
-  if (!emailData) return <div>Loading...</div>;
+  if (!emailData)
+    return (
+      <div className="grid size-full place-content-center bg-card">
+        <Loader2 size={24} className="animate-spin text-muted-foreground" />
+      </div>
+    );
 
   return (
     <div className="flex h-screen flex-col">
       <div
         className={cn(
-          "relative flex h-full flex-col bg-background transition-all duration-300",
+          "relative flex h-full flex-col bg-card transition-all duration-300",
           isMobile ? "" : "rounded-r-lg",
           isFullscreen ? "fixed inset-0 z-50 bg-background" : "",
         )}
       >
-        <div className="flex items-center border-b p-[7px]">
+        <div className="flex items-center border-b p-2">
           <div className="flex flex-1 items-center gap-2">
             {!isMobile && (
               <Tooltip>
@@ -129,9 +135,6 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
                 <TooltipContent>Close</TooltipContent>
               </Tooltip>
             )}
-            <div className="max-w-[300px] flex-1 truncate text-sm font-medium">
-              {emailData[0].title || "No subject"}
-            </div>
           </div>
           <div className="flex items-center gap-2">
             <Tooltip>
@@ -213,7 +216,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
           </div>
         </div>
 
-        <div className="h-full space-y-4 overflow-y-scroll">
+        <div className="h-full overflow-y-scroll">
           {[...(emailData || [])].reverse().map((message, index) => (
             <div
               key={message.id}
@@ -231,8 +234,8 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
         </div>
 
         {!isFullscreen && (
-          <div className="relative bottom-0 left-0 right-0 z-10 mb-4 bg-background px-4 pb-4 pt-2">
-            <form className="relative space-y-2.5 rounded-[calc(var(--radius)-2px)] border bg-secondary/50 p-4 shadow-sm">
+          <div className="relative bottom-0 left-0 right-0 z-10 mb-5 bg-card px-2 pb-2 pt-2">
+            <form className="relative mb-[2px] space-y-2.5 rounded-[10px] border p-2">
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <Reply className="h-4 w-4" />
@@ -243,7 +246,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
               </div>
 
               <Textarea
-                className="min-h-[60px] w-full resize-none border-0 bg-background leading-relaxed placeholder:text-muted-foreground/70 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base"
+                className="min-h-[40px] w-full resize-none rounded-2xl border-0 bg-transparent leading-relaxed placeholder:text-muted-foreground/70 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base"
                 placeholder="Write your reply..."
                 spellCheck={true}
                 // autoFocus

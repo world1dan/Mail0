@@ -1,15 +1,18 @@
 "use client";
 
-import { LaptopMinimalIcon } from "lucide-react";
-
 import { useTheme } from "next-themes";
 
 import { MoonIcon } from "../icons/animated/moon";
 import { Button } from "@/components/ui/button";
 import { SunIcon } from "../icons/animated/sun";
+import { useEffect, useState } from "react";
 
 export function SidebarThemeSwitch() {
-  const { theme, systemTheme, resolvedTheme, setTheme } = useTheme();
+  const [isRendered, setIsRendered] = useState(false);
+  const { theme, resolvedTheme, setTheme } = useTheme();
+
+  // Prevents hydration error
+  useEffect(() => setIsRendered(true), []);
 
   async function handleThemeToggle() {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -26,6 +29,8 @@ export function SidebarThemeSwitch() {
       update();
     }
   }
+
+  if (!isRendered) return null;
 
   return (
     <Button
