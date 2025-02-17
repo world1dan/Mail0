@@ -87,9 +87,12 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
     ParsedMessage,
     "body" | "processedHtml" | "blobUrl" | "totalReplies"
   > => {
-    const receivedOn = payload?.headers?.find((h) => h.name === "Date")?.value || "Failed";
-    const sender = payload?.headers?.find((h) => h.name === "From")?.value || "Failed";
-    const subject = payload?.headers?.find((h) => h.name === "Subject")?.value || "Failed";
+    const receivedOn =
+      payload?.headers?.find((h) => h.name?.toLowerCase() === "date")?.value || "Failed";
+    const sender =
+      payload?.headers?.find((h) => h.name?.toLowerCase() === "from")?.value || "Failed";
+    const subject =
+      payload?.headers?.find((h) => h.name?.toLowerCase() === "subject")?.value || "Failed";
     const [name, email] = sender.split("<");
     return {
       id: id || "ERROR",
@@ -154,7 +157,7 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
           const { folder: normalizedFolder, q: normalizedQ } = normalizeSearch(folder, "");
           const labelIds = [];
           if (normalizedFolder) labelIds.push(normalizedFolder.toUpperCase());
-          const res = await gmail.users.messages.list({
+          const res = await gmail.users.threads.list({
             userId: "me",
             q: normalizedQ ? normalizedQ : undefined,
             labelIds,

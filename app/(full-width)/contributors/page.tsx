@@ -120,8 +120,9 @@ export default function OpenPage() {
           date.setDate(date.getDate() - (6 - i));
           const dateStr = date.toISOString().split("T")[0];
 
-          const dayCommits = commitsData.filter((commit: any) =>
-            commit.commit.author.date.startsWith(dateStr),
+          const dayCommits = commitsData.filter(
+            (commit: { commit: { author: { date: string } } }) =>
+              commit.commit.author.date.startsWith(dateStr),
           ).length;
 
           const dayIndex = i + 1;
@@ -169,7 +170,7 @@ export default function OpenPage() {
       .catch((err) => console.error("Error fetching contributors:", err));
   }, []);
 
-  const maxContributions = Math.max(...contributors.map((c) => c.contributions));
+  // const maxContributions = Math.max(...contributors.map((c) => c.contributions));
 
   return (
     <div className="min-h-screen w-full text-white">

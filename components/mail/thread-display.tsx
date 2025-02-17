@@ -12,6 +12,7 @@ import {
   Copy,
   Maximize2,
   Minimize2,
+  Loader2,
 } from "lucide-react";
 import { DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -50,7 +51,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
 
   const handleClose = useCallback(() => {
     onClose?.();
-    setMail({ selected: null });
+    setMail({ selected: null, bulkSelected: [] });
   }, [onClose, setMail]);
 
   useEffect(() => {
@@ -100,7 +101,14 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
     }
   };
 
-  if (!emailData) return <div>Loading...</div>;
+  if (!emailData) {
+    return (
+      <div className="flex h-full w-full items-center justify-center gap-4 p-8">
+        <Loader2 className="size-4 animate-spin" />
+        <span>Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen flex-col">
