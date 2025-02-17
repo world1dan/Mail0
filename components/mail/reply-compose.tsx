@@ -37,8 +37,8 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
   };
 
   return (
-    <div className="relative bottom-0 left-0 right-0 z-10 mb-4 bg-background px-4 pb-4 pt-2">
-      <form className="relative space-y-2.5 rounded-[calc(var(--radius)-2px)] border bg-secondary/50 p-4 shadow-sm">
+    <div className="relative bottom-0 left-0 right-0 z-10 mb-5 bg-card px-2 pb-2 pt-2">
+      <form className="relative mb-[2px] space-y-2.5 rounded-[10px] border p-2">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Reply className="h-4 w-4" />
@@ -49,10 +49,9 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
         </div>
 
         <Textarea
-          className="min-h-[60px] w-full resize-none border-0 bg-background leading-relaxed placeholder:text-muted-foreground/70 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base"
+          className="min-h-[40px] w-full resize-none rounded-2xl border-0 bg-transparent leading-relaxed placeholder:text-muted-foreground/70 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base"
           placeholder="Write your reply..."
           spellCheck={true}
-
           // autoFocus
         />
 

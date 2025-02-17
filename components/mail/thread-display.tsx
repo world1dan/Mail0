@@ -45,7 +45,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
 
   const handleClose = useCallback(() => {
     onClose?.();
-    setMail({ selected: null, bulkSelected: [] });
+    setMail((m) => ({ ...m, selected: null }));
   }, [onClose, setMail]);
 
   useEffect(() => {
@@ -92,12 +92,12 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
     <div className="flex h-screen flex-col">
       <div
         className={cn(
-          "relative flex h-full flex-col bg-background transition-all duration-300",
+          "relative flex h-full flex-col bg-card transition-all duration-300",
           isMobile ? "" : "rounded-r-lg",
           isFullscreen ? "fixed inset-0 z-50 bg-background" : "",
         )}
       >
-        <div className="flex items-center border-b p-[7px]">
+        <div className="flex items-center border-b p-2">
           <div className="flex flex-1 items-center gap-2">
             {!isMobile && (
               <Tooltip>
@@ -115,9 +115,6 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
                 <TooltipContent>Close</TooltipContent>
               </Tooltip>
             )}
-            <div className="max-w-[300px] flex-1 truncate text-sm font-medium">
-              {emailData[0].title || "No subject"}
-            </div>
           </div>
           <div className="flex items-center gap-2">
             <Tooltip>
@@ -199,7 +196,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
           </div>
         </div>
 
-        <div className="h-full space-y-4 overflow-y-scroll">
+        <div className="h-full overflow-y-scroll">
           {[...(emailData || [])].reverse().map((message, index) => (
             <div
               key={message.id}
@@ -215,7 +212,6 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
             </div>
           ))}
         </div>
-
         {!isFullscreen && <ReplyCompose emailData={emailData} />}
       </div>
     </div>
