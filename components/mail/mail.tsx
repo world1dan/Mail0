@@ -234,7 +234,7 @@ export function Mail({ folder }: MailProps) {
         </ResizablePanelGroup>
 
         {/* Mobile Drawer */}
-        {!isDesktop && (
+        {isMobile && (
           <Drawer open={open} onOpenChange={setOpen}>
             <DrawerContent className="h-[calc(100vh-3rem)] p-0">
               <DrawerHeader className="sr-only">
