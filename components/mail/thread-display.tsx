@@ -14,6 +14,7 @@ import {
 import { DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { MailDisplaySkeleton, MailHeaderSkeleton } from "./mail-skeleton";
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { useThread } from "@/hooks/use-threads";
@@ -70,14 +71,23 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
     }
   };
 
-  if (!emailData) {
+  if (!emailData)
     return (
-      <div className="flex h-full w-full items-center justify-center gap-4 p-8">
-        <Loader2 className="size-4 animate-spin" />
-        <span>Loading...</span>
+      <div className="flex h-screen flex-col">
+        <div
+          className={cn(
+            "relative flex h-full flex-col bg-background transition-all duration-300",
+            isMobile ? "" : "rounded-r-lg",
+            isFullscreen ? "fixed inset-0 z-50 bg-background" : "",
+          )}
+        >
+          <MailHeaderSkeleton isFullscreen={isFullscreen} />
+          <div className="h-full space-y-4 overflow-y-scroll">
+            <MailDisplaySkeleton isFullscreen={isFullscreen} />
+          </div>
+        </div>
       </div>
     );
-  }
 
   return (
     <div className="flex h-screen flex-col">
