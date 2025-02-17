@@ -169,7 +169,7 @@ export default function OpenPage() {
       .catch((err) => console.error("Error fetching contributors:", err));
   }, []);
 
-  const maxContributions = Math.max(...contributors.map((c) => c.contributions));
+  // const maxContributions = Math.max(...contributors.map((c) => c.contributions));
 
   return (
     <div className="min-h-screen w-full text-white">
