@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import Link from "next/link";
@@ -58,19 +58,24 @@ export function NavMain({ items }: NavMainProps) {
   }, [items]);
 
   // Checks if the given URL matches the current URL path and required search parameters.
-  const isUrlActive = (url: string) => {
-    const urlObj = new URL(url, window.location.origin);
-    const cleanPath = pathname.replace(/\/$/, "");
-    const cleanUrl = urlObj.pathname.replace(/\/$/, "");
+  const isUrlActive = useMemo(() => {
+    return (url: string) => {
+      const urlObj = new URL(url, window.location.origin);
+      const cleanPath = pathname.replace(/\/$/, "");
+      const cleanUrl = urlObj.pathname.replace(/\/$/, "");
 
-    if (cleanPath !== cleanUrl) return false;
+      if (cleanPath !== cleanUrl) return false;
 
-    for (const [key, value] of new URLSearchParams(urlObj.search)) {
-      if (new URLSearchParams(searchParams).get(key) !== value) return false;
-    }
+      const urlParams = new URLSearchParams(urlObj.search);
+      const currentParams = new URLSearchParams(searchParams);
 
-    return true;
-  };
+      for (const [key, value] of urlParams) {
+        if (currentParams.get(key) !== value) return false;
+      }
+
+      return true;
+    };
+  }, [pathname, searchParams]);
 
   return (
     <nav className="space-y-2.5">

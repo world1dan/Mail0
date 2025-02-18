@@ -3,7 +3,6 @@ import { connection, user as _user, account } from "@/db/schema";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth, BetterAuthOptions } from "better-auth";
 import { customSession } from "better-auth/plugins";
-import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { env } from "./env";
@@ -102,7 +101,7 @@ const options = {
           if (userAccount) {
             // create a new connection
             const [newConnection] = await db.insert(connection).values({
-              id: randomUUID(),
+              id: crypto.randomUUID(),
               userId: user.id,
               email: user.email,
               name: user.name,

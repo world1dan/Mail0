@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
@@ -93,6 +94,9 @@ export function AccountSwitcher({ accounts }: AccountSwitcherProps) {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Add account</DialogTitle>
+              <DialogDescription>
+                Add a new account to switch between different email accounts.
+              </DialogDescription>
             </DialogHeader>
           </DialogContent>
         </Dialog>

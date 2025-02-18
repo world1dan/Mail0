@@ -1,9 +1,9 @@
 "use client";
 
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarProvider } from "../context/sidebar-context";
 import { VariantProps, cva } from "class-variance-authority";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useSidebar } from "../context/sidebar-context";
 import { SIDEBAR_WIDTH_MOBILE } from "@/lib/constants";
 import { Separator } from "@/components/ui/separator";
@@ -66,6 +66,10 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <SheetDescription className="sr-only">
+              Application navigation sidebar containing menu items and actions
+            </SheetDescription>
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>

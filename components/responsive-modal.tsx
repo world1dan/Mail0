@@ -1,5 +1,5 @@
+import { Dialog, DialogContent, DialogHeader, DialogDescription } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { type ReactElement } from "react";
@@ -24,6 +24,7 @@ export default function ResponsiveModal({
         <VisuallyHidden>
           <DialogHeader>
             <DialogTitle>Title</DialogTitle>
+            <DialogDescription>Modal content</DialogDescription>
           </DialogHeader>
         </VisuallyHidden>
         <DialogContent className="bordr-none hide-scrollbar w-full overflow-y-auto p-0 sm:max-w-lg">

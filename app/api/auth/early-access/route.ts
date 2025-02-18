@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { earlyAccess } from "@/db/schema";
-import { randomUUID } from "node:crypto";
 import { env } from "@/lib/env";
 import { db } from "@/db";
 
@@ -55,7 +54,7 @@ export async function POST(req: NextRequest) {
       console.log("Attempting to insert email:", email);
 
       const result = await db.insert(earlyAccess).values({
-        id: randomUUID(),
+        id: crypto.randomUUID(),
         email,
         createdAt: nowDate,
         updatedAt: nowDate,
