@@ -3,12 +3,14 @@
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "../ui/card";
+import { ArrowRightIcon } from "lucide-react";
 import Balancer from "react-wrap-balancer";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
+import Link from "next/link";
 import { z } from "zod";
 
 const betaSignupSchema = z.object({
@@ -74,7 +76,7 @@ export default function Hero() {
   return (
     <div className="mx-auto w-full max-w-2xl animate-fade-in pt-20 md:px-0 md:pt-20">
       <Balancer className="px-1 text-center text-5xl font-medium sm:text-7xl md:px-0">
-        Your open source email alternative
+        Your open source email
       </Balancer>
       <Balancer className="mx-auto mt-3 max-w-2xl text-center text-lg text-muted-foreground">
         Connect and take control of your email with an open source, secure, and customizable
@@ -82,35 +84,44 @@ export default function Hero() {
       </Balancer>
 
       <Card className="mt-3 w-full border-none bg-transparent shadow-none">
-        <CardContent className="px-0">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex items-center justify-center gap-3"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="you@example.com"
-                        className="placeholder:text-sm md:w-80"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <div>
-                <Button type="submit" className="w-full px-4" disabled={isSubmitting}>
-                  Join waitlist
-                </Button>
-              </div>
-            </form>
-          </Form>
+        <CardContent className="flex items-center justify-center px-0">
+          {process.env.NODE_ENV === "development" ? (
+            <Button variant="default" className="group h-9" asChild>
+              <Link href="/login">
+                Get Started
+                <ArrowRightIcon />
+              </Link>
+            </Button>
+          ) : (
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex items-center justify-center gap-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="you@example.com"
+                          className="placeholder:text-sm md:w-80"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <div>
+                  <Button type="submit" className="w-full px-4" disabled={isSubmitting}>
+                    Join waitlist
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          )}
         </CardContent>
       </Card>
     </div>

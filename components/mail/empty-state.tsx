@@ -1,5 +1,17 @@
-import { Archive, ArchiveX, FileText, Inbox, LucideIcon, Send, Trash2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Archive, ArchiveX, FileText, Inbox, LucideIcon, Plus, Send, Trash2 } from "lucide-react";
+import { emailProviders } from "@/constants/emailProviders";
+import { useConnections } from "@/hooks/use-connections";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 // Types for default inbox filters
 export type FolderType = "inbox" | "draft" | "sent" | "spam" | "trash" | "archive";
@@ -78,19 +90,60 @@ function EmptyState({ folder, className }: EmptyStateProps) {
 
   const config = FOLDER_CONFIGS[folder] ?? FOLDER_CONFIGS.inbox;
   const Icon = config.icon;
+  const connections = useConnections();
+  const noConnection = useMemo(
+    () => !connections?.data || connections?.data?.length === 0,
+    [connections?.data],
+  );
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      data-testid="empty-state"
-      className={cn(styles.container, className)}
-    >
-      <div className={styles.content}>
-        <Icon className={styles.icon} aria-hidden="true" data-testid="empty-state-icon" />
-        <h3 className={styles.title}>{config.title}</h3>
-        <p className={styles.description}>{config.description}</p>
-      </div>
+    <div>
+      {noConnection ? (
+        <Dialog open={noConnection}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Connect Email</DialogTitle>
+              <DialogDescription>Select an email provider to connect</DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              {emailProviders.map((provider) => (
+                <a key={provider.name} href={`/api/v1/mail/auth/${provider.providerId}/init`}>
+                  <Button
+                    variant="outline"
+                    className="h-24 w-full flex-col items-center justify-center gap-2"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-12 w-12">
+                      <path fill="currentColor" d={provider.icon} />
+                    </svg>
+                    <span className="text-xs">{provider.name}</span>
+                  </Button>
+                </a>
+              ))}
+              <Button
+                variant="outline"
+                className="h-24 flex-col items-center justify-center gap-2 border-dashed"
+              >
+                <Plus className="h-12 w-12" />
+                <span className="text-xs">More Coming Soon</span>
+              </Button>
+            </div>
+            <DialogClose />
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <div
+          role="status"
+          aria-live="polite"
+          data-testid="empty-state"
+          className={cn(styles.container, className)}
+        >
+          <div className={styles.content}>
+            <Icon className={styles.icon} aria-hidden="true" data-testid="empty-state-icon" />
+            <h3 className={styles.title}>{config.title}</h3>
+            <p className={styles.description}>{config.description}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

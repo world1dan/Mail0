@@ -88,12 +88,16 @@ export function NavUser() {
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="w-fit">
+            <SidebarMenuButton
+              size="lg"
+              className="group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
               {isLoading ? (
                 <>
-                  <div className="size-5 animate-pulse rounded-md bg-muted" />
-                  <div className="flex min-w-0 flex-col gap-1 leading-none">
+                  <div className="size-7 animate-pulse rounded-lg bg-primary/10" />
+                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
                     <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+                    <div className="h-2.5 w-32 animate-pulse rounded bg-muted" />
                   </div>
                 </>
               ) : (
@@ -101,16 +105,19 @@ export function NavUser() {
                   <Image
                     src={activeAccount?.picture || session?.user.image || "/logo.png"}
                     alt={activeAccount?.name || session?.user.name || "User"}
-                    className="shrink-0 rounded-md"
-                    width={20}
-                    height={20}
+                    className="size-7 rounded-md ring-1 ring-border/50"
+                    width={28}
+                    height={28}
                   />
-                  <div className="flex min-w-0 flex-col gap-1 leading-none">
-                    <span className="flex items-center gap-1 truncate text-[12px] font-semibold">
-                      {(activeAccount?.email || session?.user.email)?.slice(0, 16)}...
-                      <ChevronDown className="size-3 text-muted-foreground" />
+                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
+                    <span className="font-medium tracking-tight">
+                      {activeAccount?.name || session?.user.name || "User"}
+                    </span>
+                    <span className="truncate text-[11px] text-muted-foreground/70">
+                      {activeAccount?.email || session?.user.email}
                     </span>
                   </div>
+                  <ChevronDown className="ml-auto size-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </>
               )}
             </SidebarMenuButton>
@@ -121,7 +128,7 @@ export function NavUser() {
         className="ml-3 w-[--radix-dropdown-menu-trigger-width] min-w-56 font-medium"
         align="end"
         side={"bottom"}
-        sideOffset={1}
+        sideOffset={8}
       >
         <DropdownMenuItem onClick={() => router.push("/support")}>
           <div className="flex cursor-pointer items-center gap-2 text-[13px]">
@@ -146,7 +153,7 @@ export function NavUser() {
                 <DropdownMenuItem
                   key={connection.id}
                   onClick={handleAccountSwitch(connection)}
-                  className={`flex cursor-pointer items-center gap-3 py-0.5 ${
+                  className={`flex cursor-pointer items-center gap-4 py-0.5 ${
                     connection.id === session?.connectionId ? "bg-accent" : ""
                   }`}
                 >
