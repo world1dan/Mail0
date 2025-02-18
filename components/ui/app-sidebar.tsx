@@ -2,11 +2,11 @@
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
+import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
-import { SidebarThemeSwitch } from "./sidebar-theme-switch";
-import React, { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { navigationConfig } from "@/config/navigation";
+import React, { useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { $fetch } from "@/lib/auth-client";
 import { BASE_URL } from "@/lib/constants";
@@ -30,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     );
 
     const currentSection = section?.[0] || "mail";
-    let items = [...navigationConfig[currentSection].sections];
+    const items = [...navigationConfig[currentSection].sections];
 
     if (currentSection === "mail" && stats) {
       if (items[0]?.items[0]) {
