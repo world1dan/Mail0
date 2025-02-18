@@ -29,7 +29,7 @@ export default function Navbar() {
             <SheetHeader>
               <SheetTitle className="text-left text-2xl">Mail0</SheetTitle>
             </SheetHeader>
-            <div className="mt-7 flex flex-col gap-3 text-muted-foreground">
+            <div className="mt-7 flex flex-col gap-4 text-muted-foreground">
               <Link href="https://github.com/nizzyabi/mail0">Github</Link>
               <Link href="https://discord.gg/5nwrvt3JH2">Discord</Link>
               <Link href="/privacy">Terms & Privacy</Link>
