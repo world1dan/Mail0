@@ -12,11 +12,11 @@ export default function SecurityPage() {
         description="Manage your security preferences and account protection."
         footer={
           <div className="flex items-center gap-2.5">
-            <Button className="text-xs sm:text-sm" variant="outline">
+            <Button className="text-xs sm:text-base" variant="outline">
               <KeyRoundIcon className="mr-2 h-4 w-4" />
               Change Password
             </Button>
-            <Button className="text-xs md:text-sm" variant="destructive">
+            <Button className="text-xs sm:text-base" variant="destructive">
               Delete Account
             </Button>
           </div>
