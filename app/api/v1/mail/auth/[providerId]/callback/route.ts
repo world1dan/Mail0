@@ -35,7 +35,7 @@ export async function GET(
       refresh_token: tokens.refresh_token,
     });
 
-    if (!userInfo.data?.emailAddresses?.[0]?.value) {
+    if (!userInfo.email) {
       console.error("Missing email in user info:", userInfo);
       return new NextResponse(JSON.stringify({ error: 'Missing "email" in user info' }), {
         status: 400,
@@ -47,9 +47,9 @@ export async function GET(
       providerId,
       id: crypto.randomUUID(),
       userId: state,
-      email: userInfo.data.emailAddresses[0].value,
-      name: userInfo.data.names?.[0]?.displayName || "Unknown",
-      picture: userInfo.data.photos?.[0]?.url || "",
+      email: userInfo.email,
+      name: userInfo.name,
+      picture: userInfo.picture || "",
       accessToken: tokens.access_token,
       refreshToken: tokens.refresh_token,
       scope: driver.getScope(),

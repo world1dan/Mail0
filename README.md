@@ -181,7 +181,31 @@ Before running the application, you'll need to set up several services and envir
 > [!WARNING]
 > The `GOOGLE_REDIRECT_URI` must match **exactly** what you configure in the Google Cloud Console, including the protocol (http/https), domain, and path - these are provided above.
 
-4. **Github OAuth Setup**
+4. **Microsoft OAuth Setup**
+
+- Go to the [Microsoft Entra Admin Center](https://entra.microsoft.com/) > **App registrations** > **New registration**.
+- Set a name, choose **Supported account types**, and add a **Redirect URI**:
+  - Development: `http://localhost:3000/api/auth/callback/microsoft`
+  - Production: `https://your-production-url/api/auth/callback/microsoft`
+- After registering, go to **Authentication** and add additional redirect URIs if needed.
+- In **Certificates & secrets**, create a **New client secret** and save it.
+- In **API permissions**, add **Microsoft Graph** permissions:
+  - `User.Read`
+  - `Mail.ReadWrite`
+  - `Mail.Send`
+  - `offline_access`
+- Add to `.env`:
+
+  ```env
+  MICROSOFT_CLIENT_ID=your_client_id
+  MICROSOFT_CLIENT_SECRET=your_client_secret
+  MICROSOFT_REDIRECT_URI=http://localhost:3000/api/v1/mail/auth/microsoft/callback
+  ```
+
+> [!WARNING]
+> The `MICROSOFT_REDIRECT_URI` must match **exactly** what you configure in the Microsoft Entra Admin Center, including the protocol (http/https), domain, and path - these are provided above.
+
+5. **Github OAuth Setup**
 
    - Go to [Github Developer Setting](https://github.com/settings/developers)
    - Create a new OAuth Apps
@@ -211,6 +235,11 @@ BETTER_AUTH_SECRET=     # Required: Secret key for authentication
 GOOGLE_CLIENT_ID=       # Required for Gmail integration
 GOOGLE_CLIENT_SECRET=   # Required for Gmail integration
 GOOGLE_REDIRECT_URI=    # Required for Gmail integration
+
+# Microsoft OAuth (Optional)
+MICROSOFT_CLIENT_ID=    # Required for Microsoft integration
+MICROSOFT_CLIENT_SECRET= # Required for Microsoft integration
+MICROSOFT_REDIRECT_URI= # Required for Microsoft integration
 
 # Database
 DATABASE_URL=          # Required: PostgreSQL connection string

@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
+import { emailProviders } from "@/constants/emailProviders";
 import { useConnections } from "@/hooks/use-connections";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
@@ -149,33 +150,50 @@ export function NavUser() {
           {session ? (
             <>
               <div className="px-1 py-1.5 text-[11px] text-muted-foreground">Accounts</div>
-              {connections?.map((connection) => (
-                <DropdownMenuItem
-                  key={connection.id}
-                  onClick={handleAccountSwitch(connection)}
-                  className={`flex cursor-pointer items-center gap-3 py-0.5 ${
-                    connection.id === session?.connectionId ? "bg-accent" : ""
-                  }`}
-                >
-                  <Image
-                    src={connection.picture || "/placeholder.svg"}
-                    alt={connection.name || connection.email}
-                    className="size-5 shrink-0 rounded"
-                    width={16}
-                    height={16}
-                  />
-                  <div className="-space-y-1">
-                    <p className="text-[12px]">{connection.name || connection.email}</p>
-                    {connection.name && (
-                      <p className="text-[12px] text-muted-foreground">
-                        {connection.email.length > 25
-                          ? `${connection.email.slice(0, 25)}...`
-                          : connection.email}
-                      </p>
+              {connections?.map((connection) => {
+                const emailProvider = emailProviders.find(
+                  (provider) => provider.providerId === connection.providerId,
+                )!;
+
+                return (
+                  <DropdownMenuItem
+                    key={connection.id}
+                    onClick={handleAccountSwitch(connection)}
+                    className={`flex cursor-pointer items-center gap-3 py-0.5 ${
+                      connection.id === session?.connectionId ? "bg-accent" : ""
+                    }`}
+                  >
+                    {connection.picture ? (
+                      <Image
+                        src={connection.picture || "/placeholder.svg"}
+                        alt={connection.name || connection.email}
+                        className="size-6 shrink-0 rounded"
+                        width={16}
+                        height={16}
+                      />
+                    ) : (
+                      <div
+                        className="grid size-6 place-content-center rounded border bg-accent"
+                        aria-hidden="true"
+                      >
+                        <svg viewBox="0 0 24 24" className="!size-4 text-primary opacity-60">
+                          <path fill="currentColor" d={emailProvider.icon} />
+                        </svg>
+                      </div>
                     )}
-                  </div>
-                </DropdownMenuItem>
-              ))}
+                    <div className="-space-y-1">
+                      <p className="text-[12px]">{connection.name || connection.email}</p>
+                      {connection.name && (
+                        <p className="text-[12px] text-muted-foreground">
+                          {connection.email.length > 25
+                            ? `${connection.email.slice(0, 25)}...`
+                            : connection.email}
+                        </p>
+                      )}
+                    </div>
+                  </DropdownMenuItem>
+                );
+              })}
               <DropdownMenuItem
                 className="mt-1 cursor-pointer"
                 onClick={() => router.push(`/settings/connections?from=${pathname}`)}
