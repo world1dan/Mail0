@@ -127,8 +127,8 @@ export function Mail({ folder }: MailProps) {
         >
           <ResizablePanel
             className="border-none !bg-transparent"
-            defaultSize={isMobile ? 100 : 35}
-            minSize={isMobile ? 100 : 35}
+            defaultSize={isMobile ? 100 : 25}
+            minSize={isMobile ? 100 : 25}
           >
             <div className="flex-1 flex-col overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
               <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 p-2">

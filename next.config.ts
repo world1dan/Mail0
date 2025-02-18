@@ -2,8 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["localhost", "avatars.githubusercontent.com"],
-    remotePatterns: [{ hostname: "lh3.googleusercontent.com" }, { hostname: "mail0.io" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      { protocol: "https", hostname: "mail0.io" },
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+    ],
   },
   // Optional: If you still have issues, you can use this instead of domains
   // images: {
