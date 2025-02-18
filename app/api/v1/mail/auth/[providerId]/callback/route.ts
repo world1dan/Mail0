@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createDriver } from "@/app/api/driver";
-import { connection } from "@/db/schema";
+import { connection, user } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { env } from "@/lib/env";
 import { db } from "@/db";
 
@@ -42,11 +43,14 @@ export async function GET(
       });
     }
 
+    const userId = state;
+    const connectionId = crypto.randomUUID();
+
     // Store the connection in the database
     await db.insert(connection).values({
       providerId,
-      id: crypto.randomUUID(),
-      userId: state,
+      id: connectionId,
+      userId,
       email: userInfo.email,
       name: userInfo.name,
       picture: userInfo.picture || "",
@@ -57,6 +61,13 @@ export async function GET(
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    await db
+      .update(user)
+      .set({
+        defaultConnectionId: connectionId,
+      })
+      .where(eq(user.id, userId));
 
     return NextResponse.redirect(new URL("/connect-emails?success=true", request.url));
   } catch (error) {

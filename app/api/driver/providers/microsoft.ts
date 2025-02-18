@@ -36,7 +36,6 @@ const outlookDriver = async (config: IConfig): Promise<MailManager> => {
         const outlookPayload = await graphRequest("/me", "GET");
 
         const userInfo: UserInfo = {
-          id: outlookPayload.id,
           email: outlookPayload.mail || outlookPayload.userPrincipalName,
           name: outlookPayload.displayName,
           picture: null,

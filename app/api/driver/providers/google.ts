@@ -108,7 +108,6 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
         const gmailPayload = res.data;
 
         const userInfo: UserInfo = {
-          id: gmailPayload.externalIds![0].value!,
           email: gmailPayload.emailAddresses![0].value!,
           name: gmailPayload.names?.[0].displayName ?? "",
           picture: gmailPayload.photos?.[0].url ?? null,

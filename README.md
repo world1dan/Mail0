@@ -183,14 +183,21 @@ Before running the application, you'll need to set up several services and envir
 
 4. **Microsoft OAuth Setup**
 
-- Go to the [Microsoft Entra Admin Center](https://entra.microsoft.com/) > **App registrations** > **New registration**.
-- Set a name, choose **Supported account types**, and add a **Redirect URI**:
-  - Development: `http://localhost:3000/api/auth/callback/microsoft`
-  - Production: `https://your-production-url/api/auth/callback/microsoft`
-- After registering, go to **Authentication** and add additional redirect URIs if needed.
-- In **Certificates & secrets**, create a **New client secret** and save it.
-- In **API permissions**, add **Microsoft Graph** permissions:
-  - `User.Read`
+- Go to the [Microsoft Entra Admin Center](https://entra.microsoft.com/) > **Add** > **App registration**.
+- Set **Supported account types** to **Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)**
+- Set platform to **Web**
+- Add authorized redirect URI:
+  - Development:
+    - `http://localhost:3000/api/auth/callback/microsoft`
+  - Production:
+    - `https://your-production-url/api/auth/callback/microsoft`
+- After registering, go to **Authentication** and add additional redirect URI:
+  - Development:
+    - `https://localhost:3000/api/v1/mail/auth/microsoft/callback`
+  - Production:
+    - `https://your-production-url/api/v1/mail/auth/microsoft/callback`
+- In **Certificates & secrets**, create a **New client secret** and be sure to copy it.
+- In **API permissions**, click **Add permission** > **Microsoft Graph** > **Delegated permissions** and add the following:
   - `Mail.ReadWrite`
   - `Mail.Send`
   - `offline_access`
@@ -205,7 +212,7 @@ Before running the application, you'll need to set up several services and envir
 > [!WARNING]
 > The `MICROSOFT_REDIRECT_URI` must match **exactly** what you configure in the Microsoft Entra Admin Center, including the protocol (http/https), domain, and path - these are provided above.
 
-5. **Github OAuth Setup**
+1. **Github OAuth Setup**
 
    - Go to [Github Developer Setting](https://github.com/settings/developers)
    - Create a new OAuth Apps
