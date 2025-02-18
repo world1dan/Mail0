@@ -3,7 +3,7 @@
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SettingsCard } from "@/components/settings/settings-card";
-import { ModeToggle } from "@/components/theme/mode-toggle";
+import { ModeToggle } from "@/components/theme/theme-switcher";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";

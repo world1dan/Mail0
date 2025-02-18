@@ -2,11 +2,11 @@
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
+import { SidebarThemeSwitch } from "../theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { SettingsGearIcon } from "../icons/animated/settings-gear";
 import { CheckCheckIcon } from "../icons/animated/check-check";
 import { MessageCircleIcon } from "../icons/animated/message";
-import { SidebarThemeSwitch } from "./sidebar-theme-switch";
 import { BookTextIcon } from "../icons/animated/book-text";
 import React, { useMemo, useRef, useState } from "react";
 import { ArchiveIcon } from "../icons/animated/archive";
