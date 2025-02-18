@@ -84,6 +84,10 @@ export function NavUser() {
     }
   };
 
+  const activeEmailProvider = emailProviders.find(
+    (provider) => provider.providerId === activeAccount?.providerId,
+  );
+
   return (
     <DropdownMenu>
       <SidebarMenu>
@@ -103,13 +107,28 @@ export function NavUser() {
                 </>
               ) : (
                 <>
-                  <Image
-                    src={activeAccount?.picture || session?.user.image || "/logo.png"}
-                    alt={activeAccount?.name || session?.user.name || "User"}
-                    className="size-7 rounded-md ring-1 ring-border/50"
-                    width={28}
-                    height={28}
-                  />
+                  {activeEmailProvider && (
+                    <>
+                      {activeAccount?.picture ? (
+                        <Image
+                          src={activeAccount?.picture || session?.user.image || "/logo.png"}
+                          alt={activeAccount?.name || session?.user.name || "User"}
+                          className="size-7 shrink-0 rounded-md ring-1 ring-border/50"
+                          width={28}
+                          height={28}
+                        />
+                      ) : (
+                        <div
+                          className="grid size-7 shrink-0 place-content-center rounded border bg-accent"
+                          aria-hidden="true"
+                        >
+                          <svg viewBox="0 0 24 24" className="!size-4 text-primary opacity-60">
+                            <path fill="currentColor" d={activeEmailProvider.icon} />
+                          </svg>
+                        </div>
+                      )}
+                    </>
+                  )}
                   <div className="flex min-w-0 flex-col gap-0.5 leading-none">
                     <span className="font-medium tracking-tight">
                       {activeAccount?.name || session?.user.name || "User"}

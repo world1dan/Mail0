@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
-import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
+import { SquarePenIcon, SquarePenIconHandle } from "@/components/icons/animated/square-pen";
 import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { motion, AnimatePresence } from "framer-motion";
