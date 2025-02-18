@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { earlyAccess } from "@/db/schema";
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "crypto";
 import { env } from "@/lib/env";
 import { db } from "@/db";
 

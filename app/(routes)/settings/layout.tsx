@@ -4,7 +4,6 @@ import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { SidebarToggle } from "@/components/ui/sidebar-toggle";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useState, useEffect } from "react";
 import { Suspense } from "react";
 
@@ -18,7 +17,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 
 function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  // const isDesktop = useMediaQuery("(min-width: 768px)");
 
   // Check if we're on mobile on mount and when window resizes
   useEffect(() => {

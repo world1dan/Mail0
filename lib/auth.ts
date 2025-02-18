@@ -3,7 +3,7 @@ import { connection, user as _user, account } from "@/db/schema";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth, BetterAuthOptions } from "better-auth";
 import { customSession } from "better-auth/plugins";
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { env } from "./env";
