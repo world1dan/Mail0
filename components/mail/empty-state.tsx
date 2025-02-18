@@ -11,6 +11,7 @@ import { emailProviders } from "@/constants/emailProviders";
 import { useConnections } from "@/hooks/use-connections";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 // Types for default inbox filters
 export type FolderType = "inbox" | "draft" | "sent" | "spam" | "trash" | "archive";
@@ -90,7 +91,10 @@ function EmptyState({ folder, className }: EmptyStateProps) {
   const config = FOLDER_CONFIGS[folder] ?? FOLDER_CONFIGS.inbox;
   const Icon = config.icon;
   const connections = useConnections();
-  const noConnection = !connections.data || connections.data.length === 0;
+  const noConnection = useMemo(
+    () => !connections?.data || connections?.data?.length === 0,
+    [connections?.data],
+  );
 
   return (
     <div>
