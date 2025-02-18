@@ -45,7 +45,7 @@ export interface MailManager {
 }
 
 export interface IConfig {
-  auth?: {
+  auth: {
     access_token: string;
     refresh_token: string;
   };
