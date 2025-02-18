@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slot } from "@radix-ui/react-slot";
+import { SheetTitle } from "./sheet";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import * as React from "react";
@@ -66,6 +67,7 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
