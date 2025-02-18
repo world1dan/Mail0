@@ -60,8 +60,7 @@ export function NavMain({ items }: NavMainProps) {
   // Checks if the given URL matches the current URL path and required search parameters.
   const isUrlActive = useMemo(() => {
     return (url: string) => {
-      if (typeof window === "undefined") return false;
-      const urlObj = new URL(url, window.location.origin);
+      const urlObj = new URL(url, typeof window === "undefined" ? "/" : window.location.origin);
       const cleanPath = pathname.replace(/\/$/, "");
       const cleanUrl = urlObj.pathname.replace(/\/$/, "");
 
