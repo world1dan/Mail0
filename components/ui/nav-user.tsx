@@ -90,22 +90,18 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="group mt-2 h-[32px] bg-transparent px-0 hover:bg-transparent data-[state=open]:text-sidebar-accent-foreground"
             >
               {isLoading ? (
                 <>
-                  <div className="size-7 animate-pulse rounded-lg bg-primary/10" />
-                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                    <div className="h-4 w-24 animate-pulse rounded bg-muted" />
-                    <div className="h-2.5 w-32 animate-pulse rounded bg-muted" />
-                  </div>
+                  <div className="size-8 animate-pulse rounded-lg bg-primary/10" />
                 </>
               ) : (
                 <>
                   <Image
                     src={activeAccount?.picture || session?.user.image || "/logo.png"}
                     alt={activeAccount?.name || session?.user.name || "User"}
-                    className="size-7 rounded-md ring-1 ring-border/50"
+                    className="size-[32px] rounded-md object-fill ring-1 ring-border/50 hover:bg-transparent"
                     width={28}
                     height={28}
                   />
