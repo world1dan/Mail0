@@ -106,7 +106,7 @@ export function NavUser() {
                     height={28}
                   />
                   <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                    <span className="font-medium tracking-tight">
+                    <span className="truncate font-medium tracking-tight">
                       {activeAccount?.name || session?.user.name || "User"}
                     </span>
                     <span className="truncate text-[11px] text-muted-foreground/70">
