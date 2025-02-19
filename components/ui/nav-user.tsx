@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
-import { emailProviders } from "@/constants/emailProviders";
 import { useConnections } from "@/hooks/use-connections";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
@@ -84,10 +83,6 @@ export function NavUser() {
     }
   };
 
-  const activeEmailProvider = emailProviders.find(
-    (provider) => provider.providerId === activeAccount?.providerId,
-  );
-
   return (
     <DropdownMenu>
       <SidebarMenu>
@@ -95,42 +90,23 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="group mt-2 h-[32px] bg-transparent px-0 hover:bg-transparent data-[state=open]:text-sidebar-accent-foreground"
             >
               {isLoading ? (
                 <>
-                  <div className="size-7 animate-pulse rounded-lg bg-primary/10" />
-                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                    <div className="h-4 w-24 animate-pulse rounded bg-muted" />
-                    <div className="h-2.5 w-32 animate-pulse rounded bg-muted" />
-                  </div>
+                  <div className="size-8 animate-pulse rounded-lg bg-primary/10" />
                 </>
               ) : (
                 <>
-                  {activeEmailProvider && (
-                    <>
-                      {activeAccount?.picture ? (
-                        <Image
-                          src={activeAccount?.picture || session?.user.image || "/logo.png"}
-                          alt={activeAccount?.name || session?.user.name || "User"}
-                          className="size-7 shrink-0 rounded-md ring-1 ring-border/50"
-                          width={28}
-                          height={28}
-                        />
-                      ) : (
-                        <div
-                          className="grid size-7 shrink-0 place-content-center rounded border bg-accent"
-                          aria-hidden="true"
-                        >
-                          <svg viewBox="0 0 24 24" className="!size-4 text-primary opacity-60">
-                            <path fill="currentColor" d={activeEmailProvider.icon} />
-                          </svg>
-                        </div>
-                      )}
-                    </>
-                  )}
+                  <Image
+                    src={activeAccount?.picture || session?.user.image || "/logo.png"}
+                    alt={activeAccount?.name || session?.user.name || "User"}
+                    className="ring-none size-[32px] rounded-md object-fill ring-0 hover:bg-transparent"
+                    width={28}
+                    height={28}
+                  />
                   <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                    <span className="font-medium tracking-tight">
+                    <span className="truncate font-medium tracking-tight">
                       {activeAccount?.name || session?.user.name || "User"}
                     </span>
                     <span className="truncate text-[11px] text-muted-foreground/70">
@@ -169,50 +145,33 @@ export function NavUser() {
           {session ? (
             <>
               <div className="px-1 py-1.5 text-[11px] text-muted-foreground">Accounts</div>
-              {connections?.map((connection) => {
-                const emailProvider = emailProviders.find(
-                  (provider) => provider.providerId === connection.providerId,
-                )!;
-
-                return (
-                  <DropdownMenuItem
-                    key={connection.id}
-                    onClick={handleAccountSwitch(connection)}
-                    className={`flex cursor-pointer items-center gap-3 py-0.5 ${
-                      connection.id === session?.connectionId ? "bg-accent" : ""
-                    }`}
-                  >
-                    {connection.picture ? (
-                      <Image
-                        src={connection.picture || "/placeholder.svg"}
-                        alt={connection.name || connection.email}
-                        className="size-6 shrink-0 rounded"
-                        width={16}
-                        height={16}
-                      />
-                    ) : (
-                      <div
-                        className="grid size-6 place-content-center rounded border bg-accent"
-                        aria-hidden="true"
-                      >
-                        <svg viewBox="0 0 24 24" className="!size-4 text-primary opacity-60">
-                          <path fill="currentColor" d={emailProvider.icon} />
-                        </svg>
-                      </div>
+              {connections?.map((connection) => (
+                <DropdownMenuItem
+                  key={connection.id}
+                  onClick={handleAccountSwitch(connection)}
+                  className={`flex cursor-pointer items-center gap-4 py-0.5 ${
+                    connection.id === session?.connectionId ? "bg-accent" : ""
+                  }`}
+                >
+                  <Image
+                    src={connection.picture || "/placeholder.svg"}
+                    alt={connection.name || connection.email}
+                    className="size-5 shrink-0 rounded"
+                    width={16}
+                    height={16}
+                  />
+                  <div className="-space-y-1">
+                    <p className="text-[12px]">{connection.name || connection.email}</p>
+                    {connection.name && (
+                      <p className="text-[12px] text-muted-foreground">
+                        {connection.email.length > 25
+                          ? `${connection.email.slice(0, 25)}...`
+                          : connection.email}
+                      </p>
                     )}
-                    <div className="-space-y-1">
-                      <p className="text-[12px]">{connection.name || connection.email}</p>
-                      {connection.name && (
-                        <p className="text-[12px] text-muted-foreground">
-                          {connection.email.length > 25
-                            ? `${connection.email.slice(0, 25)}...`
-                            : connection.email}
-                        </p>
-                      )}
-                    </div>
-                  </DropdownMenuItem>
-                );
-              })}
+                  </div>
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuItem
                 className="mt-1 cursor-pointer"
                 onClick={() => router.push(`/settings/connections?from=${pathname}`)}

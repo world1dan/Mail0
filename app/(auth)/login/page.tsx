@@ -46,7 +46,7 @@ export default function Login() {
             Login into your <span className="font-bold">Mail0</span> account
           </CardTitle>
           <CardDescription className="text-center text-xs">
-            Login to your account to continue{" "}
+            Login to your account to continue
           </CardDescription>
         </CardHeader>
         <CardContent className="mt-4 flex w-full flex-col gap-2.5">
