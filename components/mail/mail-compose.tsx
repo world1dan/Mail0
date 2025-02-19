@@ -29,8 +29,8 @@ interface MailComposeProps {
 
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
-import { Card, CardContent } from "../ui/card";
 
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { compressText, decompressText } from "@/lib/utils";
@@ -287,6 +287,8 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
         )}
       </div>
     );
+    // TODO: FIX
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attachments, hasHiddenAttachments]);
 
   return (
@@ -294,6 +296,9 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
       <DialogTitle className="sr-only">Compose Email</DialogTitle>
       <TooltipProvider>
         <Card className="h-full w-full border-none shadow-none">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold tracking-tight">New Message</CardTitle>
+          </CardHeader>
           <CardContent>
             <div className="grid gap-2">
               <div className="relative">
@@ -330,94 +335,82 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
                 tabIndex={2}
               />
 
-              <div className="flex flex-col rounded-md border-2 border-input">
-                <div className="flex items-center justify-end gap-2">
-                  <div>
-                    <ToggleGroup type="multiple">
-                      <ToggleGroupItem
-                        tabIndex={3}
-                        value="bold"
-                        onClick={() => insertFormat("bold")}
-                      >
-                        <Bold className="h-4 w-4" />
-                      </ToggleGroupItem>
-                      <ToggleGroupItem
-                        tabIndex={4}
-                        value="italic"
-                        onClick={() => insertFormat("italic")}
-                      >
-                        <Italic className="h-4 w-4" />
-                      </ToggleGroupItem>
-                      <ToggleGroupItem
-                        tabIndex={5}
-                        value="list"
-                        onClick={() => insertFormat("list")}
-                      >
-                        <List className="h-4 w-4" />
-                      </ToggleGroupItem>
-                      <ToggleGroupItem
-                        tabIndex={6}
-                        value="ordered-list"
-                        onClick={() => insertFormat("ordered-list")}
-                      >
-                        <ListOrdered className="h-4 w-4" />
-                      </ToggleGroupItem>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        tabIndex={7}
-                        onClick={() => insertFormat("link")}
-                      >
-                        <Link2 className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        tabIndex={8}
-                        onClick={() => {
-                          const input = document.createElement("input");
-                          input.type = "file";
-                          input.accept = "image/*";
-                          input.onchange = (e) => {
-                            const file = (e.target as HTMLInputElement).files?.[0];
-                            if (file) {
-                              const reader = new FileReader();
-                              reader.onload = () => {
-                                insertFormat(`![${file.name}](${reader.result})`);
-                              };
-                              reader.readAsDataURL(file);
-                            }
+              <div className="flex justify-end">
+                <ToggleGroup type="multiple">
+                  <ToggleGroupItem tabIndex={3} value="bold" onClick={() => insertFormat("bold")}>
+                    <Bold className="h-4 w-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    tabIndex={4}
+                    value="italic"
+                    onClick={() => insertFormat("italic")}
+                  >
+                    <Italic className="h-4 w-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem tabIndex={5} value="list" onClick={() => insertFormat("list")}>
+                    <List className="h-4 w-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    tabIndex={6}
+                    value="ordered-list"
+                    onClick={() => insertFormat("ordered-list")}
+                  >
+                    <ListOrdered className="h-4 w-4" />
+                  </ToggleGroupItem>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    tabIndex={7}
+                    onClick={() => insertFormat("link")}
+                  >
+                    <Link2 className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    tabIndex={8}
+                    onClick={() => {
+                      const input = document.createElement("input");
+                      input.type = "file";
+                      input.accept = "image/*";
+                      input.onchange = (e) => {
+                        const file = (e.target as HTMLInputElement).files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            insertFormat(`![${file.name}](${reader.result})`);
                           };
-                          input.click();
-                        }}
-                      >
-                        <ImageIcon className="h-4 w-4" />
-                      </Button>
-                    </ToggleGroup>
-                  </div>
-                </div>
-                <Separator />
-                <div
-                  ref={editorRef}
-                  contentEditable
-                  className="max-h-[50vh] min-h-[200px] resize-none overflow-y-auto bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  role="textbox"
-                  aria-multiline="true"
-                  tabIndex={9}
-                  style={{
-                    overflowWrap: "break-word",
-                    wordWrap: "break-word",
-                    whiteSpace: "pre-wrap",
-                  }}
-                  onInput={() => {
-                    setMessageContent(editorRef.current?.innerHTML || "");
-                  }}
-                />
+                          reader.readAsDataURL(file);
+                        }
+                      };
+                      input.click();
+                    }}
+                  >
+                    <ImageIcon className="h-4 w-4" />
+                  </Button>
+                </ToggleGroup>
               </div>
 
-              {renderAttachments()}
+              <div
+                ref={editorRef}
+                contentEditable
+                className="min-h-[300px] w-full resize-none overflow-y-auto rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                role="textbox"
+                aria-multiline="true"
+                tabIndex={9}
+                style={{
+                  overflowWrap: "break-word",
+                  wordWrap: "break-word",
+                  whiteSpace: "pre-wrap",
+                  maxWidth: "100%",
+                }}
+                onInput={() => {
+                  setMessageContent(editorRef.current?.innerHTML || "");
+                }}
+              />
 
-              <div className="mt-2 flex justify-between">
+              {renderAttachments()}
+              <div className="mt-4 flex justify-between">
                 <label>
                   <Button
                     tabIndex={10}
@@ -442,16 +435,17 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
                       onClose();
                     }}
                   >
-                    Draft
+                    Save as draft
                   </Button>
                   <Button
                     tabIndex={12}
                     onClick={() => {
+                      // TODO: Implement send functionality
                       onClose();
                     }}
                   >
                     Send
-                    <Send className="ml-2 h-4 w-4" />
+                    <Send className="ml-2 h-3 w-3" />
                   </Button>
                 </div>
               </div>
