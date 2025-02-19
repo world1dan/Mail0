@@ -164,13 +164,21 @@ export function NavUser() {
                     connection.id === session?.connectionId ? "bg-accent" : ""
                   }`}
                 >
-                  <Image
-                    src={connection.picture || "/placeholder.svg"}
-                    alt={connection.name || connection.email}
-                    className="size-5 shrink-0 rounded"
-                    width={16}
-                    height={16}
-                  />
+                  <Avatar className="size-5 rounded-lg">
+                    <AvatarImage
+                      className="rounded-lg"
+                      src={connection.picture || undefined}
+                      alt={connection.name || connection.email}
+                    />
+                    <AvatarFallback className="rounded-lg text-[10px]">
+                      {(connection.name || connection.email)
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="-space-y-1">
                     <p className="text-[12px]">{connection.name || connection.email}</p>
                     {connection.name && (
