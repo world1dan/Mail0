@@ -55,7 +55,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <div className="flex w-full flex-col">
         <SidebarHeader className="flex flex-col gap-2 p-2">
           <Image
-            src={theme === "dark" ? "/white-icon.svg" : "/dark-icon.svg"}
+            src={theme === "dark" ? "/white-icon.svg" : "/black-icon.svg"}
             className="mt-3"
             alt="Logo"
             width={28}
