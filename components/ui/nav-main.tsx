@@ -30,11 +30,6 @@ interface NavItemProps {
   isExpanded?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   suffix?: React.ComponentType<IconProps>;
-  subItems?: Array<{
-    title: string;
-    url: string;
-    isActive?: boolean;
-  }>;
   isBackButton?: boolean;
   isSettingsButton?: boolean;
   isSettingsPage?: boolean;
