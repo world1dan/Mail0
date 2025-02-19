@@ -243,7 +243,7 @@ DATABASE_URL=          # Required: PostgreSQL connection string
 
 ### Update the PostgreSQL database accordingly
 
-Drizzle will apply the schema migrations set in the .env
+Drizzle will apply the schema migrations set in `.env`
 
 ```bash
 pnpm db:push
