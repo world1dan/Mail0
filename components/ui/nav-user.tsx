@@ -101,7 +101,7 @@ export function NavUser() {
                   <Image
                     src={activeAccount?.picture || session?.user.image || "/logo.png"}
                     alt={activeAccount?.name || session?.user.name || "User"}
-                    className="size-[32px] rounded-md object-fill ring-1 ring-border/50 hover:bg-transparent"
+                    className="ring-none size-[32px] rounded-md object-fill ring-0 hover:bg-transparent"
                     width={28}
                     height={28}
                   />
