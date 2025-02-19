@@ -728,7 +728,7 @@ export default function OpenPage() {
           <div>
             <Tabs defaultValue="grid" className="w-full">
               <div className="mb-6 flex justify-center">
-                <TabsList className="grid w-full grid-cols-2 border border-neutral-200 bg-white/50 p-1 dark:border-neutral-800 dark:bg-neutral-900/50 sm:w-[200px]">
+                <TabsList className="grid h-full w-full grid-cols-2 border border-neutral-200 bg-white/50 p-1 dark:border-neutral-800 dark:bg-neutral-900/50 sm:w-[200px]">
                   <TabsTrigger
                     value="grid"
                     className="flex items-center gap-2 text-neutral-600 data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm dark:text-neutral-400 dark:data-[state=active]:bg-neutral-800 dark:data-[state=active]:text-white"
