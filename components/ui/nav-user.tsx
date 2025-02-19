@@ -1,6 +1,7 @@
 "use client";
 
 import { Book, ChevronDown, HelpCircle, LogIn, LogOut, UserPlus } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   DropdownMenu,
@@ -98,13 +99,22 @@ export function NavUser() {
                 </>
               ) : (
                 <>
-                  <Image
-                    src={activeAccount?.picture || session?.user.image || "/logo.png"}
-                    alt={activeAccount?.name || session?.user.name || "User"}
-                    className="ring-none size-[32px] rounded-md object-fill ring-0 hover:bg-transparent"
-                    width={28}
-                    height={28}
-                  />
+                  <Avatar className="size-[32px]">
+                    <AvatarImage
+                      src={
+                        (activeAccount?.picture ?? undefined) || (session?.user.image ?? undefined)
+                      }
+                      alt={activeAccount?.name || session?.user.name || "User"}
+                    />
+                    <AvatarFallback>
+                      {(activeAccount?.name || session?.user.name || "User")
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="flex min-w-0 flex-col gap-0.5 leading-none">
                     <span className="truncate font-medium tracking-tight">
                       {activeAccount?.name || session?.user.name || "User"}
