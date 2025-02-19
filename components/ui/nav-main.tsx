@@ -30,6 +30,9 @@ interface NavItemProps {
   isExpanded?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   suffix?: React.ComponentType<IconProps>;
+  isBackButton?: boolean;
+  isSettingsButton?: boolean;
+  isSettingsPage?: boolean;
 }
 
 interface NavMainProps {
@@ -48,6 +51,38 @@ type IconRefType = SVGSVGElement & {
 export function NavMain({ items }: NavMainProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const getHref = (item: NavItemProps) => {
+    // Get the current 'from' parameter
+    const currentFrom = searchParams.get("from");
+    const category = searchParams.get("category");
+
+    // Handle settings navigation
+    if (item.isSettingsButton) {
+      // Include current path with category query parameter if present
+      const currentPath = category
+        ? `${pathname}?category=${encodeURIComponent(category)}`
+        : pathname;
+      return `${item.url}?from=${encodeURIComponent(currentPath)}`;
+    }
+
+    // Handle settings pages navigation
+    if (item.isSettingsPage && currentFrom) {
+      return `${item.url}?from=${encodeURIComponent(currentFrom)}`;
+    }
+
+    // Handle back button
+    if (item.isBackButton) {
+      return currentFrom ? decodeURIComponent(currentFrom) : "/mail";
+    }
+
+    // Handle category links
+    if (category && item.url.includes("category=")) {
+      return item.url;
+    }
+
+    return item.url;
+  };
 
   const iconRefs = useRef<{ [key: string]: React.RefObject<IconRefType | null> }>({});
 
@@ -102,7 +137,7 @@ export function NavMain({ items }: NavMainProps) {
                   <Collapsible defaultOpen={item.isActive} key={j}>
                     <CollapsibleTrigger asChild>
                       <Link
-                        href={item.url}
+                        href={getHref(item)}
                         onClick={item.onClick}
                         onMouseEnter={() => {
                           const iconRef = iconRefs.current[item.title]?.current;
