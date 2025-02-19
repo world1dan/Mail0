@@ -1,7 +1,7 @@
 "use client";
 
-import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { SquarePenIcon, SquarePenIconHandle } from "../icons/animated/square-pen";
+import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar";
 import { SidebarThemeSwitch } from "@/components/theme/sidebar-theme-switcher";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { navigationConfig } from "@/config/navigation";
@@ -29,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { theme } = useTheme();
   const { currentSection, navItems } = useMemo(() => {
     // Find which section we're in based on the pathname
-    const section = Object.entries(navigationConfig).find(([_, config]) =>
+    const section = Object.entries(navigationConfig).find(([, config]) =>
       pathname.startsWith(config.path),
     );
 
