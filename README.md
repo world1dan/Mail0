@@ -162,7 +162,6 @@ Before running the application, you'll need to set up several services and envir
      rm pnpm-lock.yaml
      ```
 
-
 2. **Better Auth Setup**
 
    - Open `.env` and change the BETTER_AUTH_SECRET to a random string. (Use `openssl rand -hex 32` to generate a 32 character string)
