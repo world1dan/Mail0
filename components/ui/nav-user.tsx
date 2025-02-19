@@ -153,7 +153,7 @@ export function NavUser() {
                 <DropdownMenuItem
                   key={connection.id}
                   onClick={handleAccountSwitch(connection)}
-                  className={`flex cursor-pointer items-center gap-3 py-0.5 ${
+                  className={`flex cursor-pointer items-center gap-4 py-0.5 ${
                     connection.id === session?.connectionId ? "bg-accent" : ""
                   }`}
                 >
