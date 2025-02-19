@@ -69,6 +69,7 @@ const BellIcon = forwardRef<BellIconHandle, HTMLAttributes<HTMLDivElement>>(
           strokeLinejoin="round"
           variants={svgVariants}
           animate={controls}
+          className="relative bottom-0.5"
           transition={{
             duration: 0.5,
             ease: "easeInOut",

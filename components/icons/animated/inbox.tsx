@@ -77,6 +77,7 @@ const InboxIcon = forwardRef<InboxIconHandle, HTMLAttributes<HTMLDivElement>>(
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="relative bottom-0.5"
         >
           <motion.polyline
             variants={polylineVariants}

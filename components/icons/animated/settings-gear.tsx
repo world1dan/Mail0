@@ -64,6 +64,7 @@ const SettingsGearIcon = forwardRef<SettingsGearIconHandle, HTMLAttributes<HTMLD
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="relative bottom-0.5"
           transition={{ type: "spring", stiffness: 50, damping: 10 }}
           variants={{
             normal: {

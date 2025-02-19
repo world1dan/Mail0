@@ -33,11 +33,6 @@ interface NavItemProps {
   isExpanded?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   suffix?: React.ComponentType<IconProps>;
-  subItems?: Array<{
-    title: string;
-    url: string;
-    isActive?: boolean;
-  }>;
 }
 
 interface NavMainProps {
@@ -92,7 +87,7 @@ export function NavMain({ items }: NavMainProps) {
 
   return (
     <SidebarGroup className="space-y-2.5 py-0">
-      <SidebarMenu className="space-y-6">
+      <SidebarMenu className="space-y-3">
         {items.map((section) => (
           <Collapsible
             key={section.title}
@@ -136,36 +131,13 @@ export function NavMain({ items }: NavMainProps) {
                           {item.icon && (
                             <item.icon
                               ref={iconRefs.current[item.title]}
-                              className="relative bottom-0.5 mr-3 h-3 w-3.5"
+                              className="relative mr-3 h-3 w-3.5"
                             />
                           )}
                           <p className="mt-0.5 text-[13px]">{item.title}</p>
                         </SidebarMenuButton>
                       </Link>
                     </CollapsibleTrigger>
-
-                    {item.subItems && (
-                      <CollapsibleContent className="data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown overflow-hidden">
-                        <SidebarMenuSub className="ml-6 space-y-1 py-1">
-                          {item.subItems.map((subItem, k) => (
-                            <SidebarMenuSubItem key={k}>
-                              <SidebarMenuSubButton asChild>
-                                <Link
-                                  href={subItem.url}
-                                  className={cn(
-                                    "mx-1 flex items-center justify-between rounded-md px-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-                                    subItem.isActive &&
-                                      "bg-accent font-bold text-accent-foreground",
-                                  )}
-                                >
-                                  {subItem.title}
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    )}
                   </Collapsible>
                 ))}
               </div>
