@@ -16,8 +16,6 @@ import {
   AreaChart,
   Bar,
   BarChart,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
