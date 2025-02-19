@@ -78,8 +78,7 @@ export function NavMain({ items }: NavMainProps) {
 
     // Handle category links
     if (category && item.url.includes("category=")) {
-      const baseUrl = item.url.split("?")[0];
-      return `${baseUrl}?category=${encodeURIComponent(category)}`;
+      return item.url;
     }
 
     return item.url;
