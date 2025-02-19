@@ -66,6 +66,7 @@ const specialRoles: Record<string, { role: string; twitter?: string; website?: s
   ahmetskilinc: {
     role: "Maintainer",
     twitter: "ahmet_______k",
+    website: "https://ahmetk.dev/",
   },
   ripgrim: {
     role: "Maintainer",
