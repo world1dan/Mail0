@@ -99,14 +99,15 @@ export function NavUser() {
                 </>
               ) : (
                 <>
-                  <Avatar className="size-[32px]">
+                  <Avatar className="size-[32px] rounded-lg">
                     <AvatarImage
+                      className="rounded-lg"
                       src={
                         (activeAccount?.picture ?? undefined) || (session?.user.image ?? undefined)
                       }
                       alt={activeAccount?.name || session?.user.name || "User"}
                     />
-                    <AvatarFallback>
+                    <AvatarFallback className="rounded-lg">
                       {(activeAccount?.name || session?.user.name || "User")
                         .split(" ")
                         .map((n) => n[0])
