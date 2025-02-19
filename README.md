@@ -162,7 +162,6 @@ Before running the application, you'll need to set up several services and envir
      rm pnpm-lock.yaml
      ```
 
-   - Use `pnpm db:studio` to view and manage your data
 
 2. **Better Auth Setup**
 
@@ -248,6 +247,8 @@ Drizzle will apply the schema migrations set in `.env`
 ```bash
 pnpm db:push
 ```
+
+- Use `pnpm db:studio` to view and manage your data
 
 ### Running Locally
 
