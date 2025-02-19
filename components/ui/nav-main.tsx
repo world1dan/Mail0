@@ -60,23 +60,26 @@ export function NavMain({ items }: NavMainProps) {
     // Handle settings navigation
     if (item.isSettingsButton) {
       // Include current path with category query parameter if present
-      const currentPath = category ? `${pathname}?category=${category}` : pathname;
+      const currentPath = category
+        ? `${pathname}?category=${encodeURIComponent(category)}`
+        : pathname;
       return `${item.url}?from=${encodeURIComponent(currentPath)}`;
     }
 
     // Handle settings pages navigation
     if (item.isSettingsPage && currentFrom) {
-      return `${item.url}?from=${currentFrom}`;
+      return `${item.url}?from=${encodeURIComponent(currentFrom)}`;
     }
 
     // Handle back button
     if (item.isBackButton) {
-      return currentFrom || "/mail";
+      return currentFrom ? decodeURIComponent(currentFrom) : "/mail";
     }
 
     // Handle category links
     if (category && item.url.includes("category=")) {
-      return item.url;
+      const baseUrl = item.url.split("?")[0];
+      return `${baseUrl}?category=${encodeURIComponent(category)}`;
     }
 
     return item.url;
