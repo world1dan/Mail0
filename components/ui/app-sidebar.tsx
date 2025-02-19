@@ -25,7 +25,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const { currentSection, navItems } = useMemo(() => {
     // Find which section we're in based on the pathname
-    const section = Object.entries(navigationConfig).find(([_, config]) =>
+    const section = Object.entries(navigationConfig).find(([, config]) =>
       pathname.startsWith(config.path),
     );
 

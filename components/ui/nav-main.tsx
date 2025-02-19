@@ -26,6 +26,9 @@ interface NavItemProps {
     url: string;
     isActive?: boolean;
   }>;
+  isBackButton?: boolean;
+  isSettingsButton?: boolean;
+  isSettingsPage?: boolean;
 }
 
 interface NavMainProps {
@@ -43,6 +46,36 @@ type IconRefType = SVGSVGElement & {
 export function NavMain({ items }: NavMainProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const getHref = (item: NavItemProps) => {
+    // Get the current 'from' parameter
+    const currentFrom = searchParams.get("from");
+    const category = searchParams.get("category");
+
+    // Handle settings navigation
+    if (item.isSettingsButton) {
+      // Include current path with category query parameter if present
+      const currentPath = category ? `${pathname}?category=${category}` : pathname;
+      return `${item.url}?from=${encodeURIComponent(currentPath)}`;
+    }
+
+    // Handle settings pages navigation
+    if (item.isSettingsPage && currentFrom) {
+      return `${item.url}?from=${currentFrom}`;
+    }
+
+    // Handle back button
+    if (item.isBackButton) {
+      return currentFrom || "/mail";
+    }
+
+    // Handle category links
+    if (category && item.url.includes("category=")) {
+      return item.url;
+    }
+
+    return item.url;
+  };
 
   const iconRefs = useRef<{ [key: string]: React.RefObject<IconRefType | null> }>({});
 
@@ -91,7 +124,7 @@ export function NavMain({ items }: NavMainProps) {
               {section.items.map((item, j) => (
                 <div key={j} className="px-3">
                   <Link
-                    href={item.url}
+                    href={getHref(item)}
                     onClick={item.onClick}
                     className={cn(
                       "flex items-center justify-between rounded-lg px-1.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
