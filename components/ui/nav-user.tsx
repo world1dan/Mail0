@@ -16,7 +16,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
 import { IConnection } from "@/types";
 import { useMemo } from "react";
-import Image from "next/image";
 import { toast } from "sonner";
 import axios from "axios";
 
