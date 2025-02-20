@@ -54,13 +54,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props} className="flex flex-col items-center pl-1">
       <div className="flex w-full flex-col">
         <SidebarHeader className="flex flex-col gap-2 p-2">
-          <Image
-            src={theme === "dark" ? "/white-icon.svg" : "/black-icon.svg"}
-            className="mt-3"
-            alt="Logo"
-            width={28}
-            height={28}
-          />
+          <div className="mt-3">
+            <Image
+              src="/white-icon.svg"
+              data-hide-on-theme="light"
+              alt="Logo"
+              width={28}
+              height={28}
+            />
+            <Image
+              src="/black-icon.svg"
+              data-hide-on-theme="dark"
+              alt="Logo"
+              width={28}
+              height={28}
+            />
+          </div>
           <NavUser />
           <AnimatePresence mode="wait">
             {showComposeButton && (
