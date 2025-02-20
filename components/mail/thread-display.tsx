@@ -83,7 +83,7 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
           )}
         >
           <MailHeaderSkeleton isFullscreen={isFullscreen} />
-          <div className="h-full space-y-4 overflow-y-scroll">
+          <div className="h-full space-y-4 overflow-hidden">
             <MailDisplaySkeleton isFullscreen={isFullscreen} />
           </div>
         </div>
