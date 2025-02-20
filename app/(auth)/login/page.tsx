@@ -21,7 +21,7 @@ export default function Login() {
 
   if (isPending || (session && session.connectionId)) return null;
 
-  function handleSocialLogin(provider: "google" | "github" | "microsoft") {
+  const handleSocialLogin = (provider: "google" | "github" | "microsoft") => {
     toast.promise(
       signIn.social({
         provider,
@@ -33,7 +33,7 @@ export default function Login() {
         error: "Login redirect failed",
       },
     );
-  }
+  };
 
   return (
     <div className="flex max-h-dvh min-h-screen w-screen items-center justify-center overflow-hidden border-2 bg-grid-small-black/[0.39] dark:bg-grid-small-white/[0.025]">
