@@ -9,6 +9,7 @@ import {
   Copy,
   Maximize2,
   Minimize2,
+  Check,
 } from "lucide-react";
 import { DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -147,8 +148,17 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
                   disabled={!emailData}
                   onClick={handleCopy}
                 >
-                  <Copy className="h-4 w-4" />
-                  <span className="sr-only">Copy email data</span>
+                  {copySuccess ? (
+                    <>
+                      <Check className="h-4 w-4" />
+                      <span className="sr-only">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" />
+                      <span className="sr-only">Copy email data</span>
+                    </>
+                  )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>{copySuccess ? "Copied!" : "Copy email data"}</TooltipContent>
