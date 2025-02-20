@@ -19,13 +19,11 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import { Separator } from "@/components/ui/separator";
 import { DialogTitle } from "@/components/ui/dialog";
-// import { draftsAtom } from "@/store/draftStates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { sendEmail } from "@/actions/send";
 import { useQueryState } from "nuqs";
 import { Badge } from "../ui/badge";
-// import { useAtom } from "jotai";
 import Image from "next/image";
 import * as React from "react";
 
@@ -39,7 +37,6 @@ interface MailComposeProps {
 
 export function MailCompose({ onClose, replyTo }: MailComposeProps) {
   const editorRef = React.useRef<HTMLDivElement>(null);
-  // const [, setDraftStates] = useAtom(draftsAtom);
   const [attachments, setAttachments] = React.useState<File[]>([]);
   const [toInput, setToInput] = React.useState(replyTo?.email || "");
   const [showSuggestions, setShowSuggestions] = React.useState(false);
