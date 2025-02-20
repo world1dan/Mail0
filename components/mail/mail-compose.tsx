@@ -11,11 +11,11 @@ import {
   Send,
 } from "lucide-react";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { compressText, decompressText, truncateFileName } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import { compressText, decompressText } from "@/lib/utils";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import { Separator } from "@/components/ui/separator";
 import { DialogTitle } from "@/components/ui/dialog";
@@ -66,17 +66,6 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
     "david@example.com",
     "eve@example.com",
   ];
-
-  // const handleDraft = () => {
-  //   const newDraft = {
-  //     id: Math.random().toString(8).substring(7),
-  //     message: messageContent,
-  //     subject,
-  //   };
-  //   setDraftStates((drafts) => {
-  //     return [newDraft, ...drafts];
-  //   });
-  // };
 
   React.useEffect(() => {
     if (!isOpen) {
@@ -129,16 +118,6 @@ export function MailCompose({ onClose, replyTo }: MailComposeProps) {
     () => attachments.length > MAX_VISIBLE_ATTACHMENTS,
     [attachments],
   );
-
-  const truncateFileName = (name: string, maxLength = 15) => {
-    if (name.length <= maxLength) return name;
-    const extIndex = name.lastIndexOf(".");
-    if (extIndex !== -1 && name.length - extIndex <= 5) {
-      // Preserve file extension if possible
-      return `${name.slice(0, maxLength - 5)}...${name.slice(extIndex)}`;
-    }
-    return `${name.slice(0, maxLength)}...`;
-  };
 
   const renderAttachments = React.useCallback(() => {
     if (attachments.length === 0) return null;

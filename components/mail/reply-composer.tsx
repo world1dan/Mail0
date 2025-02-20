@@ -1,5 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { FileIcon, Paperclip, Reply, Send, X } from "lucide-react";
+import { cleanEmailAddress, truncateFileName } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { sendEmail } from "@/actions/send";
@@ -7,11 +8,6 @@ import { useRef, useState } from "react";
 import { ParsedMessage } from "@/types";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-
-const cleanEmailAddress = (email: string = "") => {
-  // Remove any angle brackets and trim whitespace
-  return email.replace(/[<>]/g, "").trim();
-};
 
 export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[] }) {
   const editorRef = useRef<HTMLTextAreaElement>(null);
@@ -34,15 +30,6 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
 
   const removeAttachment = (index: number) => {
     setAttachments(attachments.filter((_, i) => i !== index));
-  };
-
-  const truncateFileName = (name: string, maxLength = 15) => {
-    if (name.length <= maxLength) return name;
-    const extIndex = name.lastIndexOf(".");
-    if (extIndex !== -1 && name.length - extIndex <= 5) {
-      return `${name.slice(0, maxLength - 5)}...${name.slice(extIndex)}`;
-    }
-    return `${name.slice(0, maxLength)}...`;
   };
 
   return (
