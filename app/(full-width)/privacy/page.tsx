@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const LAST_UPDATED = "February 13, 2025";
+const LAST_UPDATED = "February 19, 2025";
 
 export default function PrivacyPolicy() {
   const router = useRouter();
@@ -144,6 +144,55 @@ const sections = [
     ),
   },
   {
+    title: "Google User Data Handling",
+    content: (
+      <div className="space-y-6">
+        <div>
+          <h3 className="mb-3 text-lg font-medium">Data Access and Usage</h3>
+          <ul className="ml-4 list-disc space-y-2">
+            <li>
+              We access the following Google user data: email content, attachments, and metadata
+              through Gmail API
+            </li>
+            <li>This data is used exclusively for providing email functionality within Mail0.io</li>
+            <li>No Google user data is used for advertising or marketing purposes</li>
+            <li>We maintain detailed logs of all data access for security and compliance</li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="mb-3 text-lg font-medium">Data Sharing and Transfer</h3>
+          <ul className="ml-4 list-disc space-y-2">
+            <li>
+              Google user data is never shared with third parties except as required for core
+              service functionality
+            </li>
+            <li>
+              When necessary, we only work with service providers who comply with Google API
+              Services User Data Policy
+            </li>
+            <li>All service providers are bound by strict confidentiality agreements</li>
+            <li>
+              We maintain a current list of all third-party service providers with access to Google
+              user data
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="mb-3 text-lg font-medium">Data Retention and Deletion</h3>
+          <ul className="ml-4 list-disc space-y-2">
+            <li>Email data is processed in real-time and not permanently stored</li>
+            <li>Temporary caches are automatically cleared within 24 hours</li>
+            <li>All Google user data is permanently deleted when you revoke application access</li>
+            <li>
+              You can request immediate deletion of all your Google user data by contacting
+              nizabizaher@gmail.com
+            </li>
+          </ul>
+        </div>
+      </div>
+    ),
+  },
+  {
     title: "Limited Use Disclosure",
     content: (
       <div>
@@ -187,11 +236,11 @@ const sections = [
         <p>For privacy-related questions or concerns:</p>
         <div className="flex flex-col space-y-2">
           <a
-            href="mailto:privacy@mail0.io"
+            href="mailto:nizabizaher@gmail.com"
             className="inline-flex items-center text-blue-600 hover:text-blue-800"
           >
             <Mail className="mr-2 h-4 w-4" />
-            privacy@mail0.io
+            nizabizaher@gmail.com
           </a>
           <a
             href="https://github.com/nizzyabi/mail0"

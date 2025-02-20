@@ -1,6 +1,7 @@
 "use client";
 
 import { Book, ChevronDown, HelpCircle, LogIn, LogOut, UserPlus } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   DropdownMenu,
@@ -15,7 +16,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
 import { IConnection } from "@/types";
 import { useMemo } from "react";
-import Image from "next/image";
 import { toast } from "sonner";
 import axios from "axios";
 
@@ -90,27 +90,33 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="group mt-2 h-[32px] bg-transparent px-0 hover:bg-transparent data-[state=open]:text-sidebar-accent-foreground"
             >
               {isLoading ? (
                 <>
-                  <div className="size-7 animate-pulse rounded-lg bg-primary/10" />
-                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                    <div className="h-4 w-24 animate-pulse rounded bg-muted" />
-                    <div className="h-2.5 w-32 animate-pulse rounded bg-muted" />
-                  </div>
+                  <div className="size-8 animate-pulse rounded-lg bg-primary/10" />
                 </>
               ) : (
                 <>
-                  <Image
-                    src={activeAccount?.picture || session?.user.image || "/logo.png"}
-                    alt={activeAccount?.name || session?.user.name || "User"}
-                    className="size-7 rounded-md ring-1 ring-border/50"
-                    width={28}
-                    height={28}
-                  />
+                  <Avatar className="size-[32px] rounded-lg">
+                    <AvatarImage
+                      className="rounded-lg"
+                      src={
+                        (activeAccount?.picture ?? undefined) || (session?.user.image ?? undefined)
+                      }
+                      alt={activeAccount?.name || session?.user.name || "User"}
+                    />
+                    <AvatarFallback className="rounded-lg">
+                      {(activeAccount?.name || session?.user.name || "User")
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                    <span className="font-medium tracking-tight">
+                    <span className="truncate font-medium tracking-tight">
                       {activeAccount?.name || session?.user.name || "User"}
                     </span>
                     <span className="truncate text-[11px] text-muted-foreground/70">
@@ -157,13 +163,21 @@ export function NavUser() {
                     connection.id === session?.connectionId ? "bg-accent" : ""
                   }`}
                 >
-                  <Image
-                    src={connection.picture || "/placeholder.svg"}
-                    alt={connection.name || connection.email}
-                    className="size-5 shrink-0 rounded"
-                    width={16}
-                    height={16}
-                  />
+                  <Avatar className="size-5 rounded-lg">
+                    <AvatarImage
+                      className="rounded-lg"
+                      src={connection.picture || undefined}
+                      alt={connection.name || connection.email}
+                    />
+                    <AvatarFallback className="rounded-lg text-[10px]">
+                      {(connection.name || connection.email)
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="-space-y-1">
                     <p className="text-[12px]">{connection.name || connection.email}</p>
                     {connection.name && (

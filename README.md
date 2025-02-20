@@ -1,4 +1,6 @@
-# Mail0.io 🚀 <!-- omit from toc -->
+# Mail0.io
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnizzyabi%2FMail0&env=DATABASE_URL,BETTER_AUTH_SECRET,BETTER_AUTH_URL,BETTER_AUTH_TRUSTED_ORIGINS,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GOOGLE_REDIRECT_URI,GITHUB_CLIENT_ID,GITHUB_CLIENT_SECRET,GITHUB_REDIRECT_URI&envDescription=For%20more%20info%20on%20setting%20up%20your%20API%20keys%2C%20checkout%20the%20Readme%20below&envLink=https%3A%2F%2Fgithub.com%2Fnizzyabi%2FMail0%2Fblob%2Fmain%2FREADME.md&project-name=0&repository-name=0&redirect-url=0.email&demo-title=0&demo-description=An%20open%20source%20email%20app&demo-url=0.email) <!-- omit from toc -->
 
 An Open-Source Gmail Alternative for the Future of Email
 
@@ -138,13 +140,11 @@ Before running the application, you'll need to set up several services and envir
 
    - Make sure you have [Docker](https://docs.docker.com/get-docker/), [NodeJS](https://nodejs.org/en/download/), and [pnpm](https://pnpm.io/installation) installed.
    - Open codebase as a container in [VSCode](https://code.visualstudio.com/) or your favorite VSCode fork.
-   - Run the following commands in order
+   - Run the following commands in order to populate your dependencies and setup docker
 
      ```
      pnpm install
      pnpm docker:up
-     pnpm db:push
-     pnpm dev
      ```
 
    - Run the following commands to clean up after yourself
@@ -161,8 +161,6 @@ Before running the application, you'll need to set up several services and envir
      rm -rf node_modules
      rm pnpm-lock.yaml
      ```
-
-   - Use `pnpm db:studio` to view and manage your data
 
 2. **Better Auth Setup**
 
@@ -240,6 +238,16 @@ GOOGLE_REDIRECT_URI=    # Required for Gmail integration
 # Database
 DATABASE_URL=          # Required: PostgreSQL connection string
 ```
+
+### Update the PostgreSQL database accordingly
+
+Drizzle will apply the schema migrations set in `.env`
+
+```bash
+pnpm db:push
+```
+
+- Use `pnpm db:studio` to view and manage your data
 
 ### Running Locally
 
