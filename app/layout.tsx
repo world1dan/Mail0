@@ -1,4 +1,3 @@
-import { CommandPaletteProvider } from "@/components/ui/command-palette"; // Import
 import MailComposeModal from "@/components/mail/mail-compose-modal";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
@@ -40,7 +39,7 @@ export default function RootLayout({
           <Suspense>
             <MailComposeModal />
           </Suspense>
-          <CommandPaletteProvider>{children}</CommandPaletteProvider>
+          {children}
           <Toast />
           <Analytics />
         </Providers>
