@@ -209,7 +209,6 @@ Before running the application, you'll need to set up several services and envir
 4. **Microsoft OAuth Setup**
 
 - Go to the [Microsoft Entra Admin Center](https://entra.microsoft.com/) > **Add** > **App registration**.
-- Set **Supported account types** to **Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)**
 - Set platform to **Web**
 - Add authorized redirect URI:
   - Development:
