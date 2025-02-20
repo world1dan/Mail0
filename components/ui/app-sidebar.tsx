@@ -29,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { theme } = useTheme();
   const { currentSection, navItems } = useMemo(() => {
     // Find which section we're in based on the pathname
-    const section = Object.entries(navigationConfig).find(([_, config]) =>
+    const section = Object.entries(navigationConfig).find(([, config]) =>
       pathname.startsWith(config.path),
     );
 
@@ -106,7 +106,7 @@ function ComposeButton() {
   return (
     <Button
       onClick={open}
-      className="mt-1 h-8 w-[calc(100%)] border bg-secondary text-primary shadow shadow-black/5 hover:bg-secondary/90"
+      className="relative isolate mt-1 h-8 w-[calc(100%)] overflow-hidden whitespace-nowrap bg-secondary text-primary shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.black/0.05)] ring-1 ring-black/5 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:from-white/20 before:opacity-50 before:transition-opacity hover:bg-secondary/90 hover:before:opacity-100 dark:shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.black/0.05)] dark:ring-white/5"
       onMouseEnter={() => {
         const icon = iconRef.current;
         if (icon?.startAnimation) {
