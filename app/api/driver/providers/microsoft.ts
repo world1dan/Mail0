@@ -26,7 +26,7 @@ const microsoftDriver = async (config: IConfig): Promise<MailManager> => {
     params.append("redirect_uri", env.MICROSOFT_REDIRECT_URI as string);
     params.append("grant_type", "refresh_token");
 
-    const tokenRes = await fetch("https://login.microsoftonline.com/consumers/oauth2/v2.0/token", {
+    const tokenRes = await fetch("https://login.microsoftonline.com/common/oauth2/v2.0/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -106,16 +106,13 @@ const microsoftDriver = async (config: IConfig): Promise<MailManager> => {
       params.append("redirect_uri", env.MICROSOFT_REDIRECT_URI as string);
       params.append("grant_type", "authorization_code");
 
-      const tokenRes = await fetch(
-        "https://login.microsoftonline.com/consumers/oauth2/v2.0/token",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: params.toString(),
+      const tokenRes = await fetch("https://login.microsoftonline.com/common/oauth2/v2.0/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-      );
+        body: params.toString(),
+      });
       if (!tokenRes.ok) {
         const errorText = await tokenRes.text();
         throw new Error(`Token exchange failed: ${errorText}`);
@@ -135,7 +132,7 @@ const microsoftDriver = async (config: IConfig): Promise<MailManager> => {
         state: userId,
       });
 
-      return `https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize?${params.toString()}`;
+      return `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${params.toString()}`;
     },
     count: async () => {
       return await callGraphApi(async (client) => {
@@ -145,7 +142,7 @@ const microsoftDriver = async (config: IConfig): Promise<MailManager> => {
       });
     },
     list: async (folder, q, maxResults = 10, _labelIds: string[] = []) => {
-      // Map consumers folder names to Outlook folder names.
+      // Map common folder names to Outlook folder names.
       let mailFolder = "Inbox";
       switch (folder.toLowerCase()) {
         case "trash":
