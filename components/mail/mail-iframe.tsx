@@ -52,7 +52,7 @@ export function MailIframe({ html }: { html: string }) {
         height={height}
         ref={iframeRef}
         className={cn(
-          "w-full flex-1 overflow-hidden rounded-md border-none transition-opacity duration-200",
+          "w-full flex-1 overflow-hidden transition-opacity duration-200",
           loaded ? "opacity-100" : "opacity-0",
         )}
         title="Email Content"
