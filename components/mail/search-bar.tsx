@@ -14,9 +14,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { type DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { format, subDays } from "date-fns";
 import { useForm } from "react-hook-form";
-import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 
 const inboxes = ["All Mail", "Inbox", "Drafts", "Sent", "Spam", "Trash", "Archive"];

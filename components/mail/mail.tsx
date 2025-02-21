@@ -20,11 +20,11 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useState, useCallback, useMemo, useEffect, ReactNode } from "react";
 import { ThreadDisplay } from "@/components/mail/thread-display";
+import { SidebarToggle } from "@/components/ui/sidebar-toggle";
 import { useMediaQuery } from "../../hooks/use-media-query";
 import { useSearchValue } from "@/hooks/use-search-value";
 import { MailList } from "@/components/mail/mail-list";
 import { useMail } from "@/components/mail/use-mail";
-import { SidebarToggle } from "../ui/sidebar-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
 import { type Mail } from "@/components/mail/data";
 import { useSearchParams } from "next/navigation";
@@ -62,7 +62,7 @@ export function Mail({ folder }: MailProps) {
     if (!session?.user && !isPending) {
       router.push("/login");
     }
-  }, [session?.user, isPending]);
+  }, [session?.user, isPending, router]);
 
   const labels = useMemo(() => {
     if (filterValue === "all") {

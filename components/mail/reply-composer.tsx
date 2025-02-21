@@ -3,10 +3,10 @@ import { FileIcon, Paperclip, Reply, Send, X } from "lucide-react";
 import { cleanEmailAddress, truncateFileName } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { sendEmail } from "@/actions/send";
 import { useRef, useState } from "react";
 import { ParsedMessage } from "@/types";
-import { Badge } from "../ui/badge";
 import Image from "next/image";
 
 export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[] }) {
