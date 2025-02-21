@@ -186,7 +186,9 @@ export function Mail({ folder }: MailProps) {
                       </>
                     ) : (
                       <>
-                        <h1 className="flex-1 text-center text-sm font-medium">Inbox</h1>
+                        <h1 className="flex-1 text-center text-sm font-medium capitalize">
+                          {folder}
+                        </h1>
                         <div className="flex items-center gap-1.5">
                           <Button
                             variant="ghost"
@@ -219,7 +221,7 @@ export function Mail({ folder }: MailProps) {
                 )}
               </div>
 
-              <div className="h-[calc(100svh-(8px+8px+14px+44px-2px))] overflow-scroll p-2 pt-0">
+              <div className="h-[calc(100svh-56px)] overflow-hidden pb-2 pt-0 md:h-[calc(100svh-(8px+8px+14px+44px))]">
                 {isLoading || isTransitioning ? (
                   <div className="flex flex-col">
                     {[...Array(8)].map((_, i) => (

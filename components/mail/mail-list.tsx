@@ -244,7 +244,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
     <ScrollArea className="h-full" type="scroll">
       <div
         className={cn(
-          "flex flex-col gap-1.5",
+          "flex flex-col gap-1.5 p-2",
           // Prevents accidental text selection while in range select mode.
           selectMode === "range" && "select-none",
         )}
