@@ -2,6 +2,7 @@
 import { $fetch, useSession } from "@/lib/auth-client";
 import { InitialThread, ParsedMessage } from "@/types";
 import { BASE_URL } from "@/lib/constants";
+import { getMail } from "@/actions/mail";
 import useSWR, { preload } from "swr";
 import { idb } from "@/lib/idb";
 
@@ -89,7 +90,7 @@ const threadsCache = {
 
 // TODO: improve the filters
 const fetchEmails = async (args: any[]) => {
-  const [_, folder, query, max, labelIds, connectionId] = args;
+  const [_, folder, query, max, labelIds] = args;
 
   const searchParams = new URLSearchParams();
   if (max) searchParams.set("max", max.toString());
@@ -97,13 +98,9 @@ const fetchEmails = async (args: any[]) => {
   if (folder) searchParams.set("folder", folder.toString());
   if (labelIds) searchParams.set("labelIds", labelIds.join(","));
 
-  return (await $fetch("/api/v1/mail?" + searchParams.toString(), {
-    baseURL: BASE_URL,
-    onSuccess(context) {
-      // reversing the order of the messages to make sure the newest ones are at the top
-      // threadsCache.bulkPut(context.data.messages, searchParams.toString() + connectionId);
-    },
-  }).then((e) => e.data)) as RawResponse;
+  const data = await getMail({ folder, q: query, max, labelIds });
+
+  return data;
 };
 
 const fetchEmailsFromCache = async (args: any[]) => {
@@ -130,6 +127,7 @@ const fetchThread = async (args: any[]): Promise<ParsedMessage[]> => {
       //   processedHtml: context.data.processedHtml,
       //   body: context.data.body,
       // });
+      console.log(context.data);
     },
   }).then((e) => e.data as ParsedMessage[]);
 };
