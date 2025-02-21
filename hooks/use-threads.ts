@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
-import { $fetch, useSession } from "@/lib/auth-client";
+
+import { getMail, getMails, markAsRead as markAsReadAction } from "@/actions/mail";
 import { InitialThread, ParsedMessage } from "@/types";
-import { BASE_URL } from "@/lib/constants";
-import { getMail } from "@/actions/mail";
+import { useSession } from "@/lib/auth-client";
 import useSWR, { preload } from "swr";
 
 export const preloadThread = (userId: string, threadId: string, connectionId: string) => {
@@ -20,16 +22,15 @@ const fetchEmails = async (args: any[]) => {
   if (folder) searchParams.set("folder", folder.toString());
   if (labelIds) searchParams.set("labelIds", labelIds.join(","));
 
-  const data = await getMail({ folder, q: query, max, labelIds });
+  const data = await getMails({ folder, q: query, max, labelIds });
 
   return data;
 };
 
-const fetchThread = async (args: any[]): Promise<ParsedMessage[]> => {
+const fetchThread = async (args: any[]) => {
   const [_, id] = args;
-  return await $fetch(`/api/v1/mail/${id}/`, {
-    baseURL: BASE_URL,
-  }).then((e) => e.data as ParsedMessage[]);
+  const data = await getMail({ id });
+  return data;
 };
 
 // Based on gmail
@@ -70,11 +71,7 @@ export const useThread = (id: string) => {
 export const useMarkAsRead = () => {
   const markAsRead = async (id: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/mail/${id}/read`, {
-        method: "POST",
-      });
-
-      return response.ok;
+      await markAsReadAction({ id });
     } catch (error) {
       console.error("Error marking email as read:", error);
       return false;

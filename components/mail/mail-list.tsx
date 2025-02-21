@@ -65,15 +65,8 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
 
     if (!isMailSelected && message.unread) {
       try {
-        const response = await fetch(`/api/v1/mail/${message.id}/read`, {
-          method: "POST",
-        });
-        if (response.ok) {
-          setMessage((prev) => ({ ...prev, unread: false }));
-          await markAsRead(message.id);
-        } else {
-          console.error("Failed to mark message as read");
-        }
+        await markAsRead(message.id);
+        setMessage((prev) => ({ ...prev, unread: false }));
       } catch (error) {
         console.error("Error marking message as read:", error);
       }
