@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { SearchBar } from "./search-bar";
+import { cn } from "@/lib/utils";
 
 interface MailProps {
   accounts: {
@@ -83,10 +84,13 @@ export function Mail({ folder }: MailProps) {
     return undefined;
   }, [filterValue, searchParams]);
 
-  const { data: threadsResponse, isLoading } = useThreads(folder, labels, searchValue.value);
+  const {
+    data: threadsResponse,
+    isLoading,
+    isValidating,
+  } = useThreads(folder, labels, searchValue.value);
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [isTransitioning, setIsTransitioning] = useState(true);
 
   // Check if we're on mobile on mount and when window resizes
   useEffect(() => {
@@ -108,18 +112,6 @@ export function Mail({ folder }: MailProps) {
     }
   }, [mail.selected]);
 
-  useEffect(() => {
-    if (!isLoading) {
-      const timeout = setTimeout(() => {
-        setIsTransitioning(false);
-      }, 300);
-
-      return () => clearTimeout(timeout);
-    } else {
-      setIsTransitioning(true);
-    }
-  }, [isLoading]);
-
   const handleClose = useCallback(() => {
     setOpen(false);
     setMail((mail) => ({ ...mail, selected: null }));
@@ -139,7 +131,12 @@ export function Mail({ folder }: MailProps) {
             minSize={isMobile ? 100 : 25}
           >
             <div className="flex-1 flex-col overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
-              <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 p-2">
+              <div
+                className={cn(
+                  "sticky top-0 z-10 flex items-center justify-between gap-1.5 border-b-2 p-2 transition-colors",
+                  isValidating ? "border-b-green-500" : "border-b-transparent",
+                )}
+              >
                 <SidebarToggle className="h-fit px-2" />
                 <Button
                   variant="ghost"
@@ -220,7 +217,7 @@ export function Mail({ folder }: MailProps) {
               </div>
 
               <div className="h-[calc(100svh-(8px+8px+14px+44px-2px))] overflow-scroll p-2 pt-0">
-                {isLoading || isTransitioning ? (
+                {isLoading ? (
                   <div className="flex flex-col">
                     {[...Array(8)].map((_, i) => (
                       <div key={i} className="flex flex-col px-4 py-3">
