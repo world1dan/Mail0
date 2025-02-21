@@ -8,7 +8,7 @@ interface CacheEntry {
 }
 
 class SWRDatabase extends Dexie {
-  cache: Dexie.Table<CacheEntry, string>;
+  cache!: Dexie.Table<CacheEntry, string>;
 
   constructor() {
     super("SWRCache");
@@ -22,10 +22,8 @@ const db = new SWRDatabase();
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 export function dexieStorageProvider(_: Readonly<Cache>): Cache {
-  // In-memory cache
   const memoryCache = new Map<string, State<any>>();
 
-  // Load initial cache from IndexedDB
   db.cache
     .each((entry) => {
       if (Date.now() - entry.timestamp <= ONE_DAY) {
