@@ -123,14 +123,14 @@ export function Mail({ folder }: MailProps) {
         <ResizablePanelGroup
           direction="horizontal"
           autoSaveId="mail-panel-layout"
-          className="rounded-inherit gap-1.5 overflow-hidden rounded-tl-md"
+          className="rounded-inherit gap-1.5 overflow-hidden"
         >
           <ResizablePanel
             className="border-none !bg-transparent"
             defaultSize={isMobile ? 100 : 25}
             minSize={isMobile ? 100 : 25}
           >
-            <div className="flex-1 flex-col overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
+            <div className="flex-1 flex-col overflow-y-auto bg-card shadow-sm md:flex md:rounded-2xl md:border md:shadow-sm">
               <div
                 className={cn(
                   "sticky top-0 z-10 flex items-center justify-between gap-1.5 border-b-2 p-2 transition-colors",
@@ -183,7 +183,9 @@ export function Mail({ folder }: MailProps) {
                       </>
                     ) : (
                       <>
-                        <h1 className="flex-1 text-center text-sm font-medium">Inbox</h1>
+                        <h1 className="flex-1 text-center text-sm font-medium capitalize">
+                          {folder}
+                        </h1>
                         <div className="flex items-center gap-1.5">
                           <Button
                             variant="ghost"
@@ -215,8 +217,7 @@ export function Mail({ folder }: MailProps) {
                   </DropdownMenu>
                 )}
               </div>
-
-              <div className="h-[calc(100svh-(8px+8px+14px+44px-2px))] overflow-scroll p-2 pt-0">
+              <div className="h-[calc(100dvh-56px)] overflow-hidden pt-0 md:h-[calc(100dvh-(8px+8px+14px+44px))]">
                 {isLoading ? (
                   <div className="flex flex-col">
                     {[...Array(8)].map((_, i) => (
