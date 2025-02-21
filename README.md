@@ -94,7 +94,7 @@ We welcome community input and contributions to help shape these features and pr
 
 1. Open an issue to discuss new feature ideas
 2. Submit pull requests for improvements
-3. Join discussions on existing issues
+3. Join discussions in existing issues
 
 This roadmap is a living document and will be updated as development progresses and priorities evolve based on community feedback and technological advances.
 
@@ -262,7 +262,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Contribute
 
 1. You can fork the repository and make changes to your forked repository. Once you have made your changes, you can create a pull request to the main branch.
-2. To add code to the main branch, make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request). **Your code should always be reviewed by a maintainer, not yourself!**
+2. To add code to the main branch, make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request). **Your code will always be reviewed by a maintainer, not yourself!**
 
 ## Issues
 
