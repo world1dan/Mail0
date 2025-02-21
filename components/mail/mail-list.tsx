@@ -96,7 +96,7 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
           const messageId = message.threadId ?? message.id;
           // Only prefetch if still hovering and hasn't been prefetched
           console.log(`🕒 Hover threshold reached for email ${messageId}, initiating prefetch...`);
-          preloadThread(session.user.id, messageId);
+          preloadThread(session.user.id, messageId, session.connectionId!);
           hasPrefetched.current = true;
         }
       }, HOVER_DELAY);
