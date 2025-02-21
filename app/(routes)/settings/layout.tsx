@@ -17,9 +17,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 
 function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
-  // const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  // Check if we're on mobile on mount and when window resizes
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -39,7 +37,7 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
           <ResizablePanelGroup
             direction="horizontal"
             autoSaveId="settings-panel-layout"
-            className="rounded-inherit gap-1.5 overflow-hidden rounded-tl-md"
+            className="rounded-inherit gap-1.5 overflow-hidden"
           >
             <ResizablePanel
               className="border-none !bg-transparent"

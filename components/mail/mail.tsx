@@ -131,14 +131,14 @@ export function Mail({ folder }: MailProps) {
         <ResizablePanelGroup
           direction="horizontal"
           autoSaveId="mail-panel-layout"
-          className="rounded-inherit gap-1.5 overflow-hidden rounded-tl-md"
+          className="rounded-inherit gap-1.5 overflow-hidden"
         >
           <ResizablePanel
             className="border-none !bg-transparent"
             defaultSize={isMobile ? 100 : 25}
             minSize={isMobile ? 100 : 25}
           >
-            <div className="flex-1 flex-col overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
+            <div className="flex-1 flex-col overflow-y-auto bg-card shadow-sm md:flex md:rounded-2xl md:border md:shadow-sm">
               <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 p-2">
                 <SidebarToggle className="h-fit px-2" />
                 <Button
@@ -221,7 +221,7 @@ export function Mail({ folder }: MailProps) {
                 )}
               </div>
 
-              <div className="h-[calc(100svh-56px)] overflow-hidden pb-2 pt-0 md:h-[calc(100svh-(8px+8px+14px+44px))]">
+              <div className="h-[calc(100svh-56px)] overflow-hidden pt-0 md:h-[calc(100svh-(8px+8px+14px+44px))]">
                 {isLoading || isTransitioning ? (
                   <div className="flex flex-col">
                     {[...Array(8)].map((_, i) => (
