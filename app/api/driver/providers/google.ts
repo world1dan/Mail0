@@ -39,7 +39,7 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
 
   const getScope = () =>
     [
-      "https://mail.google.com/",
+      "https://www.googleapis.com/auth/gmail.modify",
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
     ].join(" ");
@@ -52,6 +52,7 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
   }
   const parse = ({
     id,
+    threadId,
     snippet,
     labelIds,
     payload,
@@ -65,11 +66,20 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
       payload?.headers?.find((h) => h.name?.toLowerCase() === "from")?.value || "Failed";
     const subject =
       payload?.headers?.find((h) => h.name?.toLowerCase() === "subject")?.value || "Failed";
+    const references =
+      payload?.headers?.find((h) => h.name?.toLowerCase() === "references")?.value || "";
+    const inReplyTo =
+      payload?.headers?.find((h) => h.name?.toLowerCase() === "in-reply-to")?.value || "";
+    const messageId =
+      payload?.headers?.find((h) => h.name?.toLowerCase() === "message-id")?.value || "";
     const [name, email] = sender.split("<");
     return {
       id: id || "ERROR",
+      threadId: threadId || "",
       title: snippet ? he.decode(snippet).trim() : "ERROR",
       tags: labelIds || [],
+      references,
+      inReplyTo,
       sender: {
         name: name.replace(/"/g, "").trim(),
         email: `<${email}`,
@@ -77,6 +87,7 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
       unread: labelIds ? labelIds.includes("UNREAD") : false,
       receivedOn,
       subject,
+      messageId,
     };
   };
   const normalizeSearch = (folder: string, q: string) => {
@@ -182,6 +193,7 @@ const googleDriver = async (config: IConfig): Promise<MailManager> => {
               processedHtml: "",
               blobUrl: "",
               totalReplies: msg.data.messages?.length || 0,
+              threadId: thread.id,
             };
           })
           .filter((msg): msg is NonNullable<typeof msg> => msg !== null),

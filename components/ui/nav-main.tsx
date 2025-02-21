@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import * as React from "react";
 import Link from "next/link";
 
@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
 } from "./sidebar";
 import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { BASE_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
@@ -52,37 +53,75 @@ export function NavMain({ items }: NavMainProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const getHref = (item: NavItemProps) => {
-    // Get the current 'from' parameter
-    const currentFrom = searchParams.get("from");
-    const category = searchParams.get("category");
-
-    // Handle settings navigation
-    if (item.isSettingsButton) {
-      // Include current path with category query parameter if present
-      const currentPath = category
-        ? `${pathname}?category=${encodeURIComponent(category)}`
-        : pathname;
-      return `${item.url}?from=${encodeURIComponent(currentPath)}`;
+  /**
+   * Validates URLs to prevent open redirect vulnerabilities.
+   * Only allows two types of URLs:
+   * 1. Absolute paths that start with '/' (e.g., '/mail', '/settings')
+   * 2. Full URLs that match our application's base URL
+   *
+   * @param url - The URL to validate
+   * @returns boolean - True if the URL is internal and safe to use
+   */
+  const isValidInternalUrl = useCallback((url: string) => {
+    if (!url) return false;
+    // Accept absolute paths as they are always internal
+    if (url.startsWith("/")) return true;
+    try {
+      const urlObj = new URL(url, BASE_URL);
+      // Prevent redirects to external domains by checking against our base URL
+      return urlObj.origin === BASE_URL;
+    } catch {
+      return false;
     }
+  }, []);
 
-    // Handle settings pages navigation
-    if (item.isSettingsPage && currentFrom) {
-      return `${item.url}?from=${encodeURIComponent(currentFrom)}`;
-    }
+  const getHref = useCallback(
+    (item: NavItemProps) => {
+      // Get the current 'from' parameter
+      const currentFrom = searchParams.get("from");
+      const category = searchParams.get("category");
 
-    // Handle back button
-    if (item.isBackButton) {
-      return currentFrom ? decodeURIComponent(currentFrom) : "/mail";
-    }
+      // Handle settings navigation
+      if (item.isSettingsButton) {
+        // Include current path with category query parameter if present
+        const currentPath = category
+          ? `${pathname}?category=${encodeURIComponent(category)}`
+          : pathname;
+        return `${item.url}?from=${encodeURIComponent(currentPath)}`;
+      }
 
-    // Handle category links
-    if (category && item.url.includes("category=")) {
+      // Handle settings pages navigation
+      if (item.isSettingsPage && currentFrom) {
+        // Validate and sanitize the 'from' parameter to prevent open redirects
+        const decodedFrom = decodeURIComponent(currentFrom);
+        if (isValidInternalUrl(decodedFrom)) {
+          return `${item.url}?from=${encodeURIComponent(currentFrom)}`;
+        }
+        // Fall back to safe default if URL validation fails
+        return `${item.url}?from=/mail`;
+      }
+
+      // Handle back button with redirect protection
+      if (item.isBackButton) {
+        if (currentFrom) {
+          const decodedFrom = decodeURIComponent(currentFrom);
+          if (isValidInternalUrl(decodedFrom)) {
+            return decodedFrom;
+          }
+        }
+        // Fall back to safe default if URL is missing or invalid
+        return "/mail";
+      }
+
+      // Handle category links
+      if (category && item.url.includes("category=")) {
+        return item.url;
+      }
+
       return item.url;
-    }
-
-    return item.url;
-  };
+    },
+    [pathname, searchParams],
+  );
 
   const iconRefs = useRef<{ [key: string]: React.RefObject<IconRefType | null> }>({});
 
@@ -98,8 +137,8 @@ export function NavMain({ items }: NavMainProps) {
   }, [items]);
 
   // Checks if the given URL matches the current URL path and required search parameters.
-  const isUrlActive = useMemo(() => {
-    return (url: string) => {
+  const isUrlActive = useCallback(
+    (url: string) => {
       const [urlPath, urlQuery] = url.split("?");
       const cleanPath = pathname.replace(/\/$/, "");
       const cleanUrl = urlPath.replace(/\/$/, "");
@@ -114,10 +153,10 @@ export function NavMain({ items }: NavMainProps) {
       for (const [key, value] of urlParams) {
         if (currentParams.get(key) !== value) return false;
       }
-
       return true;
-    };
-  }, [pathname, searchParams]);
+    },
+    [pathname, searchParams],
+  );
 
   return (
     <SidebarGroup className="space-y-2.5 py-0">
@@ -135,44 +174,13 @@ export function NavMain({ items }: NavMainProps) {
                 )}
               </CollapsibleTrigger>
               <div className="space-y-1">
-                {section.items.map((item, j) => (
-                  <Collapsible defaultOpen={item.isActive} key={j}>
-                    <CollapsibleTrigger asChild>
-                      <Link
-                        href={getHref(item)}
-                        onClick={item.onClick}
-                        onMouseEnter={() => {
-                          const iconRef = iconRefs.current[item.title]?.current;
-                          if (iconRef?.startAnimation) {
-                            iconRef.startAnimation();
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          const iconRef = iconRefs.current[item.title]?.current;
-                          if (iconRef?.stopAnimation) {
-                            iconRef.stopAnimation();
-                          }
-                        }}
-                      >
-                        <SidebarMenuButton
-                          tooltip={item.title}
-                          className={cn(
-                            "flex items-center",
-                            (item.isActive || isUrlActive(item.url)) &&
-                              "bg-accent text-accent-foreground",
-                          )}
-                        >
-                          {item.icon && (
-                            <item.icon
-                              ref={iconRefs.current[item.title]}
-                              className="relative mr-3 h-3 w-3.5"
-                            />
-                          )}
-                          <p className="mt-0.5 text-[13px]">{item.title}</p>
-                        </SidebarMenuButton>
-                      </Link>
-                    </CollapsibleTrigger>
-                  </Collapsible>
+                {section.items.map((item) => (
+                  <NavItem
+                    key={item.url}
+                    {...item}
+                    isActive={isUrlActive(item.url)}
+                    href={getHref(item)}
+                  />
                 ))}
               </div>
             </SidebarMenuItem>
@@ -180,5 +188,29 @@ export function NavMain({ items }: NavMainProps) {
         ))}
       </SidebarMenu>
     </SidebarGroup>
+  );
+}
+
+function NavItem(item: NavItemProps & { href: string }) {
+  const iconRef = useRef<IconRefType>(null);
+  return (
+    <Collapsible defaultOpen={item.isActive}>
+      <CollapsibleTrigger asChild>
+        <Link
+          href={item.href}
+          onClick={item.onClick}
+          onMouseEnter={() => iconRef.current?.startAnimation?.()}
+          onMouseLeave={() => iconRef.current?.stopAnimation?.()}
+        >
+          <SidebarMenuButton
+            tooltip={item.title}
+            className={cn("flex items-center", item.isActive && "bg-accent text-accent-foreground")}
+          >
+            {item.icon && <item.icon ref={iconRef} className="relative mr-3 h-3 w-3.5" />}
+            <p className="mt-0.5 text-[13px]">{item.title}</p>
+          </SidebarMenuButton>
+        </Link>
+      </CollapsibleTrigger>
+    </Collapsible>
   );
 }
