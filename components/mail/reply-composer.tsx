@@ -211,9 +211,9 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
                     message: replyBody,
                     attachments,
                     headers: {
-                      "In-Reply-To": inReplyTo,
+                      "In-Reply-To": inReplyTo ?? "",
                       References: references,
-                      "Thread-Id": threadId,
+                      "Thread-Id": threadId ?? "",
                     },
                   });
                 } catch (error) {
