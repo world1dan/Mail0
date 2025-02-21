@@ -93,9 +93,10 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
       // Set new timeout for prefetch
       hoverTimeoutRef.current = setTimeout(() => {
         if (isHovering.current) {
+          const messageId = message.threadId ?? message.id;
           // Only prefetch if still hovering and hasn't been prefetched
-          console.log(`🕒 Hover threshold reached for email ${message.id}, initiating prefetch...`);
-          preloadThread(session.user.id, message.id);
+          console.log(`🕒 Hover threshold reached for email ${messageId}, initiating prefetch...`);
+          preloadThread(session.user.id, messageId);
           hasPrefetched.current = true;
         }
       }, HOVER_DELAY);
@@ -219,7 +220,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
       return;
     }
 
-    if (mail.selected === message.id) {
+    if (mail.selected === message.threadId || mail.selected === message.id) {
       setMail({
         selected: null,
         bulkSelected: [],
@@ -227,7 +228,7 @@ export function MailList({ items, isCompact, folder }: MailListProps) {
     } else {
       setMail({
         ...mail,
-        selected: message.id,
+        selected: message.threadId ?? message.id,
         bulkSelected: [],
       });
     }
