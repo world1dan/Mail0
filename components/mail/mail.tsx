@@ -221,7 +221,7 @@ export function Mail({ folder }: MailProps) {
                 )}
               </div>
 
-              <div className="h-[calc(100svh-56px)] overflow-hidden pt-0 md:h-[calc(100svh-(8px+8px+14px+44px))]">
+              <div className="h-[calc(100dvh-56px)] overflow-hidden pt-0 md:h-[calc(100dvh-(8px+8px+14px+44px))]">
                 {isLoading || isTransitioning ? (
                   <div className="flex flex-col">
                     {[...Array(8)].map((_, i) => (
