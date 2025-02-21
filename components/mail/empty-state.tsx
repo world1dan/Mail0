@@ -96,6 +96,9 @@ function EmptyState({ folder, className }: EmptyStateProps) {
     [connections?.data],
   );
 
+  // Don't render anything while loading
+  if (connections.isLoading) return null;
+
   return (
     <div>
       {noConnection ? (
