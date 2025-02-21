@@ -44,12 +44,12 @@ function SettingsLayoutContent({ children }: { children: React.ReactNode }) {
               defaultSize={isMobile ? 100 : 35}
               minSize={isMobile ? 100 : 35}
             >
-              <div className="flex-1 flex-col overflow-y-auto border bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
+              <div className="flex-1 flex-col overflow-y-auto bg-card shadow-sm md:flex md:rounded-2xl md:shadow-sm">
                 <div className="sticky top-0 z-10 flex items-center justify-between gap-1.5 p-2">
                   <SidebarToggle className="h-fit px-2" />
                   <h1 className="flex-1 text-center text-sm font-medium">Settings</h1>
                 </div>
-                <ScrollArea className="h-[calc(100svh-(8px+8px+14px+44px-2px))] p-2 pt-0">
+                <ScrollArea className="h-[calc(100dvh-56px)] p-2 pt-0 md:h-[calc(100dvh-(8px+8px+14px+44px))]">
                   <div className="p-4 md:p-6">{children}</div>
                 </ScrollArea>
               </div>
