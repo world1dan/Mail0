@@ -54,22 +54,22 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
         .join("");
 
       const replyBody = `
-        <div style="font-family: Arial, sans-serif;">
-          <div style="margin-bottom: 20px;">
-            ${formattedMessage}
-          </div>
-          <div style="padding-left: 1em; margin-top: 1em; border-left: 2px solid #ccc; color: #666;">
-            <div style="margin-bottom: 1em;">
-              On ${originalDate}, ${originalSender?.name ? `${originalSender.name} ` : ""}${originalSender?.email ? `&lt;${cleanedToEmail}&gt;` : ""} wrote:
-            </div>
-            <div style="white-space: pre-wrap;">
-              ${quotedMessage}
-            </div>
-          </div>
-        </div>
-      `;
+                    <div style="font-family: Arial, sans-serif;">
+                      <div style="margin-bottom: 20px;">
+                        ${formattedMessage}
+                      </div>
+                      <div style="padding-left: 1em; margin-top: 1em; border-left: 2px solid #ccc; color: #666;">
+                        <div style="margin-bottom: 1em;">
+                          On ${originalDate}, ${originalSender?.name ? `${originalSender.name} ` : ""}${originalSender?.email ? `&lt;${cleanedToEmail}&gt;` : ""} wrote:
+                        </div>
+                        <div style="white-space: pre-wrap;">
+                          ${quotedMessage}
+                        </div>
+                      </div>
+                    </div>
+                  `;
 
-      const inReplyTo = messageId || "";
+      const inReplyTo = messageId;
 
       const existingRefs = emailData[0]?.references?.split(" ") || [];
       const references = [...existingRefs, emailData[0]?.inReplyTo, cleanEmailAddress(messageId)]
@@ -82,9 +82,9 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
         message: replyBody,
         attachments,
         headers: {
-          "In-Reply-To": inReplyTo,
+          "In-Reply-To": inReplyTo ?? "",
           References: references,
-          "Thread-Id": threadId || "",
+          "Thread-Id": threadId ?? "",
         },
       });
 
@@ -96,7 +96,7 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
   };
 
   return (
-    <div className="relative bottom-0 left-0 right-0 z-10 mb-5 bg-card px-2 pb-2 pt-2">
+    <div className="relative bottom-0 left-0 right-0 z-10 mb-6 bg-card px-2 pb-2 pt-2">
       <form className="relative mb-[2px] space-y-2.5 rounded-[10px] border p-2">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
