@@ -16,12 +16,9 @@ import { Button } from "./button";
 import Image from "next/image";
 import useSWR from "swr";
 
-const fetchStats = async () => {
-  return await mailCount();
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: stats } = useSWR<number[]>("mail-count", fetchStats);
+  const { data: stats } = useSWR<number[]>("mail-count", mailCount);
+
   const pathname = usePathname();
 
   const { currentSection, navItems } = useMemo(() => {
