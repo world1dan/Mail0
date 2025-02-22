@@ -33,6 +33,30 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
     setAttachments(attachments.filter((_, i) => i !== index));
   };
 
+  const constructReplyBody = (
+    formattedMessage: string,
+    originalDate: string,
+    originalSender: { name?: string; email?: string } | undefined,
+    cleanedToEmail: string,
+    quotedMessage?: string,
+  ) => {
+    return `
+      <div style="font-family: Arial, sans-serif;">
+        <div style="margin-bottom: 20px;">
+          ${formattedMessage}
+        </div>
+        <div style="padding-left: 1em; margin-top: 1em; border-left: 2px solid #ccc; color: #666;">
+          <div style="margin-bottom: 1em;">
+            On ${originalDate}, ${originalSender?.name ? `${originalSender.name} ` : ""}${originalSender?.email ? `&lt;${cleanedToEmail}&gt;` : ""} wrote:
+          </div>
+          <div style="white-space: pre-wrap;">
+            ${quotedMessage}
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
   const handleSendEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -53,21 +77,13 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
         .map((line) => `<div>${line || "<br/>"}</div>`)
         .join("");
 
-      const replyBody = `
-                    <div style="font-family: Arial, sans-serif;">
-                      <div style="margin-bottom: 20px;">
-                        ${formattedMessage}
-                      </div>
-                      <div style="padding-left: 1em; margin-top: 1em; border-left: 2px solid #ccc; color: #666;">
-                        <div style="margin-bottom: 1em;">
-                          On ${originalDate}, ${originalSender?.name ? `${originalSender.name} ` : ""}${originalSender?.email ? `&lt;${cleanedToEmail}&gt;` : ""} wrote:
-                        </div>
-                        <div style="white-space: pre-wrap;">
-                          ${quotedMessage}
-                        </div>
-                      </div>
-                    </div>
-                  `;
+      const replyBody = constructReplyBody(
+        formattedMessage,
+        originalDate,
+        originalSender,
+        cleanedToEmail,
+        quotedMessage,
+      );
 
       const inReplyTo = messageId;
 
