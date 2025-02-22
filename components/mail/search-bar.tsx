@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Search, SlidersHorizontal, CalendarIcon, X } from "lucide-react";
+import { Search, SlidersHorizontal, CalendarIcon, Trash2 } from "lucide-react";
 import { useSearchValue } from "@/hooks/use-search-value";
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
@@ -77,6 +77,7 @@ type SearchForm = {
 };
 
 export function SearchBar() {
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [, setSearchValue] = useSearchValue();
   const [value, setValue] = useState<SearchForm>({
     folder: "",
@@ -95,7 +96,6 @@ export function SearchBar() {
     defaultValues: value,
   });
 
-  /* eslint-disable-next-line react-hooks/exhaustive-deps */
   useEffect(() => {
     const subscription = form.watch((data) => {
       setValue(data as SearchForm);
@@ -163,21 +163,24 @@ export function SearchBar() {
         />
         <div className="absolute right-2 flex items-center gap-1.5">
           {filtering && (
-            <X
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-5 w-5 rounded-lg p-0 text-muted-foreground/70 transition-colors hover:bg-muted/50 hover:text-foreground"
               onClick={resetSearch}
-              className="h-4 w-4 cursor-pointer text-muted-foreground/70 transition-colors hover:text-foreground"
-              aria-hidden="true"
-            />
+            >
+              <Trash2 className="h-4 w-4 text-inherit" aria-hidden="true" />
+            </Button>
           )}
-          <Popover>
+          <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-5 w-5 rounded-lg p-0 hover:bg-muted/50"
+                className="h-5 w-5 rounded-lg p-0 text-muted-foreground/70 transition-colors hover:bg-muted/50 hover:text-foreground"
               >
                 <SlidersHorizontal
-                  className="h-3.5 w-3.5 text-muted-foreground/70"
+                  className="h-4 w-4 text-inherit transition-colors"
                   aria-hidden="true"
                 />
               </Button>
@@ -345,6 +348,7 @@ export function SearchBar() {
                     size="sm"
                     className="h-8 rounded-xl bg-primary text-xs text-primary-foreground shadow-none transition-colors hover:bg-primary/90"
                     type="submit"
+                    onClick={() => setPopoverOpen(false)}
                   >
                     Apply Filters
                   </Button>
