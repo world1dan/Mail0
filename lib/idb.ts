@@ -1,14 +1,14 @@
 import type { Cache, State } from "swr";
 import Dexie from "dexie";
 
-interface CacheEntry {
+interface CacheEntry<Data> {
   key: string;
-  state: State<any>;
+  state: State<Data>;
   timestamp: number;
 }
 
 class SWRDatabase extends Dexie {
-  cache!: Dexie.Table<CacheEntry, string>;
+  cache!: Dexie.Table<CacheEntry<unknown>, string>;
 
   constructor() {
     super("SWRCache");
@@ -21,8 +21,8 @@ class SWRDatabase extends Dexie {
 const db = new SWRDatabase();
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
-export function dexieStorageProvider(_: Readonly<Cache>): Cache {
-  const memoryCache = new Map<string, State<any>>();
+export function dexieStorageProvider<Data>(): Cache {
+  const memoryCache = new Map<string, State<Data>>();
 
   db.cache
     .each((entry) => {
@@ -43,7 +43,7 @@ export function dexieStorageProvider(_: Readonly<Cache>): Cache {
       return memoryCache.get(key);
     },
 
-    set(key: string, value: State) {
+    set(key: string, value: State<Data>) {
       // Don't cache promises or undefined data
       if (value.data instanceof Promise || value.data === undefined) return;
 
