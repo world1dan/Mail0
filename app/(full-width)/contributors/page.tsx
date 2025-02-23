@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 
 interface Contributor {
   login: string;
@@ -54,7 +55,7 @@ interface ActivityData {
 
 const excludedUsernames = ["bot1", "dependabot", "github-actions"];
 const coreTeamMembers = ["nizzyabi", "ahmetskilinc", "ripgrim", "user12224", "praashh", "mrgsub"];
-const REPOSITORY = "nizzyabi/mail0";
+const REPOSITORY = "Mail-0/Mail-0";
 
 const specialRoles: Record<string, { role: string; twitter?: string; website?: string }> = {
   nizzyabi: {
@@ -152,21 +153,15 @@ export default function OpenPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const repoResponse = await fetch(`https://api.github.com/repos/${REPOSITORY}`);
-        if (!repoResponse.ok) throw new Error("Failed to fetch repository data");
-        const repoData = await repoResponse.json();
+        const [repoResponse, commitsResponse, prsResponse] = await Promise.all([
+          axios.get(`https://api.github.com/repos/${REPOSITORY}`),
+          axios.get(`https://api.github.com/repos/${REPOSITORY}/commits?per_page=100`),
+          axios.get(`https://api.github.com/repos/${REPOSITORY}/pulls?state=open`),
+        ]);
 
-        const commitsResponse = await fetch(
-          `https://api.github.com/repos/${REPOSITORY}/commits?per_page=100`,
-        );
-        if (!commitsResponse.ok) throw new Error("Failed to fetch commits data");
-        const commitsData = await commitsResponse.json();
-
-        const prsResponse = await fetch(
-          `https://api.github.com/repos/${REPOSITORY}/pulls?state=open`,
-        );
-        if (!prsResponse.ok) throw new Error("Failed to fetch PRs data");
-        const prsData = await prsResponse.json();
+        const repoData = repoResponse.data;
+        const commitsData = commitsResponse.data;
+        const prsData = prsResponse.data;
 
         setRepoStats({
           stars: repoData.stargazers_count,
@@ -278,10 +273,8 @@ export default function OpenPage() {
   useEffect(() => {
     const fetchContributors = async () => {
       try {
-        const response = await fetch(`https://api.github.com/repos/${REPOSITORY}/contributors`);
-        if (!response.ok) throw new Error("Failed to fetch contributors data");
-        const data = await response.json();
-        setContributors(data);
+        const response = await axios.get(`https://api.github.com/repos/${REPOSITORY}/contributors`);
+        setContributors(response.data);
       } catch (err) {
         console.error("Error fetching contributors:", err);
         setError(
