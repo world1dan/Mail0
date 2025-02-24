@@ -7,6 +7,7 @@ import { sendEmail } from "@/actions/send";
 import { useRef, useState } from "react";
 import { ParsedMessage } from "@/types";
 import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { toast } from "sonner";
 
@@ -14,8 +15,8 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-
   const [messageContent, setMessageContent] = useState("");
+  const [isTextAreaFocused, setIsTextAreaFocused] = useState(false);
 
   const handleAttachment = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -32,6 +33,9 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
   const removeAttachment = (index: number) => {
     setAttachments(attachments.filter((_, i) => i !== index));
   };
+
+  const handleFocus = () => setIsTextAreaFocused(true);
+  const handleBlur = () => setIsTextAreaFocused(false);
 
   const constructReplyBody = (
     formattedMessage: string,
@@ -104,6 +108,7 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
         },
       });
 
+      setMessageContent("");
       toast.success("Email sent successfully!");
     } catch (error) {
       console.error("Error sending email:", error);
@@ -112,8 +117,13 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
   };
 
   return (
-    <div className="relative bottom-0 left-0 right-0 z-10 mb-6 bg-card px-2 pb-2 pt-2">
-      <form className="relative mb-[2px] space-y-2.5 rounded-[10px] border p-2">
+    <div className="w-full bg-offsetLight p-2 dark:bg-offsetDark">
+      <form
+        className={cn(
+          "flex h-72 flex-col space-y-2.5 rounded-[10px] border border-border px-2 py-4",
+          isTextAreaFocused ? "ring-2 ring-[#3D3D3D]" : "",
+        )}
+      >
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Reply className="h-4 w-4" />
@@ -126,13 +136,15 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
 
         <Textarea
           ref={editorRef}
-          className="min-h-[40px] w-full resize-none rounded-2xl border-0 bg-transparent leading-relaxed placeholder:text-muted-foreground/70 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base"
+          className="min-h-[40px] w-full flex-grow resize-none rounded-2xl border-0 bg-transparent leading-relaxed placeholder:text-muted-foreground/70 focus:outline-none md:text-base"
           placeholder="Write your reply..."
           spellCheck={true}
           value={messageContent}
           onChange={(e) => {
             setMessageContent(e.target.value);
           }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
 
         {(attachments.length > 0 || isUploading) && (
@@ -199,7 +211,7 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
           </div>
         )}
 
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mt-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -228,12 +240,12 @@ export default function ReplyCompose({ emailData }: { emailData: ParsedMessage[]
               accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="mr-2 flex items-center gap-2">
             <Button variant="ghost" size="sm" className="h-8">
               Save draft
             </Button>
             <Button size="sm" className="h-8" onClick={handleSendEmail}>
-              Send <Send className="ml-2 h-3 w-3" />
+              Send
             </Button>
           </div>
         </div>

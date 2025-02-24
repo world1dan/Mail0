@@ -148,7 +148,7 @@ export function NavMain({ items }: NavMainProps) {
 
   return (
     <SidebarGroup className="space-y-2.5 py-0">
-      <SidebarMenu className="space-y-3">
+      <SidebarMenu className="space-y-">
         {items.map((section) => (
           <Collapsible
             key={section.title}
@@ -156,11 +156,6 @@ export function NavMain({ items }: NavMainProps) {
             className="group/collapsible"
           >
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                {section.title && (
-                  <SidebarGroupLabel className="mb-2">{section.title}</SidebarGroupLabel>
-                )}
-              </CollapsibleTrigger>
               <div className="space-y-1">
                 {section.items.map((item) => (
                   <NavItem
@@ -194,23 +189,42 @@ function NavItem(item: NavItemProps & { href: string }) {
     );
   }
 
+  // Remove animation handlers for back button since ChevronLeft doesn't have animation
+  const linkProps = item.isBackButton
+    ? { href: item.href, onClick: item.onClick }
+    : {
+        href: item.href,
+        onClick: item.onClick,
+        onMouseEnter: () => iconRef.current?.startAnimation?.(),
+        onMouseLeave: () => iconRef.current?.stopAnimation?.(),
+      };
+
+  const buttonContent = (
+    <SidebarMenuButton
+      tooltip={item.title}
+      className={cn(
+        "flex items-center hover:bg-subtleWhite dark:hover:bg-subtleBlack",
+        item.isActive && "bg-subtleWhite text-accent-foreground dark:bg-subtleBlack",
+      )}
+    >
+      {item.icon && (
+        <item.icon
+          ref={!item.isBackButton ? iconRef : undefined}
+          className="relative mr-3 h-3 w-3.5"
+        />
+      )}
+      <p className="mt-0.5 text-[13px]">{item.title}</p>
+    </SidebarMenuButton>
+  );
+
+  if (item.isBackButton) {
+    return <Link {...linkProps}>{buttonContent}</Link>;
+  }
+
   return (
     <Collapsible defaultOpen={item.isActive}>
       <CollapsibleTrigger asChild>
-        <Link
-          href={item.href}
-          onClick={item.onClick}
-          onMouseEnter={() => iconRef.current?.startAnimation?.()}
-          onMouseLeave={() => iconRef.current?.stopAnimation?.()}
-        >
-          <SidebarMenuButton
-            tooltip={item.title}
-            className={cn("flex items-center", item.isActive && "bg-accent text-accent-foreground")}
-          >
-            {item.icon && <item.icon ref={iconRef} className="relative mr-3 h-3 w-3.5" />}
-            <p className="mt-0.5 text-[13px]">{item.title}</p>
-          </SidebarMenuButton>
-        </Link>
+        <Link {...linkProps}>{buttonContent}</Link>
       </CollapsibleTrigger>
     </Collapsible>
   );

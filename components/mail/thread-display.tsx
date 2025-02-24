@@ -92,32 +92,36 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
     );
 
   return (
-    <div className="flex h-screen flex-col">
+    <div
+      className={cn(
+        "flex flex-col",
+        isFullscreen ? "h-screen" : isMobile ? "h-full" : "h-[calc(100vh-2rem)]",
+      )}
+    >
       <div
         className={cn(
-          "relative flex h-full flex-col bg-card transition-all duration-300",
-          isMobile ? "" : "rounded-r-lg",
-          isFullscreen ? "fixed inset-0 z-50 bg-background" : "",
+          "relative flex flex-col overflow-hidden bg-offsetLight transition-all duration-300 dark:bg-offsetDark",
+          isMobile ? "h-full" : "h-full",
+          !isMobile && !isFullscreen && "rounded-r-lg",
+          isFullscreen ? "fixed inset-0 z-50" : "",
         )}
       >
-        <div className="flex items-center border-b p-2">
+        <div className="flex flex-shrink-0 items-center border-b p-2">
           <div className="flex flex-1 items-center gap-2">
-            {!isMobile && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="md:h-fit md:px-2"
-                    disabled={!emailData}
-                    onClick={handleClose}
-                  >
-                    <X className="h-4 w-4" />
-                    <span className="sr-only">Close</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Close</TooltipContent>
-              </Tooltip>
-            )}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="md:h-fit md:px-2"
+                  disabled={!emailData}
+                  onClick={handleClose}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Close</TooltipContent>
+            </Tooltip>
           </div>
           <div className="flex items-center gap-2">
             <Tooltip>
@@ -207,25 +211,32 @@ export function ThreadDisplay({ mail, onClose, isMobile }: ThreadDisplayProps) {
             </DropdownMenu>
           </div>
         </div>
-        <ScrollArea className="h-full" type="scroll">
-          <div className="h-full">
-            {[...(emailData || [])].reverse().map((message, index) => (
-              <div
-                key={message.id}
-                className={cn("transition-all duration-200", index > 0 && "border-t border-border")}
-              >
-                <MailDisplay
-                  emailData={message}
-                  isFullscreen={isFullscreen}
-                  isMuted={isMuted}
-                  isLoading={isLoading}
-                  index={index}
-                />
-              </div>
-            ))}
-          </div>{" "}
-        </ScrollArea>
-        {!isFullscreen && <ReplyCompose emailData={emailData} />}
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <ScrollArea className="flex-1" type="scroll">
+            <div className="pb-4">
+              {[...(emailData || [])].reverse().map((message, index) => (
+                <div
+                  key={message.id}
+                  className={cn(
+                    "transition-all duration-200",
+                    index > 0 && "border-t border-border",
+                  )}
+                >
+                  <MailDisplay
+                    emailData={message}
+                    isFullscreen={isFullscreen}
+                    isMuted={isMuted}
+                    isLoading={isLoading}
+                    index={index}
+                  />
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+          <div className="flex-shrink-0">
+            <ReplyCompose emailData={emailData} />
+          </div>
+        </div>
       </div>
     </div>
   );
