@@ -29,7 +29,7 @@ const MailDisplay = ({ emailData, isFullscreen, isMuted, index }: Props) => {
   }, [index]);
 
   return (
-    <div className={cn("relative flex-1 overflow-hidden", isFullscreen && "h-[calc(100vh-4rem)]")}>
+    <div className={cn("relative flex-1 overflow-hidden")}>
       <div className="relative h-full overflow-y-auto">
         <div className="flex flex-col gap-4 p-4 py-5 transition-all duration-200">
           <div className="flex items-start justify-between gap-4">

@@ -6,7 +6,6 @@ import { Providers } from "@/lib/providers";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 
-import { CommandPaletteProvider } from "@/components/ui/command-palette";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import "./globals.css";
@@ -22,14 +21,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(GeistSans.variable, GeistMono.variable)}>
         <Providers attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <CommandPaletteProvider>
-            <Suspense>
-              <MailComposeModal />
-            </Suspense>
-            {children}
-            <Toast />
-            <Analytics />
-          </CommandPaletteProvider>
+          <Suspense>
+            <MailComposeModal />
+          </Suspense>
+          {children}
+          <Toast />
+          <Analytics />
         </Providers>
       </body>
     </html>

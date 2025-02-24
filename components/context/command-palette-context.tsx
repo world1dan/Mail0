@@ -13,20 +13,24 @@ import {
 import { DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useOpenComposeModal } from "@/hooks/use-open-compose-modal";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { navigationConfig, NavItem } from "@/config/navigation"; // Import NavItem
+import { navigationConfig, NavItem } from "@/config/navigation";
 import { useRouter, usePathname } from "next/navigation";
+import { keyboardShortcuts } from "@/config/shortcuts";
 import { ArrowUpRight } from "lucide-react";
 import { CircleHelp } from "lucide-react";
 import { Pencil } from "lucide-react";
 import * as React from "react";
-
-import { keyboardShortcuts } from "@/config/shortcuts"; // CORRECT import
 
 type CommandPaletteContext = {
   open: boolean;
   setOpen: (open: boolean) => void;
   openModal: () => void;
 };
+
+type Props = {
+  children?: React.ReactNode | React.ReactNode[];
+};
+
 const CommandPaletteContext = React.createContext<CommandPaletteContext | null>(null);
 
 export function useCommandPalette() {
@@ -37,7 +41,7 @@ export function useCommandPalette() {
   return context;
 }
 
-export function CommandPaletteProvider({ children }: { children: React.ReactNode }) {
+export function CommandPalette({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const { open: openComposeModal } = useOpenComposeModal(); // Correctly use open function
   const router = useRouter();
@@ -68,7 +72,6 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
       const section = navigationConfig[sectionKey];
       section.sections.forEach((group) => {
         group.items.forEach((item) => {
-          // Check if it's the "Back to Mail" item and if we are NOT in settings
           if (!(sectionKey === "settings" && item.isBackButton)) {
             if (sectionKey === "mail") {
               mailCommands.push({ group: sectionKey, item });
@@ -78,7 +81,7 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
               otherCommands.push({ group: sectionKey, item });
             }
           } else if (sectionKey === "settings") {
-            settingsCommands.push({ group: sectionKey, item }); //show 'back to mail' button
+            settingsCommands.push({ group: sectionKey, item });
           }
         });
       });
@@ -90,12 +93,11 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
       ...otherCommands.map((section) => ({ group: section.group, items: section.item })),
     ];
 
-    // Filter "Back to Mail" based on the current pathname
     const filteredCommands = combinedCommands.map((group) => {
       if (group.group === "Settings") {
         return {
           ...group,
-          items: group.items.filter((item) => {
+          items: group.items.filter((item: NavItem) => {
             return pathname.startsWith("/settings") || !item.isBackButton;
           }),
         };
@@ -104,7 +106,7 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
     });
 
     return filteredCommands;
-  }, [pathname]); // Depend on pathname
+  }, [pathname]);
 
   return (
     <CommandPaletteContext.Provider
@@ -120,8 +122,8 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
     >
       <CommandDialog open={open} onOpenChange={setOpen}>
         <VisuallyHidden>
-          <DialogTitle>Mail 0 - Command Palette</DialogTitle>
-          <DialogDescription>Quick navigation and actions for Mail 0.</DialogDescription>
+          <DialogTitle>0 - Command Palette</DialogTitle>
+          <DialogDescription>Quick navigation and actions for 0.</DialogDescription>
         </VisuallyHidden>
         <CommandInput autoFocus placeholder="Type a command or search..." />
         <CommandList>
@@ -195,3 +197,11 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
     </CommandPaletteContext.Provider>
   );
 }
+
+export const CommandPaletteProvider = ({ children }: Props) => {
+  return (
+    <React.Suspense>
+      <CommandPalette>{children}</CommandPalette>
+    </React.Suspense>
+  );
+};

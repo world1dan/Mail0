@@ -158,7 +158,7 @@ export function SearchBar() {
         <Input
           placeholder="Search"
           autoFocus
-          className="h-9 w-full rounded-xl border-none bg-muted/50 pl-9 pr-14 text-muted-foreground shadow-none ring-1 ring-muted transition-colors placeholder:text-muted-foreground/70 hover:bg-muted focus-visible:bg-background focus-visible:ring-2 focus-visible:ring-ring"
+          className="h-8 w-full rounded-[8px] border-none bg-muted/50 pl-9 pr-14 text-muted-foreground shadow-none ring-1 ring-muted transition-colors placeholder:text-muted-foreground/70 hover:bg-muted focus-visible:bg-background focus-visible:ring-2 focus-visible:ring-ring"
           {...form.register("q")}
         />
         <div className="absolute right-2 flex items-center gap-1.5">

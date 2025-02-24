@@ -124,9 +124,9 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
       onMouseLeave={handleMouseLeave}
       key={message.id}
       className={cn(
-        "group relative flex cursor-pointer flex-col items-start overflow-clip rounded-lg border border-transparent px-4 py-3 text-left text-sm transition-all hover:border-border hover:bg-accent hover:opacity-100",
-        !message.unread && "opacity-70",
-        (isMailSelected || isMailBulkSelected) && "border-border bg-accent opacity-100",
+        "group relative flex cursor-pointer flex-col items-start overflow-clip rounded-lg border border-transparent px-4 py-3 text-left text-sm transition-all hover:bg-offsetLight hover:bg-primary/5 hover:opacity-100",
+        !message.unread && "opacity-50",
+        (isMailSelected || isMailBulkSelected) && "border-border bg-primary/5 opacity-100",
         isCompact && "py-2",
       )}
     >
@@ -144,11 +144,13 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
               "text-md flex items-baseline gap-1 group-hover:opacity-100",
             )}
           >
-            {highlightText(message.sender.name, searchValue.highlight)}{" "}
+            <span className={cn(mail.selected && "max-w-[120px] truncate")}>
+              {highlightText(message.sender.name, searchValue.highlight)}
+            </span>{" "}
             {message.totalReplies !== 1 ? (
               <span className="ml-0.5 text-xs opacity-70">{message.totalReplies}</span>
             ) : null}
-            {message.unread ? <span className="ml-0.5 size-2 rounded-full bg-[#006FFE]" /> : null}
+            {message.unread ? <span className="ml-0.5 size-2 rounded-full bg-skyBlue" /> : null}
           </p>
         </div>
         {message.receivedOn ? (
@@ -164,7 +166,8 @@ const Thread = ({ message: initialMessage, selectMode, onSelect, isCompact }: Th
       </div>
       <p
         className={cn(
-          "mt-1 line-clamp-2 text-xs opacity-70 transition-opacity",
+          "mt-1 text-xs opacity-70 transition-opacity",
+          mail.selected ? "line-clamp-1" : "line-clamp-2",
           isCompact && "line-clamp-1",
           isMailSelected && "opacity-100",
         )}

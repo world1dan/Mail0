@@ -1,17 +1,21 @@
-import { Settings, Mail, Shield, Palette, Keyboard, Bell } from "lucide-react";
 import { SettingsGearIcon } from "@/components/icons/animated/settings-gear";
 import { CheckCheckIcon } from "@/components/icons/animated/check-check";
 import { MessageCircleIcon } from "@/components/icons/animated/message";
+import { ArrowLeftIcon } from "@/components/icons/animated/arrow-left";
 import { BookTextIcon } from "@/components/icons/animated/book-text";
+import { ShieldCheckIcon } from "@/components/icons/animated/shield";
+import { KeyboardIcon } from "@/components/icons/animated/keyboard";
+import { SparklesIcon } from "@/components/icons/animated/sparkles";
 import { ArchiveIcon } from "@/components/icons/animated/archive";
 import { UsersIcon } from "@/components/icons/animated/users";
 import { InboxIcon } from "@/components/icons/animated/inbox";
 import { CartIcon } from "@/components/icons/animated/cart";
 import { BellIcon } from "@/components/icons/animated/bell";
 import { XIcon } from "@/components/icons/animated/x";
+import { Mail, Shield, Palette } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 
-interface NavItem {
+export interface NavItem {
   title: string;
   url: string;
   icon: React.ComponentType<any>;
@@ -141,48 +145,44 @@ export const navigationConfig: Record<string, NavConfig> = {
     path: "/settings",
     sections: [
       {
-        title: "",
-        items: [
-          {
-            title: "Back to Mail",
-            url: "/mail",
-            icon: ChevronLeft,
-            isBackButton: true,
-          },
-        ],
-      },
-      {
         title: "Settings",
         items: [
           {
+            title: "Back",
+            url: "/mail",
+            icon: ArrowLeftIcon,
+            isBackButton: true,
+          },
+
+          {
             title: "General",
             url: "/settings/general",
-            icon: Settings,
+            icon: SettingsGearIcon,
           },
           {
             title: "Connections",
             url: "/settings/connections",
-            icon: Mail,
+            icon: UsersIcon,
           },
           {
             title: "Security",
             url: "/settings/security",
-            icon: Shield,
+            icon: ShieldCheckIcon,
           },
           {
             title: "Appearance",
             url: "/settings/appearance",
-            icon: Palette,
+            icon: SparklesIcon,
           },
           {
             title: "Shortcuts",
             url: "/settings/shortcuts",
-            icon: Keyboard,
+            icon: KeyboardIcon,
           },
           {
             title: "Notifications",
             url: "/settings/notifications",
-            icon: Bell,
+            icon: BellIcon,
           },
         ].map((item) => ({
           ...item,
